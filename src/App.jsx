@@ -5,6 +5,7 @@ import './App.css'
 import {RecoilRoot} from 'recoil';
 import {Routes, BrowserRouter, Route} from 'react-router-dom';
 import MainPage from './pages/MainPage.jsx';
+import SecondPage from './pages/SecondPage.jsx';
 
 const App = () => {
     return (
@@ -12,6 +13,7 @@ const App = () => {
             <BrowserRouter>
                 <Routes>
                     <Route exact path='/' element={<MainPage/>}/>
+                    <Route exact path='/second' element={<SecondPage/>}/>
                 </Routes>
             </BrowserRouter>
         </RecoilRoot>
