@@ -1,4 +1,5 @@
 # 0. 프로젝트
+
 - React (함수형)
   - JavaScript
 - 클라이언트 상태관리
@@ -12,35 +13,35 @@
 
 # 1. 프로젝트 설정
 
-
 ### 1. Git 다운로드
+
 ```angular2html
 git clone https://github.com/M-PetProject/dining-together.git
 ```
+
 ---
 
 ### 2. 프로젝트 설정
+
 ```angular2html
 node 설치 (https://nodejs.org/ko/download)
 ```
 
 node/npm 설치 확인
+
 ```
 node -v
 npm -v
 ```
 
 ### 3. 프로젝트 실행
+
 해당 프로젝트 root 경로에서
+
 ```angular2html
 1.
 npm install
 
-2. 
+2.
 npm run dev
 ```
-
-### 99. 추천 플러그인
-- React Snippet
-![img.png](img.png)
-![img_1.png](img_1.png)
