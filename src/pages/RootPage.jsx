@@ -9,7 +9,7 @@ const RootPage = () => {
         <Link to="second">To SecondPage</Link>
       </div>
       <div>
-        <Link to="/sample">To SamplePage</Link>
+        <Link to="/sample/list">To SamplePage</Link>
       </div>
     </div>
   );

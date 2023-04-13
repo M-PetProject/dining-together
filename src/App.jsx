@@ -1,6 +1,4 @@
-import {useState} from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+
 import './App.css';
 import {RecoilRoot} from 'recoil';
 import {Routes, BrowserRouter, Route} from 'react-router-dom';
@@ -10,6 +8,8 @@ import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import SamplePage from './pages/sample/SamplePage.jsx';
 import Layout from './layout/Layout.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+import SampleDetailPage from './pages/sample/SampleDetailPage.jsx';
 
 const App = () => {
     return (
@@ -18,10 +18,14 @@ const App = () => {
                 <Layout>
                     <Routes>
                         <Route exact path="/" element={<RootPage/>}/>
+                        <Route exact path="/sample" >
+                            <Route path="list" element={<SamplePage/>} />
+                            <Route path=":id" element={<SampleDetailPage/>} />
+                        </Route>
                         <Route exact path="/second" element={<SecondPage/>}/>
                         <Route exact path="/sign-in" element={<SignInPage/>}/>
                         <Route exact path="/sign-up" element={<SignUpPage/>}/>
-                        <Route exact path="/sample" element={<SamplePage/>}/>
+                        <Route path="*" element={<NotFoundPage/>}/>
                     </Routes>
                 </Layout>
             </BrowserRouter>
