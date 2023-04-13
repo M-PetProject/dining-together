@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import {BackButton} from '../../components/Buttons.jsx';
 import {useNavigate} from 'react-router-dom';
-import {exec} from '../../api/cm_callsvc.js';
+import {api} from '../../api/cm_callsvc.js';
 import {useQuery} from 'react-query';
 
 function createData(id, name, calories, fat, carbs, protein) {
@@ -26,7 +26,7 @@ const SamplePage = () => {
     // (* 마지막 arguments가 빈배열[] 일 경우, 최초 1회만 실행함)
     useEffect(() => {
         return;
-        exec.get('/comm/tests', (res) => {
+        api.get('/comm/tests', (res) => {
             console.log(res);
         }, (err) => {
             console.error(err);
@@ -36,7 +36,7 @@ const SamplePage = () => {
 
     /* API 호출 방법 2 */
     const {data:apiDataMap, isLoading} = useQuery('posts', async () => {
-        return await exec.getSuccess('/comm/tests');
+        return await api.getSuccess('/comm/tests');
     });
 
 

@@ -4,6 +4,8 @@ import {Button, Card, CardActions, CardContent, CardHeader, Container, FormContr
 import Gap from '../../components/Gap.jsx';
 import {useNavigate} from 'react-router-dom';
 import {useInputs} from '../../util/hooks.jsx';
+import {api} from '../../api/cm_callsvc.js';
+import {useMutation} from 'react-query';
 
 const SampleWritePage = () => {
     const navi = useNavigate();
@@ -12,12 +14,22 @@ const SampleWritePage = () => {
     });
     const { idx, test1, test2 } = form;
 
+    /* POST data */
+    //** mutate() 함수 호출 시 실행될, 함수 정의 **//
+    // 바로 실행되는 메소드가 아닙니다.
+    const { mutate, isLoading, isError, error, isSuccess } = useMutation((form) => {
+        return api.postSuccess('/comm/test', form);
+    });
+
     const _onCancel = () => {
         navi(-1);
     }
 
     const _onSave = () => {
-        console.log(form);
+        //** POST API 실제 호출 **//
+        mutate(form);
+        alert('게시글 저장되었습니다.');
+        navi('/sample/list');
     }
 
     return (

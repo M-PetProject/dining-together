@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 export const axiosModule = axios.create(
     {
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json'
             , 'Access-Control-Allow-Origin': '*'
             , 'Access-Control-Allow-Credentials' : true
             // , 'Authorization': 'Bearer ' + nvl(getSession('t'))
