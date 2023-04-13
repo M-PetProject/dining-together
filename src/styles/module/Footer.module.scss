@@ -1,9 +1,9 @@
-@use 'mixin' as mixin;
+@use 'src/styles/mixin' as mixin;
 
 .footer {
   height: 100px;
   margin-top: auto;
-  background-color: #535bf2;
+  background-color: antiquewhite;
 }
 
 .contents {

@@ -1,5 +1,3 @@
-
-import './App.css';
 import {RecoilRoot} from 'recoil';
 import {Routes, BrowserRouter, Route} from 'react-router-dom';
 import RootPage from './pages/RootPage.jsx';
@@ -10,6 +8,7 @@ import SamplePage from './pages/sample/SamplePage.jsx';
 import Layout from './layout/Layout.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import SampleDetailPage from './pages/sample/SampleDetailPage.jsx';
+import SampleWritePage from './pages/sample/SampleWritePage.jsx';
 
 const App = () => {
     return (
@@ -21,6 +20,7 @@ const App = () => {
                         <Route exact path="/sample" >
                             <Route path="list" element={<SamplePage/>} />
                             <Route path=":id" element={<SampleDetailPage/>} />
+                            <Route path="write" element={<SampleWritePage/>} />
                         </Route>
                         <Route exact path="/second" element={<SecondPage/>}/>
                         <Route exact path="/sign-in" element={<SignInPage/>}/>
