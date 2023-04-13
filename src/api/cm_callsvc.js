@@ -39,11 +39,16 @@ export const exec = {
                        console.error(err);
                    })
     },
-    getSuccess: function (url, succ, err) {
-        this.get(url, (res) => {
-            if(res.status !== 200) throw 'API 호출 실패!'
-            succ(res.data);
-        }, err)
+    getSuccess: function (url) {
+        return new Promise((resolve, reject) => {
+            this.get(url, (res) => {
+                if(res.status !== 200) throw 'API 호출 실패!'
+                resolve(res.data);
+            }, (err) => {
+                reject(err);
+            })
+        });
+
     },
 }
 

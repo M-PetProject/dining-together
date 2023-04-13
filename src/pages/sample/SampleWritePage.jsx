@@ -21,8 +21,9 @@ const SampleWritePage = () => {
     }
 
     return (
-        <Container style={{height: '100%'}}>
+        <Container>
             <BackButton/>
+            <hr/>
 
             <Gap width={10} height={10}/>
 
