@@ -42,8 +42,12 @@ const SamplePage = () => {
 
     const _onClickPost = () => navi('/sample/write');
 
-    if(isLoading) return <div/>
+    const _onClickRow = (idx) => {
+        console.log('idx', idx);
+        navi('/sample/' + idx);
+    }
 
+    if(isLoading) return <div/>
     return (
         <Container>
             <BackButton/>
@@ -62,7 +66,7 @@ const SamplePage = () => {
                         {apiDataMap?.data.map((row) => {
                             const {idx, test1, test2} = row;
                             return (
-                                <TableRow key={idx}>
+                                <TableRow key={idx} onClick={() => _onClickRow(idx)}>
                                     <TableCell component="th" scope="row"> {idx} </TableCell>
                                     <TableCell align="right">{test1}</TableCell>
                                     <TableCell align="right">{test2}</TableCell>

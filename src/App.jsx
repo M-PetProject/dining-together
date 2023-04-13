@@ -19,7 +19,7 @@ const App = () => {
                         <Route exact path="/" element={<RootPage/>}/>
                         <Route exact path="/sample" >
                             <Route path="list" element={<SamplePage/>} />
-                            <Route path=":id" element={<SampleDetailPage/>} />
+                            <Route path=":idx" element={<SampleDetailPage/>} />
                             <Route path="write" element={<SampleWritePage/>} />
                         </Route>
                         <Route exact path="/second" element={<SecondPage/>}/>
