@@ -1,0 +1,17 @@
+@use 'mixin' as mixin;
+
+.footer {
+  height: 100px;
+  margin-top: auto;
+  background-color: #535bf2;
+}
+
+.contents {
+  @include mixin.contents
+}
+
+.title {
+  font-weight: 600;
+  font-size:20px;
+}
+
