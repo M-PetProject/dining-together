@@ -2,35 +2,19 @@ import React from 'react';
 import {BackButton} from '../../components/Buttons.jsx';
 import {Button, Card, CardActions, CardContent, CardHeader, Container, FormControl, FormHelperText, Grid, Input, InputLabel, Paper, Stack, TextField} from '@mui/material';
 import Gap from '../../components/Gap.jsx';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useInputs} from '../../util/hooks.jsx';
 import {api} from '../../api/cm_callsvc.js';
 import {useMutation} from 'react-query';
+import {cm_util} from '../../util/cm_util.js';
+import {axiosModule} from '../../api/axios.js';
+import {SaveType} from '../../enum/enum.js';
 
 const SampleWritePage = () => {
-    const navi = useNavigate();
-    const [form, onChange, reset] = useInputs({
-        idx: "", test1: '', test2 : ''
-    });
+    const {_onSave, _onCancel, postMutate, defaultMap} = useService();
+
+    const [form, onChange, reset] = useInputs(defaultMap);
     const { idx, test1, test2 } = form;
-
-    /* POST data */
-    //** mutate() 함수 호출 시 실행될, 함수 정의 **//
-    // 바로 실행되는 메소드가 아닙니다.
-    const { mutate, isLoading, isError, error, isSuccess } = useMutation((form) => {
-        return api.postSuccess('/comm/test', form);
-    });
-
-    const _onCancel = () => {
-        navi(-1);
-    }
-
-    const _onSave = () => {
-        //** POST API 실제 호출 **//
-        mutate(form);
-        alert('게시글 저장되었습니다.');
-        navi('/sample/list');
-    }
 
     return (
         <Container>
@@ -42,7 +26,7 @@ const SampleWritePage = () => {
             <Card elevation={8}>
                 <CardHeader
                     title='게시판 ID'
-                    subheader={idx}
+                    subheader={`#${idx}`}
                 />
 
                 <CardContent>
@@ -75,7 +59,7 @@ const SampleWritePage = () => {
                 </CardContent>
 
                 <CardActions>
-                    <Button size="small" onClick={_onSave} variant={'contained'}>저장</Button>
+                    <Button size="small" onClick={() => _onSave(form)} variant={'contained'}>저장</Button>
                     <Button size="small" onClick={_onCancel}>취소</Button>
                 </CardActions>
 
@@ -85,5 +69,56 @@ const SampleWritePage = () => {
         </Container>
     );
 };
+
+const useService = () => {
+    const navi = useNavigate();
+
+    // 이전 페이지에서 parameter 를 전달받기 위함
+    const location = useLocation();
+
+
+    let defaultMap = cm_util.nvl(location.state, {
+        idx: '', test1: '', test2 : ''
+    });
+    const saveType = cm_util.isEmptyObj(location.state) ? SaveType.POST : SaveType.PUT;
+
+
+    /* POST data */
+    //** mutate() 함수 호출 시 실행될, 함수 정의 **//
+    // 바로 실행되는 메소드가 아닙니다.
+    const postMutate = useMutation((form) => {
+        return api.postSuccess('/comm/test', form);
+    });
+
+    const putMutate = useMutation(async (form) => {
+        return await axiosModule.put('/comm/test', form);
+    })
+
+    const _onCancel = () => {
+        navi(-1);
+    }
+
+    const _onSave = (form) => {
+        //** POST API 실제 호출 **//
+        if(saveType === SaveType.POST) {
+            postMutate.mutate(form);
+            alert('게시글 저장되었습니다.');
+            navi('/sample/list');
+        }
+
+        if(saveType === SaveType.PUT) {
+            putMutate.mutate(form);
+            alert('게시글이 수정되었습니다.');
+            navi('/sample/list');
+        }
+    }
+
+    return {
+        defaultMap,
+        _onCancel,
+        _onSave,
+        postMutate
+    }
+}
 
 export default SampleWritePage;
