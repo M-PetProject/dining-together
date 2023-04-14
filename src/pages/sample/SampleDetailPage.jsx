@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {useQuery} from 'react-query';
+import {useMutation, useQuery} from 'react-query';
 import {api} from '../../api/cm_callsvc.js';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Button, Card, CardActions, CardContent, CardHeader, Container, TextField} from '@mui/material';
 import {BackButton} from '../../components/Buttons.jsx';
 import Gap from '../../components/Gap.jsx';
+import {axiosModule} from '../../api/axios.js';
 
 const SampleDetailPage = (props) => {
     // 0. 서비스 로직 분리 ( use~ 형식 )
@@ -64,6 +65,7 @@ const SampleDetailPage = (props) => {
                 <CardActions>
                     <Button size="small" onClick={() => svc._onMoveList()} variant={'contained'}>목록으로</Button>
                     <Button size="small" onClick={() => svc._onModify( svc.getDataQuery.data)} variant={'outlined'}>수정</Button>
+                    <Button size="small" onClick={() => svc._onDelete( svc.idx)} variant={'outlined'} color="error">삭제</Button>
                 </CardActions>
 
 
@@ -85,9 +87,16 @@ const useService = () => {
         return await api.getSuccess(`/comm/test?idx=${idx}`);
     });
 
+    const deleteMutation = useMutation((idx) => {
+        return axiosModule.delete(`/comm/test?idx=${idx}`).then(() => {
+            alert('삭제가 완료되었습니다.');
+            navi(-1);
+        });
+    })
+
 
     const _onMoveList = () => {
-        navi(-1);
+        navi('/sample/list');
     }
 
     const _onModify = (data) => {
@@ -96,11 +105,19 @@ const useService = () => {
         })
     }
 
+    const _onDelete = (idx) => {
+        if(confirm('삭제하시겠습니까?')) {
+            deleteMutation.mutate(idx);
+        }
+
+    }
+
     return {
         idx,
+        getDataQuery,
         _onMoveList,
         _onModify,
-        getDataQuery
+        _onDelete
     }
 }
 

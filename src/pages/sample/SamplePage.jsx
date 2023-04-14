@@ -19,6 +19,7 @@ const SamplePage = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>idx</TableCell>
+                            <TableCell>idx</TableCell>
                             <TableCell align="right">test1</TableCell>
                             <TableCell align="right">test2</TableCell>
                         </TableRow>

@@ -86,12 +86,22 @@ const useService = () => {
     /* POST data */
     //** mutate() 함수 호출 시 실행될, 함수 정의 **//
     // 바로 실행되는 메소드가 아닙니다.
-    const postMutate = useMutation((form) => {
-        return api.postSuccess('/comm/test', form);
+    const postMutation = useMutation(async (form) => {
+        return await axiosModule.post('/comm/test', form).then((res) => {
+            if(res.status === 200){
+                alert('게시글 저장되었습니다.');
+                navi('/sample/list');
+            }
+        });
     });
 
-    const putMutate = useMutation(async (form) => {
-        return await axiosModule.put('/comm/test', form);
+    const putMutation = useMutation(async (form) => {
+        return await axiosModule.put('/comm/test', form).then((res) => {
+            if(res.status === 200){
+                alert('게시글 수정되었습니다.');
+                navi('/sample/' + form.idx);
+            }
+        });
     })
 
     const _onCancel = () => {
@@ -101,15 +111,11 @@ const useService = () => {
     const _onSave = (form) => {
         //** POST API 실제 호출 **//
         if(saveType === SaveType.POST) {
-            postMutate.mutate(form);
-            alert('게시글 저장되었습니다.');
-            navi('/sample/list');
+            postMutation.mutate(form);
         }
 
         if(saveType === SaveType.PUT) {
-            putMutate.mutate(form);
-            alert('게시글이 수정되었습니다.');
-            navi('/sample/list');
+            putMutation.mutate(form);
         }
     }
 
@@ -117,7 +123,7 @@ const useService = () => {
         defaultMap,
         _onCancel,
         _onSave,
-        postMutate
+        postMutate: postMutation
     }
 }
 
