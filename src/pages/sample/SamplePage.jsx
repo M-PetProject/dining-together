@@ -1,14 +1,16 @@
-import React, {useEffect} from 'react';
-import {Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {Button, Container, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from '@mui/material';
 import {BackButton} from '../../components/Buttons.jsx';
 import {useNavigate} from 'react-router-dom';
 import {api} from '../../api/cm_callsvc.js';
 import {useQuery} from 'react-query';
+import Gap from '../../components/Gap.jsx';
 
 const SamplePage = () => {
     const svc = useService();
 
     if(svc.getDataListQuery.isLoading) return <div/>
+    const apiData = svc.getDataListQuery.data;
     return (
         <Container>
             <BackButton/>
@@ -25,7 +27,7 @@ const SamplePage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {svc.getDataListQuery.data?.data.map((row) => {
+                        {apiData?.data.map((row) => {
                             const {idx, test1, test2} = row;
                             return (
                                 <TableRow key={idx} onClick={() => svc._onClickRow(idx)} hover={true} style={{cursor:'pointer'}}>
@@ -38,6 +40,9 @@ const SamplePage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Gap height={10}/>
+            <Pagination count={apiData.endPage} variant="outlined" color="primary" shape='rounded' page={svc.pageNo} onChange={svc._onPagination}/>
+
         </Container>
     );
 };
@@ -45,6 +50,8 @@ const SamplePage = () => {
 const useService = () => {
     /// 페이지 이동 hooks
     const navi = useNavigate();
+
+    const [pageNo, setPageNo] = useState(1);
 
     /* API 호출 방법 1 */
     /// 마지막 arguments에 설정된 state가 변할때마다 실행되는 hook 함수
@@ -60,22 +67,30 @@ const useService = () => {
 
 
     /* API 호출 방법 2 */
-    const getDataListQuery = useQuery('posts', async () => {
-        return await api.getSuccess('/comm/tests');
+    const getDataListQuery = useQuery(['posts', pageNo], async () => {
+        return await api.getSuccess(`/comm/tests?pageNo=${pageNo}`);
     });
+
+
 
 
     const _onClickPost = () => navi('/sample/write');
 
     const _onClickRow = (idx) => {
-        console.log('idx', idx);
         navi('/sample/' + idx);
+    }
+
+    const _onPagination = (event, value) => {
+        setPageNo(value);
     }
 
     return {
         getDataListQuery,
+        pageNo,
+        setPageNo,
         _onClickPost,
-        _onClickRow
+        _onClickRow,
+        _onPagination
     }
 }
 
