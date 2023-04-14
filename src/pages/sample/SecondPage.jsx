@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Container } from '@mui/material';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { sampleState } from '../../atoms/sampleAtom';
+import { BackButton } from '../../components/Buttons';
+import Gap from '../../components/Gap';
 
 const SecondPage = () => {
   const [count, setCount] = useState(0);
@@ -16,6 +18,8 @@ const SecondPage = () => {
   };
   return (
     <Container>
+      <BackButton />
+      <Gap height={20} />
       <h1>State VS Recoil</h1>
       <hr />
       {count}
