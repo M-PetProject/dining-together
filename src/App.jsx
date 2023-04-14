@@ -1,7 +1,7 @@
 import {RecoilRoot} from 'recoil';
 import {Routes, BrowserRouter, Route} from 'react-router-dom';
 import RootPage from './pages/RootPage.jsx';
-import SecondPage from './pages/SecondPage.jsx';
+import SecondPage from './pages/sample/SecondPage.jsx';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import SamplePage from './pages/sample/SamplePage.jsx';
