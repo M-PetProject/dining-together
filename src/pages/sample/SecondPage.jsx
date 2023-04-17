@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container } from '@mui/material';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { sampleState } from '../../atoms/sampleAtom';
 import { BackButton } from '../../components/Buttons';
 import Gap from '../../components/Gap';
 
 const SecondPage = () => {
   const [count, setCount] = useState(0);
+
   const [number, setNumber] = useRecoilState(sampleState);
+  // 아래 처럼 readonly, setonly로 분리할 수 있습니다.
+  const readOnlyNumber = useRecoilValue(sampleState);
+  const setOnlyNumber = useSetRecoilState(sampleState);
 
   const _onClickStateUp = () => {
     setCount(count + 1);

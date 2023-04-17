@@ -18,7 +18,7 @@ const SampleDetailPage = (props) => {
   }
 
   // 3-2. 데이터 return 이 완료되었을떄
-  const { test1, test2 } = svc.getDataQuery.data;
+  const { test1, test2 } = svc.getDataQuery.data.data;
   return (
     <Container>
       <BackButton />
@@ -61,7 +61,7 @@ const SampleDetailPage = (props) => {
           <Button size="small" onClick={() => svc._onMoveList()} variant={'contained'}>
             목록으로
           </Button>
-          <Button size="small" onClick={() => svc._onModify(svc.getDataQuery.data)} variant={'outlined'}>
+          <Button size="small" onClick={() => svc._onModify(svc.getDataQuery.data.data)} variant={'outlined'}>
             수정
           </Button>
           <Button size="small" onClick={() => svc._onDelete(svc.idx)} variant={'outlined'} color="error">
@@ -82,7 +82,7 @@ const useService = () => {
 
   // 2. idx 를 통해, 실행될 GET API를 호출한다.
   const getDataQuery = useQuery(`post_${idx}`, async () => {
-    return await api.getSuccess(`/comm/test?idx=${idx}`);
+    return await axiosModule.get(`/comm/test?idx=${idx}`);
   });
 
   const deleteMutation = useMutation((idx) => {

@@ -16,12 +16,14 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../api/cm_callsvc.js';
 import { useQuery } from 'react-query';
 import Gap from '../../components/Gap.jsx';
+import { axiosModule } from '../../api/axios.js';
 
 const SamplePage = () => {
   const svc = useService();
 
   if (svc.getDataListQuery.isLoading) return <div />;
   const apiData = svc.getDataListQuery.data;
+
   return (
     <Container>
       <BackButton />
@@ -34,19 +36,17 @@ const SamplePage = () => {
           <TableHead>
             <TableRow>
               <TableCell>idx</TableCell>
-              <TableCell>idx</TableCell>
               <TableCell align="right">test1</TableCell>
               <TableCell align="right">test2</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {apiData?.data.map((row) => {
+            {apiData.data.data.map((row) => {
               const { idx, test1, test2 } = row;
               return (
                 <TableRow key={idx} onClick={() => svc._onClickRow(idx)} hover={true} style={{ cursor: 'pointer' }}>
                   <TableCell component="th" scope="row">
-                    {' '}
-                    {idx}{' '}
+                    {idx}
                   </TableCell>
                   <TableCell align="right">{test1}</TableCell>
                   <TableCell align="right">{test2}</TableCell>
@@ -58,11 +58,11 @@ const SamplePage = () => {
       </TableContainer>
       <Gap height={10} />
       <Pagination
-        count={apiData.endPage}
+        count={apiData.data.endPage}
         variant="outlined"
         color="primary"
         shape="rounded"
-        page={svc.pageNo}
+        page={apiData.data.pageNo}
         onChange={svc._onPagination}
       />
     </Container>
@@ -80,20 +80,15 @@ const useService = () => {
   // (* 마지막 arguments가 빈배열[] 일 경우, 최초 1회만 실행함)
   useEffect(() => {
     return;
-    api.get(
-      '/comm/tests',
-      (res) => {
-        console.log(res);
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    axiosModule
+      .get('/comm/tests')
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
   }, []);
 
   /* API 호출 방법 2 */
   const getDataListQuery = useQuery(['posts', pageNo], async () => {
-    return await api.getSuccess(`/comm/tests?pageNo=${pageNo}`);
+    return await axiosModule.get(`/comm/tests?pageNo=${pageNo}`);
   });
 
   const _onClickPost = () => navi('/sample/write');

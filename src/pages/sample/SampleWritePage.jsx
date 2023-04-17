@@ -50,7 +50,7 @@ const SampleWritePage = () => {
             fullWidth={true}
             /* name => key 값이 됩니다.*/
             name="test1"
-            defaultValue={test1}
+            value={test1}
             onChange={onChange}
           />
           <Gap height={20} />
@@ -64,7 +64,7 @@ const SampleWritePage = () => {
             rows={4}
             /* name => key 값이 됩니다.*/
             name="test2"
-            defaultValue={test2}
+            value={test2}
             onChange={onChange}
           />
         </CardContent>
