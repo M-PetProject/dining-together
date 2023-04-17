@@ -64,16 +64,16 @@ const StateCard4 = (props) => {
 const RecoilCard = () => {
   return <RecoilCard1 />;
 };
-const RecoilCard1 = (props) => {
+const RecoilCard1 = () => {
   return <RecoilCard2 />;
 };
-const RecoilCard2 = (props) => {
+const RecoilCard2 = () => {
   return <RecoilCard3 />;
 };
-const RecoilCard3 = (props) => {
+const RecoilCard3 = () => {
   return <RecoilCard4 />;
 };
-const RecoilCard4 = (props) => {
+const RecoilCard4 = () => {
   const [number, setNumber] = useRecoilState(sampleState);
   const number2 = useRecoilValue(sampleState);
   return (
