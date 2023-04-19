@@ -1,5 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { tokenState, userState } from '../atoms/atom';
+import { isEmptyObj } from './cm_util';
 
 export const useInputs = (initForm) => {
   const [form, setForm] = useState(initForm);
@@ -24,17 +27,17 @@ export const useCustomParam = () => {
   return Params;
 };
 
-/**
- * axios 에러 핸들러
- * @param {*} err
- */
-export const useErrorHandle = (err) => {
-  console.error(err);
-  try {
-    const res = err.response;
-    const { data } = res;
-    alert(data);
-  } catch (err) {
-    throw err;
-  }
+export const useAuth = () => {
+  const [user, setUser] = useRecoilState(userState);
+  const [token, setToken] = useRecoilState(tokenState);
+  const [isLogin, setIsLogin] = useState(!isEmptyObj(token));
+
+  return {
+    user,
+    setUser,
+    token,
+    setToken,
+    isLogin,
+    setIsLogin,
+  };
 };

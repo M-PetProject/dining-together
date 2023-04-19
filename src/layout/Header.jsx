@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import viteLogo from '/vite.svg';
 
 const Header = () => {
+  const svc = useService();
   return (
     <header className={styles.header}>
       <div className={styles.contents}>
@@ -16,6 +17,9 @@ const Header = () => {
         <nav className={styles.navigation}>
           <ul>
             <li>
+              <Link to="/sign-in">로그인</Link>
+            </li>
+            <li>
               <Link to="/">홈</Link>
             </li>
             <li>
@@ -27,5 +31,7 @@ const Header = () => {
     </header>
   );
 };
+
+const useService = () => {};
 
 export default Header;

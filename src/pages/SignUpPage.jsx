@@ -11,10 +11,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useErrorHandle, useInputs } from '../util/hooks';
+import { useInputs } from '../util/hooks';
 import { useMutation } from 'react-query';
 import { axiosModule } from '../api/axios';
 import { cm_util } from '../util/cm_util';
+import { handleError } from '../api/cm_callsvc';
 
 const SignUpPage = () => {
   const svc = useService();
@@ -96,7 +97,7 @@ const useService = () => {
           navi('/sign-in');
         }
       })
-      .catch(useErrorHandle);
+      .catch(handleError);
   });
 
   const _onSignup = (e) => {

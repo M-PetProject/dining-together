@@ -80,6 +80,21 @@ export const reissue = () => {
   );
 };
 
+/**
+ * axios 에러 핸들러
+ * @param {*} err
+ */
+export const handleError = (err) => {
+  console.error(err);
+  try {
+    const res = err.response;
+    const { data } = res;
+    alert(data);
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const cm_callsvc = {
   exec: api,
   reissue: reissue,

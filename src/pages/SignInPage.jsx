@@ -15,10 +15,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useErrorHandle, useInputs } from '../util/hooks.jsx';
-import { cm_util } from '../util/cm_util.js';
+import { useAuth, useInputs } from '../util/hooks.jsx';
+import { cm_util, setSession } from '../util/cm_util.js';
 import { useMutation } from 'react-query';
 import { axiosModule } from '../api/axios.js';
+import { handleError } from '../api/cm_callsvc.js';
 
 const SignInPage = () => {
   const svc = useService();
@@ -81,14 +82,20 @@ const useService = () => {
     memberId: '',
     memberPassword: '',
   });
+  const { user, setUser, token, setToken } = useAuth();
 
   const signinMutation = useMutation((form) => {
     return axiosModule
       .post(`/auth/login`, form)
       .then((res) => {
+        const { accessToken, refreshToken } = res.data;
+        setToken({
+          accessToken,
+          refreshToken,
+        });
         navi('/');
       })
-      .catch(useErrorHandle);
+      .catch(handleError);
   });
 
   const _onLogin = (e) => {
