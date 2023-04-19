@@ -1,17 +1,16 @@
 @use 'src/styles/mixin' as mixin;
 
 .footer {
-  height: 100px;
+  // height: 100px;
   margin-top: auto;
   background-color: antiquewhite;
 }
 
 .contents {
-  @include mixin.contents
+  @include mixin.contents;
 }
 
 .title {
   font-weight: 600;
-  font-size:20px;
+  font-size: 20px;
 }
-

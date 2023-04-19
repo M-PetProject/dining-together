@@ -1,8 +1,7 @@
-@import "reset.css";
+@import 'reset.css';
 
 a {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
-
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
 }
