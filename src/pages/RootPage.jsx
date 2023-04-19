@@ -21,7 +21,7 @@ const RootPage = () => {
 
 const useService = () => {
   const { isLogin } = useAuth();
-  console.log(isLogin);
+  // console.log(isLogin);
 };
 
 export default RootPage;

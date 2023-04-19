@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { getSession, nvl } from '../util/cm_util';
+import { getSession, isEmptyObj, nvl } from '../util/cm_util';
 
 const sessionStorageEffect =
   (key) =>
@@ -11,8 +11,7 @@ const sessionStorageEffect =
       setSelf(JSON.parse(savedValue));
     }
     onSet((newValue, _, isReset) => {
-      const confirm = newValue.length === 0;
-      confirm ? sessionStorage.removeItem(key) : sessionStorage.setItem(key, JSON.stringify(newValue));
+      isEmptyObj(newValue) ? sessionStorage.removeItem(key) : sessionStorage.setItem(key, JSON.stringify(newValue));
     });
   };
 
@@ -23,7 +22,7 @@ export const userState = atom({
 
 export const tokenState = atom({
   key: 'token',
-  default: nvl(getSession('token'), {}),
+  default: {},
   // effects : atom 초기화 or 동기화할때, 사용
   effects: [sessionStorageEffect('token')],
 });

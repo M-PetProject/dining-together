@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { tokenState, userState } from '../atoms/atom';
@@ -34,6 +34,15 @@ export const useAuth = () => {
   const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useState(!isEmptyObj(token));
 
+  const signOut = () => {
+    if (!isLogin) return;
+    setToken();
+  };
+
+  useEffect(() => {
+    setIsLogin(!isEmptyObj(token));
+  }, [token]);
+
   return {
     user,
     setUser,
@@ -41,5 +50,6 @@ export const useAuth = () => {
     setToken,
     isLogin,
     setIsLogin,
+    signOut,
   };
 };
