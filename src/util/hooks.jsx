@@ -28,7 +28,9 @@ export const useCustomParam = () => {
 };
 
 export const useAuth = () => {
+  /// 사용자의 정보 atom({memberId, memberPassword, memberName})
   const [user, setUser] = useRecoilState(userState);
+  /// 사용자의 jwt토큰정보 atom ({accessToken, refreshToken})
   const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useState(!isEmptyObj(token));
 

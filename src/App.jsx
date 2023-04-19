@@ -15,7 +15,6 @@ const App = () => {
     <BrowserRouter>
       <Layout>
         <Routes>
-          {/* <AuthRoute exact path="/" element={RootPage} /> */}
           <Route
             exact
             path="/"
