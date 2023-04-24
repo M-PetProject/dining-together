@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { tokenState } from '../atoms/atom';
 import { useAuth } from '../util/hooks';
 import { axiosModule } from '../api/axios';
+import { isEmptyObj } from '../util/cm_util';
 
 const MainPage = () => {
   const svc = useService();
@@ -21,13 +22,16 @@ const MainPage = () => {
 };
 
 const useService = () => {
+  const navi = useNavigate();
   const { user, isLogin } = useAuth();
 
   useEffect(() => {
-    /// 팀 정보 확인
-    // console.log(user);
+    /// 소속 팀 정보 확인
     axiosModule.get(`/member/${user.memberId}`).then((res) => {
-      console.log(res);
+      const { teamMemberVos } = res.data;
+      if (isEmptyObj(teamMemberVos)) {
+        navi('/team/add');
+      }
     });
   }, []);
 };

@@ -9,6 +9,7 @@ import NotFoundPage from './pages/NotFoundPage.jsx';
 import SampleDetailPage from './pages/sample/SampleDetailPage.jsx';
 import SampleWritePage from './pages/sample/SampleWritePage.jsx';
 import { useAuth } from './util/hooks';
+import AddTeamPage from './pages/team/AddTeamPage.jsx';
 
 const App = () => {
   return (
@@ -24,14 +25,25 @@ const App = () => {
               </PrivateRoute>
             }
           />
+          <Route exact path="/team">
+            <Route
+              exact
+              path="add"
+              element={
+                <PrivateRoute>
+                  <AddTeamPage />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+          <Route exact path="/second" element={<SecondPage />} />
+          <Route exact path="/sign-in" element={<SignInPage />} />
+          <Route exact path="/sign-up" element={<SignUpPage />} />
           <Route exact path="/sample">
             <Route path="list" element={<SamplePage />} />
             <Route path=":idx" element={<SampleDetailPage />} />
             <Route path="write" element={<SampleWritePage />} />
           </Route>
-          <Route exact path="/second" element={<SecondPage />} />
-          <Route exact path="/sign-in" element={<SignInPage />} />
-          <Route exact path="/sign-up" element={<SignUpPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
