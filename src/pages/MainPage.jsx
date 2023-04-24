@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { tokenState } from '../atoms/atom';
 import { useAuth } from '../util/hooks';
 
-const RootPage = () => {
+const MainPage = () => {
   const svc = useService();
   return (
     <div>
@@ -24,4 +24,4 @@ const useService = () => {
   // console.log(isLogin);
 };
 
-export default RootPage;
+export default MainPage;

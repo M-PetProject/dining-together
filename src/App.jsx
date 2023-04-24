@@ -1,5 +1,5 @@
 import { Routes, BrowserRouter, Route, Navigate, useNavigate } from 'react-router-dom';
-import RootPage from './pages/RootPage.jsx';
+import MainPage from './pages/MainPage.jsx';
 import SecondPage from './pages/sample/SecondPage.jsx';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
@@ -20,7 +20,7 @@ const App = () => {
             path="/"
             element={
               <PrivateRoute>
-                <RootPage />
+                <MainPage />
               </PrivateRoute>
             }
           />

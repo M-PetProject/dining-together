@@ -58,8 +58,10 @@ const useService = () => {
   const { isLogin, signOut } = useAuth();
 
   const _onSignout = () => {
-    signOut();
-    navi('/');
+    if (confirm('로그아웃 하시겠습니까?')) {
+      signOut();
+      navi('/');
+    }
   };
 
   const _toSignIn = () => navi('/sign-in');
