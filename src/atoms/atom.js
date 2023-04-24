@@ -32,3 +32,12 @@ export const alertDialogOpenState = atom({
   key: 'alertDialogOpen',
   default: false,
 });
+
+export const alertToastOpenState = atom({
+  key: 'alertToastOpenState',
+  default: false,
+});
+export const alertToastState = atom({
+  key: 'alertToastState',
+  default: '기본 토스트메세지입니다.',
+});

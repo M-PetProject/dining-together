@@ -3,6 +3,7 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import styles from '/src/styles/module/Layout.module.scss';
 import AlertDialog from '../components/AlertDialog.jsx';
+import AlertToast from '../components/AlertToast.jsx';
 
 const Layout = ({ children }) => {
   return (
@@ -11,7 +12,8 @@ const Layout = ({ children }) => {
 
       <main className={styles.main}>{children}</main>
 
-      <Footer />
+      {/* <Footer /> */}
+      <AlertToast />
     </div>
   );
 };
