@@ -18,6 +18,7 @@ const sessionStorageEffect =
 export const userState = atom({
   key: 'user',
   default: {},
+  effects: [sessionStorageEffect('user')],
 });
 
 export const tokenState = atom({

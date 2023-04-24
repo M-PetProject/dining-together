@@ -93,6 +93,7 @@ const useService = () => {
           accessToken,
           refreshToken,
         });
+        setUser(form);
         navi('/');
       })
       .catch(handleError);
