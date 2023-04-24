@@ -10,6 +10,7 @@ import SampleDetailPage from './pages/sample/SampleDetailPage.jsx';
 import SampleWritePage from './pages/sample/SampleWritePage.jsx';
 import { useAuth } from './util/hooks';
 import AddTeamPage from './pages/team/AddTeamPage.jsx';
+import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 
 const App = () => {
   return (
@@ -32,6 +33,15 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <AddTeamPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="select"
+              element={
+                <PrivateRoute>
+                  <SelectTeamPage />
                 </PrivateRoute>
               }
             />

@@ -27,10 +27,11 @@ const useService = () => {
 
   useEffect(() => {
     /// 소속 팀 정보 확인
-    axiosModule.get(`/member/${user.memberId}`).then((res) => {
+    axiosModule.get(`/member`).then((res) => {
+      console.log(res);
       const { teamMemberVos } = res.data;
       if (isEmptyObj(teamMemberVos)) {
-        navi('/team/add');
+        navi('/team/select');
       }
     });
   }, []);
