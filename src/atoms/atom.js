@@ -27,3 +27,8 @@ export const tokenState = atom({
   // effects : atom 초기화 or 동기화할때, 사용
   effects: [sessionStorageEffect('token')],
 });
+
+export const alertDialogOpenState = atom({
+  key: 'alertDialogOpen',
+  default: false,
+});
