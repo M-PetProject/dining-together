@@ -30,7 +30,12 @@ const SignInPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      memberId: '',
+      memberPassword: '',
+    },
+  });
   const onSignIn = (data) => {
     console.log(data);
     svc.signinMutation.mutate(data);
