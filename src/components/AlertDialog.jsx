@@ -6,7 +6,7 @@ import { alertDialogOpenState } from '../atoms/atom';
 import { isEmptyObj } from '../util/cm_util';
 
 const AlertDialog = (props) => {
-  const { defaultOpen, title, content, succFn } = props;
+  const { title, content, succFn } = props;
 
   const [open, setOpen] = useRecoilState(alertDialogOpenState);
 
@@ -44,7 +44,6 @@ const AlertDialog = (props) => {
 };
 
 AlertDialog.propTypes = {
-  defaultOpen: PropTypes.bool,
   title: PropTypes.string,
   content: PropTypes.string,
   succFn: PropTypes.func,
@@ -52,7 +51,6 @@ AlertDialog.propTypes = {
 
 /// 기본값
 AlertDialog.defaultProps = {
-  defaultOpen: false,
   title: '제목',
   content: '내용',
 };

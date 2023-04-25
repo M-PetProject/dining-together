@@ -52,10 +52,10 @@ const SignInPage = () => {
           alignItems: 'center',
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h2" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(onSignIn)} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(onSignIn)} noValidate sx={{ mt: 1, width: '100%' }}>
           <TextField
             margin="normal"
             required
@@ -63,8 +63,8 @@ const SignInPage = () => {
             label="아이디를 입력해주세요."
             type="text"
             autoFocus
-            error={errors.memberId ? true : false}
             {...register('memberId', { required: true })}
+            error={errors.memberId ? true : false}
             helperText={getHelperText(errors.memberId?.type)}
           />
           <TextField

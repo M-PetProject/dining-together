@@ -1,28 +1,186 @@
-import { Alert, Button, Collapse, IconButton } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Button,
+  Collapse,
+  Container,
+  CssBaseline,
+  Divider,
+  IconButton,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { getHelperText } from '../../util/validate';
+import { useMutation } from 'react-query';
+import { axiosModule } from '../../api/axios';
+import { useNavigate } from 'react-router-dom';
+import { handleError } from '../../api/cm_callsvc';
 import AlertDialog from '../../components/AlertDialog';
+import { alertDialogOpenState } from '../../atoms/atom';
 import { useRecoilState } from 'recoil';
-import { alertDialogOpenState, alertToastOpenState, alertToastState } from '../../atoms/atom';
 
 const SelectTeamPage = () => {
-  const [open, setOpen] = useRecoilState(alertDialogOpenState);
+  const svc = useService();
 
-  const [msg, setMsg] = useRecoilState(alertToastState);
-  const [openToast, setOpenToast] = useRecoilState(alertToastOpenState);
+  // 모임 만들기
+  const {
+    register: create_register,
+    handleSubmit: create_handleSubmit,
+    formState: { errors: create_errors },
+  } = useForm({
+    defaultValues: {
+      teamNm: '',
+      teamDesc: '팀 설명',
+    },
+  });
 
-  useEffect(() => {
-    // setMsg('fdsjkfl');
-  }, []);
-
+  // 모임 참가
+  const {
+    register: join_register,
+    handleSubmit: join_handleSubmit,
+    formState: { errors: join_errors },
+  } = useForm({
+    defaultValues: {
+      joinCode: '',
+    },
+  });
   return (
-    <div>
-      SelectTeamPage
-      <Button variant="outlined" onClick={() => setOpenToast(true)}>
-        Open alert dialog
-      </Button>
-      {/* <AlertDialog title="제2목" content="내2용" succFn={() => console.log('hi!')} /> */}
-    </div>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          paddingTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Typography component="h5" variant="h5">
+          반갑습니다!
+        </Typography>
+
+        <Box
+          component="form"
+          onSubmit={create_handleSubmit(svc._onCreateTeam)}
+          noValidate
+          sx={{ mt: 1, width: '100%' }}
+        >
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="모임명 입력(10자 이내)"
+            type="text"
+            inputProps={{ maxLength: 10 }}
+            {...create_register('teamNm', { required: true })}
+            error={create_errors.teamNm ? true : false}
+            helperText={getHelperText(create_errors.teamNm?.type)}
+          />
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            모임 만들기
+          </Button>
+        </Box>
+
+        <Divider flexItem />
+
+        <Box
+          component="form"
+          onSubmit={join_handleSubmit(svc._onCheckJoinTeam)}
+          noValidate
+          sx={{ mt: 1, width: '100%' }}
+        >
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="참여코드 입력(숫자 4자리)"
+            type="number"
+            inputProps={{ maxLength: 10 }}
+            {...join_register('joinCode', { required: true, maxLength: 4 })}
+            error={join_errors.joinCode ? true : false}
+            helperText={getHelperText(join_errors.joinCode?.type)}
+          />
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            모임 참가
+          </Button>
+        </Box>
+      </Box>
+
+      <AlertDialog {...svc.alertDialog} />
+    </Container>
   );
+};
+
+const useService = () => {
+  const navi = useNavigate();
+  const [openAlert, setOpenAlert] = useRecoilState(alertDialogOpenState);
+  const [alertDialog, setAlertDialog] = useState({
+    title: '제목',
+    content: '내용',
+  });
+
+  const _onCreateTeam = (data) => {
+    console.log(data);
+    createTeamMutation.mutate(data);
+  };
+
+  const _onCheckJoinTeam = async (data) => {
+    const { joinCode } = data;
+    let resMap = await getTeamByJoinCode(joinCode);
+    const { teamNm, teamIdx, teamDesc } = resMap;
+
+    console.log(resMap);
+
+    setAlertDialog({
+      title: '팀 참가 확인',
+      content: `[${teamNm}]에 참가하시겠습니까?`,
+      succFn: () => {
+        joinTeamMutation.mutate(resMap);
+      },
+    });
+    setOpenAlert(true);
+  };
+
+  const createTeamMutation = useMutation((prmMap) => {
+    return axiosModule
+      .post(`/team`, prmMap)
+      .then((res) => {
+        console.log(res);
+        alert('모임이 만들어졌어요.');
+        navi('/');
+      })
+      .catch(handleError);
+  });
+
+  const getTeamByJoinCode = (joinCode) => {
+    return new Promise((resolve, reject) => {
+      axiosModule
+        .get(`/team/join-code/${joinCode}`)
+        .then((res) => {
+          resolve(res.data);
+        })
+        .catch(handleError);
+    });
+  };
+
+  const joinTeamMutation = useMutation((prmMap) => {
+    return axiosModule
+      .post(`/team/join`, prmMap)
+      .then((res) => {
+        console.log(res);
+        alert('모임에 참가했어요.');
+        navi('/');
+      })
+      .catch(handleError);
+  });
+
+  return {
+    _onCreateTeam,
+    _onCheckJoinTeam,
+    alertDialog,
+  };
 };
 
 export default SelectTeamPage;
