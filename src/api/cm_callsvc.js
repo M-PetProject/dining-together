@@ -89,6 +89,7 @@ export const handleError = (err) => {
   try {
     const res = err.response;
     const { data } = res;
+
     alert(data);
   } catch (err) {
     throw err;

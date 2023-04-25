@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import AlertDialog from '../../components/AlertDialog';
 import { useRecoilState } from 'recoil';
 import { alertDialogOpenState, alertToastOpenState, alertToastState } from '../../atoms/atom';
-import AlertToast from '../../components/AlertToast';
 
 const SelectTeamPage = () => {
   const [open, setOpen] = useRecoilState(alertDialogOpenState);

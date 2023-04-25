@@ -16,9 +16,21 @@ import { useMutation } from 'react-query';
 import { axiosModule } from '../api/axios';
 import { cm_util } from '../util/cm_util';
 import { handleError } from '../api/cm_callsvc';
+import { useForm } from 'react-hook-form';
+import { getHelperText } from '../util/validate';
 
 const SignUpPage = () => {
   const svc = useService();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSignUp = (data) => {
+    console.log(data);
+    svc.signupMutation.mutate(data);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -34,34 +46,38 @@ const SignUpPage = () => {
         <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-        <Box component="form" onSubmit={svc._onSignup} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(onSignUp)} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
-            name="memberId"
             label="아이디를 입력해주세요."
             type="text"
             autoFocus
-            onChange={svc.onChange}
+            error={errors.memberId ? true : false}
+            {...register('memberId', { required: true })}
+            helperText={getHelperText(errors.memberId?.type)}
           />
+
           <TextField
             margin="normal"
             required
             fullWidth
-            name="memberPassword"
             label="비밀번호를 입력해주세요."
             type="password"
-            onChange={svc.onChange}
+            error={errors.memberPassword ? true : false}
+            {...register('memberPassword', { required: true })}
+            helperText={getHelperText(errors.memberPassword?.type)}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="memberName"
             label="이름을 입력해주세요."
             type="text"
-            onChange={svc.onChange}
+            error={errors.memberName ? true : false}
+            {...register('memberName', { required: true })}
+            helperText={getHelperText(errors.memberName?.type)}
           />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             회원가입
@@ -82,11 +98,6 @@ const SignUpPage = () => {
 
 const useService = () => {
   const navi = useNavigate();
-  const [form, onChange] = useInputs({
-    memberId: '',
-    memberPassword: '',
-    memberName: '',
-  });
 
   const signupMutation = useMutation((form) => {
     return axiosModule
@@ -100,21 +111,7 @@ const useService = () => {
       .catch(handleError);
   });
 
-  const _onSignup = (e) => {
-    e.preventDefault();
-    for (const [key, value] of Object.entries(form)) {
-      if (cm_util.isEmptyObj(value)) {
-        return alert('필수입력값을 확인해주세요.');
-      }
-    }
-    signupMutation.mutate(form);
-  };
-
-  return {
-    form,
-    onChange,
-    _onSignup,
-  };
+  return { signupMutation };
 };
 
 export default SignUpPage;

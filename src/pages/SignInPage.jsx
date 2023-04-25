@@ -20,9 +20,21 @@ import { cm_util, setSession } from '../util/cm_util.js';
 import { useMutation } from 'react-query';
 import { axiosModule } from '../api/axios.js';
 import { handleError } from '../api/cm_callsvc.js';
+import { useForm } from 'react-hook-form';
+import { getHelperText } from '../util/validate.js';
 
 const SignInPage = () => {
   const svc = useService();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const onSignIn = (data) => {
+    console.log(data);
+    svc.signinMutation.mutate(data);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -38,25 +50,27 @@ const SignInPage = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={svc._onLogin} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit(onSignIn)} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
             fullWidth
-            name="memberId"
             label="아이디를 입력해주세요."
             type="text"
             autoFocus
-            onChange={svc.onChange}
+            error={errors.memberId ? true : false}
+            {...register('memberId', { required: true })}
+            helperText={getHelperText(errors.memberId?.type)}
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="memberPassword"
             label="비밀번호를 입력해주세요."
             type="password"
-            onChange={svc.onChange}
+            error={errors.memberPassword ? true : false}
+            {...register('memberPassword', { required: true })}
+            helperText={getHelperText(errors.memberPassword?.type)}
           />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="아이디/비밀번호 저장" />
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -78,10 +92,6 @@ const SignInPage = () => {
 
 const useService = () => {
   const navi = useNavigate();
-  const [form, onChange] = useInputs({
-    memberId: '',
-    memberPassword: '',
-  });
   const { user, setUser, token, setToken } = useAuth();
 
   const signinMutation = useMutation((form) => {
@@ -99,21 +109,8 @@ const useService = () => {
       .catch(handleError);
   });
 
-  const _onLogin = (e) => {
-    e.preventDefault();
-    for (const [key, value] of Object.entries(form)) {
-      if (cm_util.isEmptyObj(value)) {
-        return alert('필수입력값을 확인해주세요.');
-      }
-    }
-
-    signinMutation.mutate(form);
-  };
-
   return {
-    form,
-    onChange,
-    _onLogin,
+    signinMutation,
   };
 };
 
