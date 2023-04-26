@@ -20,6 +20,7 @@ import { cm_util, setSession } from '../util/cm_util.js';
 import { useMutation } from 'react-query';
 import { axiosModule } from '../api/axios.js';
 import { handleError } from '../api/cm_callsvc.js';
+import { ChkBox } from '../stories/ChkBox.jsx';
 
 const SignInPage = () => {
   const svc = useService();
@@ -58,7 +59,14 @@ const SignInPage = () => {
             type="password"
             onChange={svc.onChange}
           />
-          <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="아이디/비밀번호 저장" />
+          <div style={{display:'flex', alignItems:'center',justifyContent:'space-around'}}>
+            <ChkBox  
+              label='아이디 저장'
+            />
+            <ChkBox 
+              label='자동 로그인'
+            />
+          </div>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             로그인
           </Button>
