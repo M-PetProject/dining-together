@@ -14,7 +14,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" sx={{ height: '55px' }}>
         <Toolbar>
           {svc.topIcon}
           <Typography variant="h7" component="div" sx={{ flexGrow: 1 }} onClick={svc._toMain}>
