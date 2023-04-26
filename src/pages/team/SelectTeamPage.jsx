@@ -48,7 +48,6 @@ const SelectTeamPage = () => {
   });
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           paddingTop: 8,
