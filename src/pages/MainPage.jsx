@@ -8,6 +8,8 @@ import { isEmptyObj } from '../util/cm_util';
 import { Button, Divider, IconButton, Skeleton, Stack, Typography, Grid, Box } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import EditIcon from '@mui/icons-material/Edit';
+import { useQuery } from 'react-query';
+import { useMemberQuery } from '../api/queryHooks.js';
 
 const MainPage = () => {
   const svc = useService();
@@ -76,27 +78,16 @@ const MainPage = () => {
 
 const useService = () => {
   const navi = useNavigate();
-  const { user, isLogin } = useAuth();
   const setHeaderState = useSetRecoilState(headerState);
 
-  useEffect(() => {
-    /// 소속 팀 정보 확인
-    axiosModule.get(`/member`).then((res) => {
-      console.log(res);
-      const { teamMemberVos } = res.data;
-      if (isEmptyObj(teamMemberVos)) {
-        navi('/team/select');
-      } else {
-        handleHeader(teamMemberVos[0]);
-      }
-    });
-  }, []);
+  const getMemberQuery = useMemberQuery();
 
-  const handleHeader = (data) => {
+  const renderHeader = (data) => {
     const { memberType, teamNm } = data;
+
     setHeaderState({
       left: (
-        <Button>
+        <Button onClick={() => navi('/team/info')}>
           {teamNm}
           <ChevronRightIcon />
         </Button>
@@ -108,6 +99,17 @@ const useService = () => {
       ),
     });
   };
+
+  useEffect(() => {
+    if (getMemberQuery.isSuccess) {
+      const { teamMemberVos } = getMemberQuery.data.data;
+      if (isEmptyObj(teamMemberVos)) {
+        navi('/team/select');
+      } else {
+        renderHeader(teamMemberVos[0]);
+      }
+    }
+  }, [getMemberQuery]);
 };
 
 export default MainPage;

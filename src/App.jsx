@@ -11,6 +11,7 @@ import SampleWritePage from './pages/sample/SampleWritePage.jsx';
 import { useAuth } from './util/hooks';
 import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
+import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 
 const App = () => {
   return (
@@ -42,6 +43,15 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <SelectTeamPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact
+              path="info"
+              element={
+                <PrivateRoute>
+                  <TeamMemberInfoPage />
                 </PrivateRoute>
               }
             />
