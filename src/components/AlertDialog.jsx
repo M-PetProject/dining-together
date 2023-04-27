@@ -2,13 +2,13 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import React, { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { useRecoilState } from 'recoil';
-import { alertDialogOpenState } from '../atoms/atom';
+import { alertDialogOpenState, alertDialogState } from '../atoms/atom';
 import { isEmptyObj } from '../util/cm_util';
 
-const AlertDialog = (props) => {
-  const { title, content, succFn } = props;
-
+export default function AlertDialog(props) {
   const [open, setOpen] = useRecoilState(alertDialogOpenState);
+  const [state, setState] = useRecoilState(alertDialogState);
+  const { title = '제목', content = '내용', succFn = null } = state;
 
   const handleClose = () => setOpen(false);
   const handleConfirm = () => {
@@ -41,18 +41,4 @@ const AlertDialog = (props) => {
       </Dialog>
     </div>
   );
-};
-
-AlertDialog.propTypes = {
-  title: PropTypes.string,
-  content: PropTypes.string,
-  succFn: PropTypes.func,
-};
-
-/// 기본값
-AlertDialog.defaultProps = {
-  title: '제목',
-  content: '내용',
-};
-
-export default AlertDialog;
+}

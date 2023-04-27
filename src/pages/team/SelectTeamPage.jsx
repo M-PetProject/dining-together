@@ -17,9 +17,8 @@ import { useMutation } from 'react-query';
 import { axiosModule } from '../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { handleError } from '../../api/cm_callsvc';
-import AlertDialog from '../../components/AlertDialog';
-import { alertDialogOpenState } from '../../atoms/atom';
-import { useRecoilState } from 'recoil';
+import { alertDialogOpenState, alertDialogState } from '../../atoms/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const SelectTeamPage = () => {
   const svc = useService();
@@ -106,19 +105,14 @@ const SelectTeamPage = () => {
           </Button>
         </Box>
       </Box>
-
-      <AlertDialog {...svc.alertDialog} />
     </Container>
   );
 };
 
 const useService = () => {
   const navi = useNavigate();
-  const [openAlert, setOpenAlert] = useRecoilState(alertDialogOpenState);
-  const [alertDialog, setAlertDialog] = useState({
-    title: '제목',
-    content: '내용',
-  });
+  const setOpenAlert = useSetRecoilState(alertDialogOpenState);
+  const setAlertDialog = useSetRecoilState(alertDialogState);
 
   const _onCreateTeam = (data) => {
     console.log(data);
@@ -129,8 +123,6 @@ const useService = () => {
     const { joinCode } = data;
     let resMap = await getTeamByJoinCode(joinCode);
     const { teamNm, teamIdx, teamDesc } = resMap;
-
-    console.log(resMap);
 
     setAlertDialog({
       title: '팀 참가 확인',
@@ -178,7 +170,6 @@ const useService = () => {
   return {
     _onCreateTeam,
     _onCheckJoinTeam,
-    alertDialog,
   };
 };
 

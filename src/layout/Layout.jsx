@@ -14,6 +14,7 @@ const Layout = ({ children }) => {
 
       {/* <Footer /> */}
       <AlertToast />
+      <AlertDialog />
     </div>
   );
 };

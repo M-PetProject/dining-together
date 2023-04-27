@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { tokenState } from '../atoms/atom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { alertToastOpenState, alertToastState, tokenState } from '../atoms/atom';
 import { useAuth } from '../util/hooks';
 import { axiosModule } from '../api/axios';
 import { isEmptyObj } from '../util/cm_util';
 
 const MainPage = () => {
   const svc = useService();
+
   return (
     <div>
       Hello, It's Main Page
