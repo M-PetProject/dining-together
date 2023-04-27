@@ -86,12 +86,14 @@ const useService = () => {
     const { memberType, teamNm } = data;
 
     setHeaderState({
-      left: (
-        <Button onClick={() => navi('/team/info')}>
-          {teamNm}
-          <ChevronRightIcon />
-        </Button>
-      ),
+      left: {
+        header: (
+          <Button onClick={() => navi('/team/info')}>
+            {teamNm}
+            <ChevronRightIcon />
+          </Button>
+        ),
+      },
       right: (
         <IconButton>
           <EditIcon />

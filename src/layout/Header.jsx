@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import viteLogo from '/vite.svg';
-import { AppBar, Box, Button, Grid, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, Grid, IconButton, Stack, Toolbar, Typography } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { useRecoilState } from 'recoil';
@@ -27,7 +27,10 @@ export default function Header() {
           ) : (
             <Grid container direction="row" alignItems="center">
               <Grid item xs={9}>
-                {svc.header.left}
+                <Stack alignItems="flex-start">
+                  {svc.header.left.header}
+                  <small style={{ fontSize: 2, marginLeft: 30 }}>{svc.header.left.subHeader}</small>
+                </Stack>
               </Grid>
               <Grid item xs={3} sx={{ textAlign: 'right' }}>
                 {svc.header.right}

@@ -46,15 +46,19 @@ const useService = () => {
   const getTeamQuery = useTeamQuery(teamIdx, { enabled: getMemberQuery.isSuccess });
 
   const renderHeader = (data) => {
-    const { memberType, teamNm } = data;
+    const { teamNm, createDate, joinCode, teamMemberVoList } = data;
+    console.log(data);
 
     setHeaderState({
-      left: (
-        <Button onClick={() => navi('/')}>
-          <ChevronLeftIcon />
-          {teamNm}
-        </Button>
-      ),
+      left: {
+        header: (
+          <Button onClick={() => navi('/')}>
+            <ChevronLeftIcon />
+            {teamNm}
+          </Button>
+        ),
+        subHeader: `멤버 : ${teamMemberVoList.length} / 개설일 : ${createDate.split(' ')[0]}`,
+      },
       right: <IconButton></IconButton>,
     });
   };
@@ -62,18 +66,17 @@ const useService = () => {
   useEffect(() => {
     if (getMemberQuery.isSuccess) {
       const { teamMemberVos } = getMemberQuery.data.data;
-      console.log();
+
       if (isEmptyObj(teamMemberVos)) {
         navi('/team/select');
-      } else {
-        renderHeader(teamMemberVos[0]);
       }
     }
   }, [getMemberQuery]);
 
   useEffect(() => {
     if (getTeamQuery.isSuccess) {
-      console.log(getTeamQuery.data.data);
+      const { data: teamData } = getTeamQuery.data;
+      renderHeader(teamData);
     }
   }, [getTeamQuery]);
 
