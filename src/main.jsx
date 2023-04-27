@@ -5,6 +5,8 @@ import './styles/style.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { theme } from './styles/muiTheme';
 
 const queryClient = new QueryClient();
 
@@ -14,7 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       {/* devtools */}
       <ReactQueryDevtools initialIsOpen={true} />
       <RecoilRoot>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </RecoilRoot>
     </QueryClientProvider>
   </React.StrictMode>

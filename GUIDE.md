@@ -34,3 +34,17 @@
   };
 
 ```
+
+3. 레이아웃 - 헤더 - Header.jsx
+
+```
+    const setHeaderState = useSetRecoilState(headerState);
+    const handleHeader = (data) => {
+        const { memberType, teamNm } = data;
+        setHeaderState({
+            left: <Typography variant="h7">{teamNm}</Typography>,
+            right: <button>dl</button>,
+        });
+  };
+
+```

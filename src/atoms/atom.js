@@ -49,3 +49,8 @@ export const alertToastState = atom({
   key: 'alertToastState',
   default: '기본 토스트메세지입니다.',
 });
+
+export const headerState = atom({
+  key: 'headerState',
+  default: null,
+});

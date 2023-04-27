@@ -1,50 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import styles from '/src/styles/module/Header.module.scss';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import viteLogo from '/vite.svg';
-import { useAuth } from '../util/hooks';
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { AppBar, Box, Button, Grid, IconButton, Toolbar, Typography } from '@mui/material';
+
 import CloseIcon from '@mui/icons-material/Close';
+import { useRecoilState } from 'recoil';
+import { headerState } from '../atoms/atom';
 
 export default function Header() {
   const svc = useService();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ height: '55px' }}>
+      <AppBar position="fixed" sx={{ height: '55px' }} color="transparent">
         <Toolbar>
-          {svc.topIcon}
-          <Typography variant="h7" component="div" sx={{ flexGrow: 1 }} onClick={svc._toMain}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src={viteLogo} className="logo" alt="logo" />
-              밥먹장
-            </div>
-          </Typography>
-          {svc.isLogin ? (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="sign-out"
-              sx={{ mr: 2 }}
-              onClick={svc._onSignout}
-            >
-              <LogoutIcon />
-            </IconButton>
+          {svc.header === null ? (
+            <>
+              {svc.topIcon}
+              <Typography variant="h7" component="div" sx={{ flexGrow: 1 }} onClick={svc._toMain}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <img src={viteLogo} className="logo" alt="logo" />
+                  밥먹장
+                </div>
+              </Typography>
+            </>
           ) : (
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="sign-in"
-              sx={{ mr: 2 }}
-              onClick={svc._toSignIn}
-            >
-              <LoginIcon />
-            </IconButton>
+            <Grid container direction="row" alignItems="center">
+              <Grid item xs={9}>
+                {svc.header.left}
+              </Grid>
+              <Grid item xs={3} sx={{ textAlign: 'right' }}>
+                {svc.header.right}
+              </Grid>
+            </Grid>
           )}
         </Toolbar>
       </AppBar>
@@ -56,17 +44,7 @@ const useService = () => {
   const navi = useNavigate();
   const location = useLocation();
   const [topIcon, setTopIcon] = useState(null);
-
-  const { isLogin, signOut } = useAuth();
-
-  const _onSignout = () => {
-    if (confirm('로그아웃 하시겠습니까?')) {
-      signOut();
-      navi('/');
-    }
-  };
-
-  const _toSignIn = () => navi('/sign-in');
+  const [header, setHeaderState] = useRecoilState(headerState);
 
   const _toMain = () => navi('/');
 
@@ -92,10 +70,8 @@ const useService = () => {
   }, [location.pathname]);
 
   return {
-    isLogin,
-    _onSignout,
-    _toSignIn,
     _toMain,
     topIcon,
+    header,
   };
 };
