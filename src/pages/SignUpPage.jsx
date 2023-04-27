@@ -2,12 +2,7 @@ import {
   Autocomplete,
   Box,
   Button,
-  Checkbox,
   Container,
-  CssBaseline,
-  Divider,
-  FormControlLabel,
-  Grid,
   Paper,
   Step,
   StepButton,
@@ -37,9 +32,13 @@ const SignUpPage = () => {
 
   const [activeStep, setActiveStep] = useState(0);
   const handleStep = (step) => () => setActiveStep(step);
-  const onCompleteBasicInfo = (formData) => {
-    svc.setMemberBasicInfo(formData);
-    handleStep(1)();
+  const onCompleteBasicInfo = async (formData) => {
+    let isExistsId = await svc.checkExistsId(formData.memberId);
+    console.log(isExistsId);
+    if (isExistsId === false) {
+      svc.setMemberBasicInfo(formData);
+      handleStep(1)();
+    }
   };
 
   return (
@@ -241,8 +240,6 @@ const useService = () => {
     let { name, value } = e.target;
     formKeyword = { ...formKeyword, [name]: value };
 
-    console.log(formKeyword, name);
-
     switch (name) {
       case 'likeFood':
         getLikeFoodDataQuery.refetch();
@@ -256,6 +253,25 @@ const useService = () => {
     }
   };
 
+  const onSignUp = () => {
+    signupMutation.mutate({ ...memberBasicInfo, ...memberEtcInfo });
+  };
+
+  const checkExistsId = async (id) => {
+    let res = false;
+    try {
+      const { status, data } = await axiosModule.get(`/auth/member/${id}`);
+      if (status === 200) {
+        res = true;
+        alert('이미 존재하는 회원입니다.');
+      }
+    } catch (err) {
+      res = false;
+    }
+    return res;
+  };
+
+  //== useQuery, useMutation ==//
   const queryOption = {
     enabled: false,
     refetchOnWindowFocus: false,
@@ -297,10 +313,6 @@ const useService = () => {
       .catch(handleError);
   });
 
-  const onSignUp = () => {
-    signupMutation.mutate({ ...memberBasicInfo, ...memberEtcInfo });
-  };
-
   return {
     signupMutation,
     onSignUp,
@@ -311,6 +323,7 @@ const useService = () => {
     memberEtcInfo,
     setMemberEtcInfo,
     setMemberBasicInfo,
+    checkExistsId,
   };
 };
 
