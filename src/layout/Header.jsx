@@ -58,6 +58,8 @@ const useService = () => {
   const { isLogin, signOut } = useAuth();
 
   const _onSignout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     signOut();
     navi('/');
   };

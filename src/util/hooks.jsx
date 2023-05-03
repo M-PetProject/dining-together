@@ -14,7 +14,7 @@ export const useInputs = (initForm) => {
 
   const reset = useCallback(() => setForm(initForm), [initForm]);
 
-  return [form, onChange, reset];
+  return [form, onChange, reset, setForm];
 };
 
 export const useCustomParam = () => {
