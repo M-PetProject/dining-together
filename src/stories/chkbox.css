@@ -1,0 +1,28 @@
+.chkbox {
+    display: flex;
+    align-items: center;
+}
+.chkbox > input{
+    margin: 0 5px 0 0;
+}
+.chkbox > label{
+    padding: 2px 0 0 0;
+}
+.chkbox--small > input {
+    width: 12px;
+}
+.chkbox--small > label {
+    font-size: 12px;
+}
+.chkbox--medium > input {
+    width: 14px;
+}
+.chkbox--medium > label {
+    font-size: 14px;
+}
+.chkbox--large > input {
+    width: 18px;
+}
+.chkbox--large > label {
+    font-size: 16px;
+}

@@ -74,6 +74,7 @@ const App = () => {
 function PrivateRoute(props) {
   let { children } = props;
   const { isLogin } = useAuth();
+  console.log('isLogin', isLogin);
 
   return isLogin ? <>{children}</> : <Navigate to="/sign-in" />;
 }
