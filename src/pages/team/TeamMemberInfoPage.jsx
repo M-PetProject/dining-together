@@ -2,37 +2,51 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
-import { Avatar, Button, Card, CardHeader, IconButton, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardHeader, Chip, Container, IconButton, Paper, Stack, Typography } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { headerState } from '../../atoms/atom';
 import { isEmptyObj } from '../../util/cm_util';
 
 import { useMemberQuery, useTeamQuery } from '../../api/queryHooks.js';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import FixedBottom from '../../components/FixedBottom';
 const TeamMemberInfoPage = () => {
   const svc = useService();
 
   if (svc.getTeamQuery.isLoading) return;
 
   return (
-    <Stack spacing={3}>
-      {svc.getTeamQuery.data?.data.teamMemberVoList.map((teamMember) => {
-        return (
-          <Card key={teamMember.memberId}>
-            <CardHeader
-              title={teamMember.memberName}
-              avatar={<Avatar>P</Avatar>}
-              action={
-                <IconButton>
-                  <ChevronRightIcon />
-                </IconButton>
-              }
-              subheader={teamMember.regDate}
-            />
-          </Card>
-        );
-      })}
-    </Stack>
+    <Container>
+      <Stack spacing={3}>
+        {svc.getTeamQuery.data?.data.teamMemberVoList.map((teamMember) => {
+          const { memberId, memberName, regDate, memberType } = teamMember;
+          return (
+            <Card key={memberId}>
+              <CardHeader
+                title={
+                  <div>
+                    {memberName}
+                    {memberType === 'MASTER' ? <Chip label="리더" size="small" /> : ''}
+                  </div>
+                }
+                avatar={<Avatar>{memberName[0]}</Avatar>}
+                action={
+                  <IconButton>
+                    <ChevronRightIcon />
+                  </IconButton>
+                }
+                subheader={<p>{regDate} 가입</p>}
+              />
+            </Card>
+          );
+        })}
+      </Stack>
+      <FixedBottom>
+        <Button fullWidth variant="contained">
+          모임종료
+        </Button>
+      </FixedBottom>
+    </Container>
   );
 };
 

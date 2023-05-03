@@ -38,13 +38,26 @@
 3. 레이아웃 - 헤더 - Header.jsx
 
 ```
-    const setHeaderState = useSetRecoilState(headerState);
-    const handleHeader = (data) => {
-        const { memberType, teamNm } = data;
-        setHeaderState({
-            left: <Typography variant="h7">{teamNm}</Typography>,
-            right: <button>dl</button>,
-        });
+const setHeaderState = useSetRecoilState(headerState);
+const handleHeader = (data) => {
+  const { memberType, teamNm } = data;
+  setHeaderState({
+    left: {
+      header: (
+        <Button onClick={() => navi('/team/info')}>
+          {teamNm}
+          <ChevronRightIcon />
+        </Button>
+      ),
+      subHeader : '서브제목'
+    },
+    right: (
+      <IconButton>
+        <EditIcon />
+      </IconButton>
+    ),
+  });
+};
   };
 
 ```
