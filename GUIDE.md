@@ -1,3 +1,29 @@
+### prettier 설정
+
+- vscode > extension > [prettier] 검색 후, install
+- settings.json (VS Code) 파일 수정
+
+```
+{
+  ...
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  ...
+}
+```
+
 ### 공통 호출 방법
 
 1. 토스트메세지 - AlertToast
