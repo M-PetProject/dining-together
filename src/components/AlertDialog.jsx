@@ -19,6 +19,7 @@ export default function AlertDialog(props) {
   return (
     <div>
       <Dialog
+        fullWidth
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -26,7 +27,8 @@ export default function AlertDialog(props) {
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{content}</DialogContentText>
+          {content}
+          {/* <DialogContentText id="alert-dialog-description">{content}</DialogContentText> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>닫기</Button>

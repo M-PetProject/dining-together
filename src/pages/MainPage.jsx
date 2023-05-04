@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { alertToastOpenState, alertToastState, headerState, tokenState } from '../atoms/atom';
+import {
+  alertDialogOpenState,
+  alertDialogState,
+  alertToastOpenState,
+  alertToastState,
+  headerState,
+  tokenState,
+} from '../atoms/atom';
 import { isEmptyObj } from '../util/cm_util';
 import {
   Button,
@@ -16,10 +23,16 @@ import {
   CardHeader,
   Avatar,
   CardContent,
+  List,
+  ListItem,
+  ListItemButton,
+  Container,
 } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
+import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
+import LocalDiningRoundedIcon from '@mui/icons-material/LocalDiningRounded';
 import { useGetNoticesQuery, useMemberQuery } from '../api/queryHooks.js';
 import Carousel from 'react-material-ui-carousel';
 
@@ -46,7 +59,7 @@ const MainPage = () => {
             <Card key={noticeIdx}>
               <CardHeader
                 title={memberName}
-                subheader={noticeDtStart}
+                subheader={`${noticeDtStart} - ${noticeDtEnd}`}
                 avatar={<Avatar>{memberName[0]}</Avatar>}
                 action={
                   <IconButton>
@@ -68,14 +81,9 @@ const MainPage = () => {
       </Carousel>
     );
   };
-  return (
-    <Stack spacing={2}>
-      {/* 공지영역 */}
-      {renderNotices()}
 
-      <Divider />
-
-      {/* 게시글 목록 영역 */}
+  const renderDiningRound = () => {
+    return (
       <Stack spacing={2}>
         <Stack spacing={1}>
           <Box sx={{ flexGrow: 1 }}>
@@ -126,6 +134,33 @@ const MainPage = () => {
           <Skeleton variant="rectangular" width="100%" height={60} />
         </Stack>
       </Stack>
+    );
+  };
+  return (
+    <Stack spacing={2}>
+      {/* 공지영역 */}
+      <Stack gap={1}>
+        <Stack direction={'row'} alignItems={'center'} gap={3}>
+          <Button variant={'outlined'}>
+            <CampaignRoundedIcon />
+            공지사항
+          </Button>
+        </Stack>
+        {renderNotices()}
+      </Stack>
+
+      <Divider />
+
+      {/* 게시글 목록 영역 */}
+      <Stack gap={1}>
+        <Stack direction={'row'} alignItems={'center'} gap={3}>
+          <Button variant={'outlined'}>
+            <LocalDiningRoundedIcon />
+            회식
+          </Button>
+        </Stack>
+        {renderDiningRound()}
+      </Stack>
     </Stack>
   );
 };
@@ -138,6 +173,24 @@ const useService = () => {
   const teamIdx = getMemberQuery.data?.data.teamMemberVos[0].teamIdx;
 
   const getNoticesQuery = useGetNoticesQuery(teamIdx, { enabled: getMemberQuery.isSuccess });
+
+  const setOpenAlert = useSetRecoilState(alertDialogOpenState);
+  const setAlertDialog = useSetRecoilState(alertDialogState);
+  const onClickPostButton = () => {
+    console.log('onClickPostButton');
+    setAlertDialog({
+      title: '등록하기',
+      content: (
+        <Stack gap={2}>
+          <Button variant="contained">공지등록</Button>
+          <Button variant="contained" color="info">
+            회식등록
+          </Button>
+        </Stack>
+      ),
+    });
+    setOpenAlert(true);
+  };
 
   const renderHeader = (data) => {
     const { memberType, teamNm } = data;
@@ -152,7 +205,7 @@ const useService = () => {
         ),
       },
       right: (
-        <IconButton>
+        <IconButton onClick={onClickPostButton}>
           <EditIcon />
         </IconButton>
       ),
