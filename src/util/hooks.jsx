@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { tokenState, userState } from '../atoms/atom';
 import { isEmptyObj } from './cm_util';
@@ -28,6 +28,7 @@ export const useCustomParam = () => {
 };
 
 export const useAuth = () => {
+  const navi = useNavigate();
   /// 사용자의 정보 atom({memberId, memberPassword, memberName})
   const [user, setUser] = useRecoilState(userState);
   /// 사용자의 jwt토큰정보 atom ({accessToken, refreshToken})
@@ -41,6 +42,9 @@ export const useAuth = () => {
 
   useEffect(() => {
     setIsLogin(!isEmptyObj(token));
+    if (!isEmptyObj(token)) {
+      navi('/');
+    }
   }, [token]);
 
   return {

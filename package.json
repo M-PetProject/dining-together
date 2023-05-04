@@ -27,8 +27,7 @@
     "react-router-dom": "^6.10.0",
     "recoil": "^0.7.7",
     "simple-react-validator": "^1.6.2",
-    "yup": "^1.1.1"
-    "recoil": "^0.7.7",
+    "yup": "^1.1.1",
     "styled-components": "^5.3.10"
   },
   "devDependencies": {
