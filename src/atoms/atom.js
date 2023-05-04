@@ -21,6 +21,12 @@ export const userState = atom({
   effects: [sessionStorageEffect('user')],
 });
 
+export const teamMemberState = atom({
+  key: 'team_member',
+  default: {},
+  effects: [sessionStorageEffect('team_member')],
+});
+
 export const tokenState = atom({
   key: 'token',
   default: {},

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { tokenState, userState } from '../atoms/atom';
+import { teamMemberState, tokenState, userState } from '../atoms/atom';
 import { isEmptyObj } from './cm_util';
 
 export const useInputs = (initForm) => {
@@ -32,6 +32,7 @@ export const useAuth = () => {
   const location = useLocation();
   /// 사용자의 정보 atom({memberId, memberPassword, memberName})
   const [user, setUser] = useRecoilState(userState);
+  const [teamMember, setTeamMember] = useRecoilState(teamMemberState);
   /// 사용자의 jwt토큰정보 atom ({accessToken, refreshToken})
   const [token, setToken] = useRecoilState(tokenState);
   const [isLogin, setIsLogin] = useState(!isEmptyObj(token));
@@ -53,6 +54,8 @@ export const useAuth = () => {
   return {
     user,
     setUser,
+    teamMember,
+    setTeamMember,
     token,
     setToken,
     isLogin,

@@ -35,6 +35,7 @@ import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
 import LocalDiningRoundedIcon from '@mui/icons-material/LocalDiningRounded';
 import { useGetNoticesQuery, useMemberQuery } from '../api/queryHooks.js';
 import Carousel from 'react-material-ui-carousel';
+import { useAuth } from '../util/hooks';
 
 const MainPage = () => {
   const svc = useService();
@@ -168,11 +169,12 @@ const MainPage = () => {
 const useService = () => {
   const navi = useNavigate();
   const setHeaderState = useSetRecoilState(headerState);
+  const { setUser, teamMember, setTeamMember } = useAuth();
 
   const getMemberQuery = useMemberQuery();
-  const teamIdx = getMemberQuery.data?.data.teamMemberVos[0].teamIdx;
+  const { teamIdx } = teamMember;
 
-  const getNoticesQuery = useGetNoticesQuery(teamIdx, { enabled: getMemberQuery.isSuccess });
+  const getNoticesQuery = useGetNoticesQuery(teamIdx, { enabled: !!teamIdx });
 
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
@@ -215,10 +217,13 @@ const useService = () => {
   useEffect(() => {
     if (getMemberQuery.isSuccess) {
       const { teamMemberVos } = getMemberQuery.data.data;
+      console.log(getMemberQuery.data.data);
       if (isEmptyObj(teamMemberVos)) {
         navi('/team/select');
       } else {
         renderHeader(teamMemberVos[0]);
+        setUser(getMemberQuery.data.data);
+        setTeamMember(teamMemberVos[0]);
       }
     }
   }, [getMemberQuery]);

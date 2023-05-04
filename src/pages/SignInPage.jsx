@@ -157,6 +157,7 @@ const useService = () => {
       .post(`/auth/login`, form)
       .then((res) => {
         const { accessToken, refreshToken } = res.data;
+        console.log(res.data);
         setToken({
           accessToken,
           refreshToken,
