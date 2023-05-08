@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ height: '55px' }} color="transparent">
+      <AppBar position="fixed" sx={{ height: '55px' }} color="default">
         <Toolbar>
           {svc.header === null ? (
             <>

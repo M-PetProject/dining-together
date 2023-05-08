@@ -20,19 +20,6 @@ export const useNoticesQuery = (team_idx, option) => {
   return result;
 };
 
-export const useCommentQuery = (team_idx, idx, comment_type, option) => {
-  let result = useQuery(['comment_list', team_idx, idx, comment_type], getCommentTypeFn(comment_type), option);
-  return result;
-};
-
-const getCommentTypeFn = (comment_type) => {
-  switch (comment_type) {
-    case CommentType.NOTC: {
-      return ({ queryKey }) => axiosModule.get(`/notice/${queryKey[1]}/${queryKey[2]}/comments`);
-    }
-  }
-};
-
 export const useNoticeDetailQuery = (team_idx, notice_idx, option = {}) => {
   let result = useQuery(
     ['notice', team_idx, notice_idx],

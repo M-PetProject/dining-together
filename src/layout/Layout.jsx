@@ -4,9 +4,6 @@ import Footer from './Footer.jsx';
 import styles from '/src/styles/module/Layout.module.scss';
 import AlertDialog from '../components/AlertDialog.jsx';
 import AlertToast from '../components/AlertToast.jsx';
-import { Fab } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import Gap from '../components/Gap';
 
 const Layout = ({ children }) => {
   return (

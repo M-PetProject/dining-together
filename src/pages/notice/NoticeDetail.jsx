@@ -23,8 +23,8 @@ const NoticeDetail = () => {
       NoticeDetail
       <Comment
         commentType={CommentType.NOTC}
-        postIdx={noticeIdx}
         teamIdx={svc.teamInfoState.teamIdx}
+        postIdx={noticeIdx}
         commentList={svc.noticeQuery.data.data.noticeComments.data}
       />
     </div>

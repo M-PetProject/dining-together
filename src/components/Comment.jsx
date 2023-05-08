@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { useCommentQuery } from '../api/useQuerys';
-import { PropTypes } from 'prop-types';
-import { useAuth } from '../util/hooks';
+import React, { useEffect, useState } from 'react';
+
 import FixedBottom from './FixedBottom';
 import { useForm } from 'react-hook-form';
 import {
@@ -22,9 +20,12 @@ import {
 import { getHelperText } from '../util/validate';
 import { postComment } from '../api/useMutations';
 import { dateFormat } from '../util/cm_util';
+import { useInfiniteQuery } from 'react-query';
+import { axiosModule } from '../api/axios';
+import { CommentType } from '../enum/enum';
 
-export default function Comment({ commentType, postIdx, teamIdx, commentList = [] }) {
-  const svc = useService({ commentType, postIdx, teamIdx, commentList });
+export default function Comment({ commentType, postIdx, teamIdx }) {
+  const svc = useService({ commentType, postIdx, teamIdx });
 
   const {
     register,
@@ -37,31 +38,42 @@ export default function Comment({ commentType, postIdx, teamIdx, commentList = [
     },
   });
 
-  console.log(commentList);
+  if (svc.commentQueryStatus == 'loading') return 'comment loading...';
+
   return (
     <>
       <List sx={{ width: '100%' }}>
-        {commentList.map((comment) => {
-          const { commentIdx, title, content, childrenCnt, regDate, memberId = '작성자' } = comment;
-          return (
-            <ListItem key={commentIdx}>
-              <ListItemAvatar>
-                <Avatar>{memberId[0]}</Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <>
-                    {memberId}&emsp;&emsp;
-                    <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.secondary">
-                      {dateFormat(regDate)}
-                    </Typography>
-                  </>
-                }
-                secondary={<>{content}</>}
-              />
-            </ListItem>
-          );
+        {svc.commentQueryData.pages.map((commentPage) => {
+          return commentPage.data.map((comment) => {
+            const { commentIdx, title, content, childrenCnt, regDate, memberId = '작성자' } = comment;
+            return (
+              <ListItem key={commentIdx}>
+                <ListItemAvatar>
+                  <Avatar>{memberId[0]}</Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <>
+                      {memberId}&emsp;&emsp;
+                      <Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.secondary">
+                        {dateFormat(regDate)}
+                      </Typography>
+                    </>
+                  }
+                  secondary={<>{content}</>}
+                />
+              </ListItem>
+            );
+          });
         })}
+
+        {svc.hasNextPage ? (
+          <ListItem onClick={svc.fetchNextPage}>
+            <Button variant="contained">더보기</Button>
+          </ListItem>
+        ) : (
+          ''
+        )}
       </List>
       <FixedBottom>
         <Box component="form" onSubmit={handleSubmit(svc.onPostComment)} noValidate sx={{ mt: 1, width: '100%' }}>
@@ -110,7 +122,37 @@ const useService = (props) => {
     console.log('onPostComment.prmMap', prmMap);
     commentMutation.mutate(prmMap);
   };
+
+  const {
+    status: commentQueryStatus,
+    data: commentQueryData,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery(
+    ['comments', teamIdx, postIdx],
+    async ({ queryKey, pageParam = 1 }) => {
+      let res;
+      switch (commentType) {
+        case CommentType.NOTC: {
+          res = await axiosModule.get(`/notice/${teamIdx}/${postIdx}/comments?pageNo=${pageParam}`);
+          break;
+        }
+      }
+      return res.data;
+    },
+    {
+      getNextPageParam: (lastPage) => {
+        if (lastPage.pageNo < lastPage.endPage) {
+          return lastPage.pageNo + 1;
+        }
+      },
+    }
+  );
   return {
     onPostComment,
+    commentQueryStatus,
+    commentQueryData,
+    fetchNextPage,
+    hasNextPage,
   };
 };
