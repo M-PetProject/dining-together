@@ -124,3 +124,17 @@ export const cm_util = {
 
   createErr: createErr,
 };
+
+/**
+ * str : 16자리 문자열 => yyyy-mm-dd
+ */
+export const dateFormat = (str) => {
+  let year = str.slice(0, 4);
+  let month = str.slice(4, 6);
+  let day = str.slice(6, 8);
+  let hour = str.slice(8, 10);
+  let min = str.slice(10, 12);
+  let sec = str.slice(12, 14);
+
+  return `${year}-${month}-${day}`;
+};

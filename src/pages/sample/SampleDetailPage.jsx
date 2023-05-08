@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+
 import { useMutation, useQuery } from 'react-query';
-import { api } from '../../api/cm_callsvc.js';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, CardActions, CardContent, CardHeader, Container, TextField } from '@mui/material';
 import { BackButton } from '../../components/Buttons.jsx';
 import Gap from '../../components/Gap.jsx';
 import { axiosModule } from '../../api/axios.js';
+import Comment from '../../components/Comment.jsx';
 
 const SampleDetailPage = (props) => {
   // 0. 서비스 로직 분리 ( use~ 형식 )
@@ -69,6 +70,8 @@ const SampleDetailPage = (props) => {
           </Button>
         </CardActions>
       </Card>
+
+      <Comment idx={1} comment_type="NOTC" />
     </Container>
   );
 };

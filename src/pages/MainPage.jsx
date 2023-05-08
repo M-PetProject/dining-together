@@ -33,7 +33,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
 import LocalDiningRoundedIcon from '@mui/icons-material/LocalDiningRounded';
-import { useGetNoticesQuery, useMemberQuery } from '../api/queryHooks.js';
+import { useNoticesQuery, useMemberQuery } from '../api/useQuerys.js';
 import Carousel from 'react-material-ui-carousel';
 import { useAuth } from '../util/hooks';
 
@@ -45,6 +45,7 @@ const MainPage = () => {
       return <Skeleton variant="rectangular" width="100%" height={150} />;
     }
 
+    console.log(svc.getNoticesQuery.data);
     const { data: noticeData, limit } = svc.getNoticesQuery.data;
     const { data: notices } = noticeData;
 
@@ -57,26 +58,28 @@ const MainPage = () => {
           const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
           const { memberName } = memberVo;
           return (
-            <Card key={noticeIdx}>
-              <CardHeader
-                title={memberName}
-                subheader={`${noticeDtStart} - ${noticeDtEnd}`}
-                avatar={<Avatar>{memberName[0]}</Avatar>}
-                action={
-                  <IconButton>
-                    <MoreVertIcon />
-                  </IconButton>
-                }
-              />
-              <CardContent>
-                <Typography variant="body1" color="text.secondary">
-                  {title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {content}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Link key={noticeIdx} to={'/notice/' + noticeIdx}>
+              <Card>
+                <CardHeader
+                  title={memberName}
+                  subheader={`${noticeDtStart} - ${noticeDtEnd}`}
+                  avatar={<Avatar>{memberName[0]}</Avatar>}
+                  action={
+                    <IconButton>
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                />
+                <CardContent>
+                  <Typography variant="body1" color="text.secondary">
+                    {title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
           );
         })}
       </Carousel>
@@ -174,7 +177,7 @@ const useService = () => {
   const getMemberQuery = useMemberQuery();
   const { teamIdx } = teamMember;
 
-  const getNoticesQuery = useGetNoticesQuery(teamIdx, { enabled: !!teamIdx });
+  const getNoticesQuery = useNoticesQuery(teamIdx, { enabled: !!teamIdx });
 
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);

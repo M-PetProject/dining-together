@@ -12,6 +12,7 @@ import { useAuth } from './util/hooks';
 import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
+import NoticeDetail from './pages/notice/NoticeDetail.jsx';
 
 const App = () => {
   return (
@@ -52,6 +53,16 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <TeamMemberInfoPage />
+                </PrivateRoute>
+              }
+            />
+          </Route>
+          <Route exact path="/notice">
+            <Route
+              path=":idx"
+              element={
+                <PrivateRoute>
+                  <NoticeDetail />
                 </PrivateRoute>
               }
             />

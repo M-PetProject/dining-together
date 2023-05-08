@@ -38,7 +38,7 @@
   }, []);
 ```
 
-2. 팝업 메세지 - ALertDialog
+2. 팝업 메세지 - AlertDialog
 
 ```
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
