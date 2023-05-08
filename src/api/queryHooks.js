@@ -18,3 +18,12 @@ export const useGetNoticesQuery = (team_idx, option) => {
   );
   return result;
 };
+
+export const getCommentQuery = (team_idx, idx, comment_type) => {
+  let result = useQuery(
+    ['comment_list', team_idx, idx, comment_type],
+    ({ qk }) => axiosModule.get(`/notice/${qk[1]}/${qk[2]}/${qk[3]}`),
+    option
+  );
+  return result;
+};

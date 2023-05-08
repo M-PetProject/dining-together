@@ -1,4 +1,8 @@
 export const SaveType = {
-    POST : "post",
-    PUT : "put"
-}
+  POST: 'post',
+  PUT: 'put',
+};
+
+export const CommentType = {
+  NOTC: 'NOTC',
+};
