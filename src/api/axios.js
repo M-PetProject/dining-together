@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getSession } from '../util/cm_util';
+import { reissue } from './cm_callsvc';
 
 // axios 설정
 axios.defaults.baseURL = '/api';
@@ -35,6 +36,18 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
+    const {
+      config,
+      response: { status },
+    } = error;
+
+    switch (status) {
+      case 401: {
+        // 권한 없음 (토큰 만료)
+        console.log('권한 없음 (토큰 만료) > 토큰 재발행');
+        reissue();
+      }
+    }
     return Promise.reject(error);
   }
 );

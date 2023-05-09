@@ -36,6 +36,7 @@ import LocalDiningRoundedIcon from '@mui/icons-material/LocalDiningRounded';
 import { useNoticesQuery, useMemberQuery } from '../api/useQuerys.js';
 import Carousel from 'react-material-ui-carousel';
 import { useAuth } from '../util/hooks';
+import { reissue } from '../api/cm_callsvc';
 
 const MainPage = () => {
   const svc = useService();

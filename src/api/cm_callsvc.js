@@ -1,3 +1,4 @@
+import { setSession } from '../util/cm_util';
 import { cm_util, getSession, nvl } from '../util/cm_util';
 import { axiosModule } from './axios.js';
 
@@ -64,20 +65,21 @@ export const api = {
 };
 
 export const reissue = () => {
-  cm_callsvc.exec.post(
-    '/usr/auth/reissue',
-    { t: cm_util.getSession('t'), rt: cm_util.getSession('ft') },
-    (res) => {
-      cm_util.setSession('v', res.data.v);
-      cm_util.setSession('t', res.data.access_token);
-      cm_util.setSession('ft', res.data.refresh_token);
-      cm_util.setSession('tokenTm', res.data.token_tm);
-    },
-    (err) => {
-      console.error(err);
-      alert(cm_util.nvl(err.response.data.rslt_msg, '오류가 발생하였습니다'));
-    }
-  );
+  let tokenMap = JSON.parse(sessionStorage.getItem('token'));
+  console.log('토큰 재발급', tokenMap);
+  axiosModule
+    .post('/auth/reissue', tokenMap)
+    .then((res) => {
+      console.log(res);
+      setSession(
+        'token',
+        JSON.stringify({
+          ...tokenMap,
+          accessToken: res.data.accessToken,
+        })
+      );
+    })
+    .catch(handleError);
 };
 
 /**
@@ -92,6 +94,7 @@ export const handleError = (err) => {
 
     alert(data);
   } catch (err) {
+    console.error(err);
     throw err;
   }
 };
