@@ -28,7 +28,7 @@ export default function AlertDialog(props) {
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           {content}
-          {/* <DialogContentText id="alert-dialog-description">{content}</DialogContentText> */}
+          {/*<DialogContentText id="alert-dialog-description">{content}</DialogContentText>*/}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>닫기</Button>

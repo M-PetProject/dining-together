@@ -188,7 +188,9 @@ const useService = () => {
       title: '등록하기',
       content: (
         <Stack gap={2}>
-          <Button variant="contained">공지등록</Button>
+          <Button variant="contained" onClick={toNoticeNew}>
+            공지등록
+          </Button>
           <Button variant="contained" color="info">
             회식등록
           </Button>
@@ -196,6 +198,10 @@ const useService = () => {
       ),
     });
     setOpenAlert(true);
+  };
+  const toNoticeNew = (e) => {
+    setOpenAlert(false);
+    navi('/notice/new');
   };
 
   const renderHeader = (data) => {

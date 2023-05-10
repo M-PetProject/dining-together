@@ -13,6 +13,7 @@ import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
+import NoticeNew from './pages/notice/NoticeNew';
 
 const App = () => {
   return (
@@ -63,6 +64,14 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <NoticeDetail />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="new"
+              element={
+                <PrivateRoute>
+                  <NoticeNew />
                 </PrivateRoute>
               }
             />
