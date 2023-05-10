@@ -15,18 +15,21 @@ const sessionStorageEffect =
     });
   };
 
+// 사용자 정보
 export const userState = atom({
   key: 'user',
   default: {},
   effects: [sessionStorageEffect('user')],
 });
 
+// 사용자_팀 정보
 export const teamMemberState = atom({
   key: 'team_member',
   default: {},
   effects: [sessionStorageEffect('team_member')],
 });
 
+// 사용자 토큰 정보 (AT, RT)
 export const tokenState = atom({
   key: 'token',
   default: {},
@@ -34,6 +37,7 @@ export const tokenState = atom({
   effects: [sessionStorageEffect('token')],
 });
 
+// 공통 다이얼로그
 export const alertDialogOpenState = atom({
   key: 'alertDialogOpenState',
   default: false,
@@ -47,6 +51,7 @@ export const alertDialogState = atom({
   },
 });
 
+// 공통 토스트
 export const alertToastOpenState = atom({
   key: 'alertToastOpenState',
   default: false,
@@ -56,6 +61,7 @@ export const alertToastState = atom({
   default: '기본 토스트메세지입니다.',
 });
 
+// 공통 헤더
 export const headerState = atom({
   key: 'headerState',
   default: null,

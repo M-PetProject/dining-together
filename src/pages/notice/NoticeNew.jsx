@@ -121,7 +121,16 @@ const useService = () => {
     });
   }, []);
 
-  function onCancel() {}
+  function onCancel() {
+    setAlertDialog({
+      title: '',
+      content: <DialogContentText>공지등록을 취소하시겠습니까?</DialogContentText>,
+      succFn: () => {
+        navi('/');
+      },
+    });
+    setOpenAlert(true);
+  }
 
   function onSave(data) {
     setAlertDialog({
