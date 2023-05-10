@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { alertDialogOpenState, alertDialogState, headerState, teamMemberState } from '../../atoms/atom.js';
 import { Box, Button, Container, DialogContentText, FormLabel, Stack, TextField } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { getHelperText } from '../../util/validate.js';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -14,8 +14,9 @@ import FixedBottom from '../../components/FixedBottom.jsx';
 import { axiosModule } from '../../api/axios.js';
 import { handleError } from '../../api/cm_callsvc.js';
 import { isEmptyObj } from '../../util/cm_util.js';
+import { useNoticeDetailQuery } from '../../api/useQuerys.js';
 
-export default function NoticeNew() {
+export default function NoticeWrite() {
   const svc = useService();
 
   const {
@@ -24,6 +25,7 @@ export default function NoticeNew() {
     formState: { errors },
     setValue,
     control,
+    getValues,
   } = useForm({
     defaultValues: {
       title: '',
@@ -32,6 +34,16 @@ export default function NoticeNew() {
       noticeDtEnd: '',
     },
   });
+
+  useEffect(() => {
+    if (svc.noticeQuery.isSuccess) {
+      const { content, title, noticeDtStart, noticeDtEnd } = svc.noticeQuery.data.data;
+      setValue('title', title);
+      setValue('content', content);
+      setValue('noticeDtStart', dayjs(noticeDtStart));
+      setValue('noticeDtEnd', dayjs(noticeDtEnd));
+    }
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -74,13 +86,35 @@ export default function NoticeNew() {
             </FormLabel>
             <Stack direction="row" spacing={2}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  format={'YYYY-MM-DD'}
-                  onChange={(newValue) => setValue('noticeDtStart', dayjs(newValue).format('YYYYMMDDHHmmss'))}
+                <Controller
+                  control={control}
+                  name="noticeDtStart"
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                    fieldState: { invalid, isTouched, isDirty, error },
+                    formState,
+                  }) => (
+                    <DatePicker
+                      value={value}
+                      format={'YYYY-MM-DD'}
+                      onChange={(newValue) => setValue('noticeDtStart', newValue)}
+                    />
+                  )}
                 />
-                <DatePicker
-                  format={'YYYY-MM-DD'}
-                  onChange={(newValue) => setValue('noticeDtEnd', dayjs(newValue).format('YYYYMMDDHHmmss'))}
+                <Controller
+                  control={control}
+                  name="noticeDtEnd"
+                  render={({
+                    field: { onChange, onBlur, value, name, ref },
+                    fieldState: { invalid, isTouched, isDirty, error },
+                    formState,
+                  }) => (
+                    <DatePicker
+                      value={value}
+                      format={'YYYY-MM-DD'}
+                      onChange={(newValue) => setValue('noticeDtEnd', newValue)}
+                    />
+                  )}
                 />
               </LocalizationProvider>
             </Stack>
@@ -108,13 +142,16 @@ const useService = () => {
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const teamInfoState = useRecoilValue(teamMemberState);
 
+  const { idx: noticeIdx } = useParams();
+  const [isModifyMode, setIsModifyMode] = useState(!!noticeIdx);
+
   useEffect(() => {
     setHeaderState({
       left: {
         header: (
           <Button onClick={onCancel}>
             <ChevronLeftIcon />
-            <p>공지등록</p>
+            <p>공지{trans('등록', isModifyMode)}</p>
           </Button>
         ),
       },
@@ -124,9 +161,9 @@ const useService = () => {
   function onCancel() {
     setAlertDialog({
       title: '',
-      content: <DialogContentText>공지등록을 취소하시겠습니까?</DialogContentText>,
+      content: <DialogContentText>공지{trans('등록', isModifyMode)}을 취소하시겠습니까?</DialogContentText>,
       succFn: () => {
-        navi('/');
+        navi(`/notice/${noticeIdx}`);
       },
     });
     setOpenAlert(true);
@@ -135,7 +172,7 @@ const useService = () => {
   function onSave(data) {
     setAlertDialog({
       title: '',
-      content: <DialogContentText>공지를 등록하시겠습니까?</DialogContentText>,
+      content: <DialogContentText>공지를 {trans('등록', isModifyMode)}하시겠습니까?</DialogContentText>,
       succFn: () => {
         save(data);
       },
@@ -143,35 +180,62 @@ const useService = () => {
     setOpenAlert(true);
 
     function save(data) {
-      let url = `notice/${teamInfoState.teamIdx}`;
-
-      let noticeDtStart = data.noticeDtStart;
+      let noticeDtStart = dayjs(data.noticeDtStart).format('YYYYMMDDHHmmss');
       if (isEmptyObj(noticeDtStart)) {
         noticeDtStart = dayjs(new Date()).format('YYYYMMDDHHmmss');
       }
-      let noticeDtEnd = data.noticeDtEnd;
+      let noticeDtEnd = dayjs(data.noticeDtEnd).format('YYYYMMDDHHmmss');
       if (isEmptyObj(noticeDtEnd)) {
-        noticeDtEnd = '99991231000000';
+        noticeDtEnd = '20991231000000';
       }
 
       let prmMap = {
         ...data,
         noticeDtStart,
         noticeDtEnd,
+        useYn: 'Y',
       };
 
-      axiosModule
-        .post(url, prmMap)
-        .then((res) => {
-          alert(res.data);
-          navi('/');
-        })
-        .catch(handleError);
+      if (isModifyMode) {
+        axiosModule
+          .put(`notice/${teamInfoState.teamIdx}/${noticeIdx}`, prmMap)
+          .then((res) => {
+            alert(res.data);
+            navi(`/notice/${noticeIdx}`);
+          })
+          .catch(handleError);
+      } else {
+        axiosModule
+          .post(`notice/${teamInfoState.teamIdx}`, prmMap)
+          .then((res) => {
+            alert(res.data);
+            navi(`/notice/${noticeIdx}`);
+          })
+          .catch(handleError);
+      }
     }
   }
+
+  const noticeQuery = useNoticeDetailQuery(teamInfoState.teamIdx, noticeIdx, {
+    enabled: isModifyMode,
+    staleTime: Infinity,
+  });
 
   return {
     onCancel,
     onSave,
+    noticeQuery,
+    isModifyMode,
   };
+};
+
+const trans = (str, isModifyMode) => {
+  if (isModifyMode) {
+    switch (str) {
+      case '등록':
+        return '수정';
+    }
+  }
+
+  return str;
 };

@@ -57,7 +57,7 @@ const MainPage = () => {
       <Carousel animation={'slide'}>
         {notices.map((notice) => {
           const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
-          console.log(notice);
+          // console.log(notice);
           const { memberName } = memberVo;
           return (
             <Link key={noticeIdx} to={'/notice/' + noticeIdx}>

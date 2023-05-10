@@ -13,7 +13,7 @@ import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
-import NoticeNew from './pages/notice/NoticeNew';
+import NoticeWrite from './pages/notice/NoticeWrite.jsx';
 
 const App = () => {
   return (
@@ -71,10 +71,20 @@ const App = () => {
               path="new"
               element={
                 <PrivateRoute>
-                  <NoticeNew />
+                  <NoticeWrite />
                 </PrivateRoute>
               }
             />
+            <Route path="edit">
+              <Route
+                path=":idx"
+                element={
+                  <PrivateRoute>
+                    <NoticeWrite />
+                  </PrivateRoute>
+                }
+              />
+            </Route>
           </Route>
           <Route exact path="/second" element={<SecondPage />} />
           <Route exact path="/sign-in" element={<SignInPage />} />

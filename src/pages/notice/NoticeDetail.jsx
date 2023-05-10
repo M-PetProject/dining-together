@@ -40,7 +40,7 @@ const NoticeDetail = () => {
     return 'loading';
   }
 
-  console.log(svc.noticeQuery.data.data);
+  // console.log(svc.noticeQuery.data.data);
   const { title, content, memberVo, noticeDtStart, noticeDtEnd, noticeComments } = svc.noticeQuery.data.data;
   const { memberId, memberName } = memberVo;
   const { totalItems } = noticeComments;
@@ -119,7 +119,9 @@ const useService = ({ noticeIdx }) => {
     setOpenMenu(!openMenu);
   }
 
-  function handleModify() {}
+  function handleModify() {
+    navi(`/notice/edit/${noticeIdx}`);
+  }
   function handleDelete() {
     setOpenAlert(true);
     setAlert({
@@ -134,7 +136,7 @@ const useService = ({ noticeIdx }) => {
     axiosModule
       .delete(url)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setOpenToast(true);
         setToast('삭제되었습니다.');
         navi('/');
