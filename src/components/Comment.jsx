@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -23,10 +24,11 @@ import { dateFormat } from '../util/cm_util';
 import { useInfiniteQuery } from 'react-query';
 import { axiosModule } from '../api/axios';
 import { CommentType } from '../enum/enum';
+import SendIcon from '@mui/icons-material/Send';
+import { useSetRecoilState } from 'recoil';
+import { alertToastState } from '../atoms/atom.js';
 
 export default function Comment({ commentType, postIdx, teamIdx }) {
-  const svc = useService({ commentType, postIdx, teamIdx });
-
   const {
     register,
     handleSubmit,
@@ -37,6 +39,7 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
       content: '',
     },
   });
+  const svc = useService({ commentType, postIdx, teamIdx, setValue });
 
   if (svc.commentQueryStatus == 'loading') return 'comment loading...';
 
@@ -89,9 +92,9 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
             helperText={getHelperText(errors.content?.type)}
             InputProps={{
               endAdornment: (
-                <Button type="submit" variant="contained">
-                  쓰기
-                </Button>
+                <IconButton type="submit">
+                  <SendIcon color="primary" />
+                </IconButton>
               ),
             }}
           />
@@ -102,7 +105,7 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
 }
 
 const useService = (props) => {
-  const { commentType, postIdx, teamIdx } = props;
+  const { commentType, postIdx, teamIdx, setValue } = props;
 
   const commentMutation = postComment({
     commentType,
@@ -110,6 +113,7 @@ const useService = (props) => {
     postIdx,
     thenFn: (res) => {
       alert(res.data);
+      setValue('content', '');
     },
   });
 
