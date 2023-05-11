@@ -40,9 +40,9 @@ const NoticeDetail = () => {
     return 'loading';
   }
 
-  // console.log(svc.noticeQuery.data.data);
+  console.log(svc.noticeQuery.data.data);
   const { title, content, memberVo, noticeDtStart, noticeDtEnd, noticeComments } = svc.noticeQuery.data.data;
-  const { memberId, memberName } = memberVo;
+  const { memberId, memberName, memberIdx: noticeMemberIdx } = memberVo;
   const { totalItems } = noticeComments;
   return (
     <Stack spacing={2}>
@@ -52,9 +52,13 @@ const NoticeDetail = () => {
           subheader={`${dateFormat(noticeDtStart)} - ${dateFormat(noticeDtEnd)}`}
           avatar={<Avatar>{memberName[0]}</Avatar>}
           action={
-            <IconButton onClick={svc.onClickMoreButton}>
-              <MoreVertIcon />
-            </IconButton>
+            noticeMemberIdx == svc.teamInfoState.memberIdx ? (
+              <IconButton onClick={svc.onClickMoreButton}>
+                <MoreVertIcon />
+              </IconButton>
+            ) : (
+              ''
+            )
           }
         />
         <Menu id="basic-menu" anchorEl={svc.menuAnchorEl} open={svc.openMenu} onClose={() => svc.setOpenMenu(false)}>
