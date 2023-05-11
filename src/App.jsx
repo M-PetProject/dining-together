@@ -14,6 +14,7 @@ import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
 import NoticeWrite from './pages/notice/NoticeWrite.jsx';
+import RoundTab from './components/RoundTab.jsx';
 
 const App = () => {
   return (
@@ -86,6 +87,7 @@ const App = () => {
               />
             </Route>
           </Route>
+          <Route exact path="/tab" element={<RoundTab />} />
           <Route exact path="/second" element={<SecondPage />} />
           <Route exact path="/sign-in" element={<SignInPage />} />
           <Route exact path="/sign-up" element={<SignUpPage />} />
