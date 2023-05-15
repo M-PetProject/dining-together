@@ -163,7 +163,11 @@ const useService = () => {
       title: '',
       content: <DialogContentText>공지{trans('등록', isModifyMode)}을 취소하시겠습니까?</DialogContentText>,
       succFn: () => {
-        navi(`/notice/${noticeIdx}`);
+        let url = `/`;
+        if (noticeIdx) {
+          url = `/notice/${noticeIdx}`;
+        }
+        navi(url);
       },
     });
     setOpenAlert(true);
