@@ -15,6 +15,7 @@ import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
 import NoticeWrite from './pages/notice/NoticeWrite.jsx';
 import RoundTab from './components/RoundTab.jsx';
+import PlaceWritePage from './pages/place/PlaceWritePage';
 
 const App = () => {
   return (
@@ -86,6 +87,17 @@ const App = () => {
                 }
               />
             </Route>
+          </Route>
+          <Route exact path="/place">
+            <Route
+              exact
+              path="write"
+              element={
+                <PrivateRoute>
+                  <PlaceWritePage />
+                </PrivateRoute>
+              }
+            />
           </Route>
           <Route exact path="/tab" element={<RoundTab />} />
           <Route exact path="/second" element={<SecondPage />} />
