@@ -3,7 +3,7 @@ import ErrorImage from '/public/images/onErrorImage.jpeg';
 import { string } from 'prop-types';
 
 const ImageError: React.FC = ({ imgUrl, ...rest }) => {
-  function onErrorImage(e) {
+  function onErrorImage(e: React.ChangeEvent<HTMLImageElement>): void {
     e.target.src = ErrorImage;
   }
   return <img src={imgUrl} onError={onErrorImage} {...rest} />;

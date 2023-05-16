@@ -7,7 +7,7 @@ import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import moment from 'moment';
 import ImageError from '../ImageError';
 
-export default function PlaceRecommendList() {
+const PlaceRecommendList: React.FC = () => {
   const placeQuery = usePetGetPlacesQuery();
 
   if (placeQuery.isLoading) return <div />;
@@ -58,4 +58,5 @@ export default function PlaceRecommendList() {
       })}
     </Stack>
   );
-}
+};
+export default PlaceRecommendList;
