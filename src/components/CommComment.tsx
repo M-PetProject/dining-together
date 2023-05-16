@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import FixedBottom from './FixedBottom';
 import { useForm } from 'react-hook-form';
@@ -6,29 +6,25 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  CardContent,
-  CardHeader,
   IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { getHelperText } from '../util/validate';
-import { postComment } from '../api/useMutations';
+import { usePetCreateCommentMutation } from '../api/useMutations';
 import { dateFormat } from '../util/cm_util';
 import { useInfiniteQuery } from 'react-query';
 import { axiosModule } from '../api/axios';
 import { CommentType } from '../enum/enum';
 import SendIcon from '@mui/icons-material/Send';
-import { useSetRecoilState } from 'recoil';
-import { alertToastState } from '../atoms/atom.js';
+import PropTypes from 'prop-types';
+import { CommentInterface } from '../api/interfaces';
 
-export default function Comment({ commentType, postIdx, teamIdx }) {
+const CommComment = ({ commentType, postIdx, teamIdx, setCommentCount }) => {
   const {
     register,
     handleSubmit,
@@ -46,7 +42,7 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
   return (
     <>
       <List sx={{ width: '100%' }}>
-        {svc.commentQueryData.pages.map((commentPage) => {
+        {svc.commentQueryData?.pages.map((commentPage) => {
           return commentPage.data.map((comment) => {
             const { commentIdx, title, content, childrenCnt, regDate, memberId = '작성자' } = comment;
             return (
@@ -72,7 +68,9 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
 
         {svc.hasNextPage ? (
           <ListItem onClick={svc.fetchNextPage}>
-            <Button variant="contained">더보기</Button>
+            <Button variant="outlined" fullWidth>
+              더보기
+            </Button>
           </ListItem>
         ) : (
           ''
@@ -88,7 +86,7 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
             type="text"
             autoFocus
             {...register('content', { required: true })}
-            error={errors.content ? true : false}
+            error={!!errors.content}
             helperText={getHelperText(errors.content?.type)}
             InputProps={{
               endAdornment: (
@@ -102,12 +100,18 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
       </FixedBottom>
     </>
   );
-}
+};
 
+export default CommComment;
+CommComment.propTypes = {
+  commentType: PropTypes.string,
+  postIdx: PropTypes.number,
+  teamIdx: PropTypes.number,
+};
 const useService = (props) => {
   const { commentType, postIdx, teamIdx, setValue } = props;
 
-  const commentMutation = postComment({
+  const commentMutation = usePetCreateCommentMutation({
     commentType,
     teamIdx,
     postIdx,
@@ -118,7 +122,9 @@ const useService = (props) => {
   });
 
   const onPostComment = (data) => {
-    const prmMap = {
+    const prmMap: CommentInterface = {
+      commentCd: commentType,
+      postIdx: postIdx,
       title: 'title',
       content: data.content,
       useYn: 'Y',
@@ -139,10 +145,13 @@ const useService = (props) => {
       switch (commentType) {
         case CommentType.NOTC: {
           res = await axiosModule.get(`/notice/${teamIdx}/${postIdx}/comments?pageNo=${pageParam}`);
-          break;
+          return res.data;
+        }
+        case CommentType.PLACE: {
+          res = await axiosModule.get(`/comm/comment/${commentType}/${postIdx}?pageNo=${pageParam}`);
+          return res.data;
         }
       }
-      return res.data;
     },
     {
       getNextPageParam: (lastPage) => {

@@ -6,6 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import moment from 'moment';
 import ImageError from '../ImageError';
+import { Link } from 'react-router-dom';
 
 const PlaceRecommendList: React.FC = () => {
   const placeQuery = usePetGetPlacesQuery();
@@ -19,40 +20,42 @@ const PlaceRecommendList: React.FC = () => {
       {placeDataList.map((place: PlaceInterface) => {
         return (
           <Card key={place.placeBasicInfoIdx}>
-            <CardContent>
-              <Stack direction={'row'} justifyContent={'space-between'}>
-                <Stack direction={'row'} alignItems={'center'} spacing={2}>
-                  <Avatar>{place.creatorMemberName?.[0]}</Avatar>
-                  <Typography variant={'subtitle1'}>{place.creatorMemberName ?? '작성자'}</Typography>
-                  <Typography color="text.secondary" variant={'subtitle2'}>
-                    {moment(place.regDtm).format('YYYY-MM-DD')}
-                  </Typography>
+            <Link to={`/place/${place.placeBasicInfoIdx}`}>
+              <CardContent>
+                <Stack direction={'row'} justifyContent={'space-between'}>
+                  <Stack direction={'row'} alignItems={'center'} spacing={2}>
+                    <Avatar>{place.creatorMemberName?.[0]}</Avatar>
+                    <Typography variant={'subtitle1'}>{place.creatorMemberName ?? '작성자'}</Typography>
+                    <Typography color="text.secondary" variant={'subtitle2'}>
+                      {moment(place.regDtm).format('YYYY-MM-DD')}
+                    </Typography>
+                  </Stack>
                 </Stack>
-              </Stack>
 
-              <ImageError
-                imgUrl={place.imageUrl}
-                width={'100%'}
-                height={150}
-                style={{ marginTop: 2, marginBottom: 2 }}
-              />
-              <Typography variant={'h5'}>{place.name}</Typography>
-              <Typography variant="body1">{place.intro}</Typography>
+                <ImageError
+                  imgUrl={place.imageUrl}
+                  width={'100%'}
+                  height={150}
+                  style={{ marginTop: 2, marginBottom: 2 }}
+                />
+                <Typography variant={'h5'}>{place.name}</Typography>
+                <Typography variant="body1">{place.intro}</Typography>
 
-              <Stack direction={'row'} justifyContent={'space-between'}>
-                <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                  <StarIcon sx={{ color: 'orange' }} />
-                  <Typography color="text.secondary" variant={'subtitle2'}>
-                    {place.rating}
-                  </Typography>
-                  &emsp;
-                  <Typography color="text.secondary" variant={'subtitle2'}>
-                    {place.businessHours}
-                  </Typography>
+                <Stack direction={'row'} justifyContent={'space-between'}>
+                  <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                    <StarIcon sx={{ color: 'orange' }} />
+                    <Typography color="text.secondary" variant={'subtitle2'}>
+                      {place.rating}
+                    </Typography>
+                    &emsp;
+                    <Typography color="text.secondary" variant={'subtitle2'}>
+                      {place.businessHours}
+                    </Typography>
+                  </Stack>
+                  <ModeCommentIcon />
                 </Stack>
-                <ModeCommentIcon />
-              </Stack>
-            </CardContent>
+              </CardContent>
+            </Link>
           </Card>
         );
       })}

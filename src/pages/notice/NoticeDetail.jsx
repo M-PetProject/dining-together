@@ -25,7 +25,7 @@ import {
 import { teamMemberState } from '../../atoms/atom';
 import { useNoticeDetailQuery } from '../../api/useQuerys';
 import { CommentType } from '../../enum/enum';
-import Comment from '../../components/Comment';
+import CommComment from '../../components/CommComment.tsx';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { dateFormat } from '../../util/cm_util';
 import MessageIcon from '@mui/icons-material/Message';
@@ -85,7 +85,7 @@ const NoticeDetail = () => {
           <Typography variant="body2" color="text.secondary" align="right"></Typography>
         </CardContent>
       </Card>
-      <Comment commentType={CommentType.NOTC} teamIdx={svc.teamInfoState.teamIdx} postIdx={noticeIdx} />
+      <CommComment commentType={CommentType.NOTC} teamIdx={svc.teamInfoState.teamIdx} postIdx={noticeIdx} />
     </Stack>
   );
 };

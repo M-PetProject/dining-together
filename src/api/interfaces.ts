@@ -14,4 +14,13 @@ export interface PlaceInterface extends TimeInterface {
   extUrl: string;
   imageUrl: string;
   rating: number;
+  commentCount: number;
+}
+
+export interface CommentInterface {
+  commentCd: string;
+  postIdx: number;
+  title: string;
+  content: string;
+  useYn: string;
 }

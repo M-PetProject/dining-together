@@ -5,4 +5,5 @@ export const SaveType = {
 
 export const CommentType = {
   NOTC: 'NOTC',
+  PLACE: 'PLAC',
 };

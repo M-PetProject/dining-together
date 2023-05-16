@@ -23,7 +23,7 @@ import { api } from '../../api/cm_callsvc.js';
 import { useMutation } from 'react-query';
 import { cm_util } from '../../util/cm_util.js';
 import { axiosModule } from '../../api/axios.js';
-import { SaveType } from '../../enum/enum.js';
+import { SaveType } from '../../enum/enum.ts';
 
 const SampleWritePage = () => {
   const { _onSave, _onCancel, postMutate, defaultMap } = useService();

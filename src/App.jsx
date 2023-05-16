@@ -16,6 +16,7 @@ import NoticeDetail from './pages/notice/NoticeDetail.jsx';
 import NoticeWrite from './pages/notice/NoticeWrite.jsx';
 import RoundTab from './components/RoundTab.jsx';
 import PlaceWritePage from './pages/place/PlaceWritePage';
+import PlaceDetailPage from './pages/place/PlaceDetailPage';
 
 const App = () => {
   return (
@@ -95,6 +96,14 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <PlaceWritePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path=":idx"
+              element={
+                <PrivateRoute>
+                  <PlaceDetailPage />
                 </PrivateRoute>
               }
             />

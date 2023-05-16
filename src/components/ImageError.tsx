@@ -1,6 +1,7 @@
 import React from 'react';
 import ErrorImage from '/public/images/onErrorImage.jpeg';
 import { string } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const ImageError: React.FC = ({ imgUrl, ...rest }) => {
   function onErrorImage(e: React.ChangeEvent<HTMLImageElement>): void {
@@ -10,6 +11,6 @@ const ImageError: React.FC = ({ imgUrl, ...rest }) => {
 };
 
 ImageError.propTypes = {
-  imgUrl: string,
+  imgUrl: PropTypes.string,
 };
 export default ImageError;

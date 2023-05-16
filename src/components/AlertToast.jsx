@@ -21,7 +21,7 @@ const AlertToast = () => {
     if (!open) return;
     setTimeout(() => {
       setOpen(false);
-      console.log('setOpen(false);');
+      // console.log('setOpen(false);');
     }, seconds * 1000);
   }
 
