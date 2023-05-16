@@ -13,6 +13,7 @@ import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
+import DiningDetailsPage from './pages/diningMain/DiningDetailsPage.jsx';
 
 const App = () => {
   return (
@@ -64,6 +65,16 @@ const App = () => {
                 <PrivateRoute>
                   <NoticeDetail />
                 </PrivateRoute>
+              }
+            />
+          </Route>
+          <Route exact path="/dining-main">
+            <Route
+              path="add"
+              element={
+                // <PrivateRoute>
+                  <DiningDetailsPage />
+                // </PrivateRoute>
               }
             />
           </Route>
