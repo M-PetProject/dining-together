@@ -28,3 +28,7 @@ export const useNoticeDetailQuery = (team_idx, notice_idx, option = {}) => {
   );
   return result;
 };
+
+export const usePetGetPlacesQuery = (option = {}) => {
+  return useQuery(['places'], ({ queryKey }) => axiosModule.get('/places'), option);
+};

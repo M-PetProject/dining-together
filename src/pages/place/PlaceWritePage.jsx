@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Container, FormLabel, Stack, TextField } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft.js';
-import { useSetRecoilState } from 'recoil';
-import { headerState } from '../../atoms/atom.js';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { headerState, userState } from '../../atoms/atom.js';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { getHelperText } from '../../util/validate.js';
@@ -127,6 +127,7 @@ export default function PlaceWritePage(props) {
 const useService = () => {
   const navi = useNavigate();
   const setHeaderState = useSetRecoilState(headerState);
+  const user = useRecoilValue(userState);
 
   const renderHeader = () => {
     setHeaderState({
@@ -148,6 +149,7 @@ const useService = () => {
   }
 
   function onSave(data) {
+    data['creatorMemberIdx'] = user.memberIdx;
     axiosModule.post('/place', data).then((res) => {
       alert(res.data);
       navi('/');
