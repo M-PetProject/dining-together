@@ -12,6 +12,7 @@ export interface PlaceInterface extends TimeInterface {
   name: string;
   intro: string;
   businessHours: string;
+  publicYn: string;
   deleteYn: string;
   extUrl: string;
   imageUrl: string;

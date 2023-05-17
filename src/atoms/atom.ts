@@ -75,8 +75,16 @@ export const alertToastState = atom({
   default: '기본 토스트메세지입니다.',
 });
 
+export interface HeaderStateInterface {
+  left?: HeaderLeft;
+  right?: React.ReactElement;
+}
+interface HeaderLeft {
+  header: React.ReactElement;
+  subHeader: string;
+}
 // 공통 헤더
-export const headerState = atom({
+export const headerState = atom<HeaderStateInterface>({
   key: 'headerState',
   default: null,
 });

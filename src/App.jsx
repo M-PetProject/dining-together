@@ -99,6 +99,16 @@ const App = () => {
                 </PrivateRoute>
               }
             />
+            <Route path="edit">
+              <Route
+                path=":idx"
+                element={
+                  <PrivateRoute>
+                    <PlaceWritePage />
+                  </PrivateRoute>
+                }
+              />
+            </Route>
             <Route
               path=":idx"
               element={

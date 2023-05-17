@@ -12,7 +12,7 @@ import { CommentType } from '../../enum/enum';
 import { PlaceInterface } from '../../api/interfaces';
 import MessageIcon from '@mui/icons-material/Message';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { headerState, userState } from '../../atoms/atom';
+import { headerState, HeaderStateInterface, userState } from '../../atoms/atom';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LinkIcon from '@mui/icons-material/Link';
 import { axiosModule } from '../../api/axios';
@@ -54,7 +54,7 @@ const PlaceDetailPage: React.FC = () => {
                   open={svc.openMenu}
                   onClose={() => svc.setOpenMenu(false)}
                 >
-                  <MenuItem>수정</MenuItem>
+                  <MenuItem onClick={() => svc.onMoveEditPage(placeData.placeBasicInfoIdx)}>수정</MenuItem>
                   <MenuItem onClick={() => svc.onDelete(placeData.placeBasicInfoIdx)}>삭제</MenuItem>
                 </Menu>
               </>
@@ -108,7 +108,7 @@ const PlaceDetailPage: React.FC = () => {
 
 const useService = () => {
   const navi = useNavigate();
-  const setHeaderState = useSetRecoilState(headerState);
+  const setHeaderState = useSetRecoilState<HeaderStateInterface>(headerState);
   const userRecoilState = useRecoilValue(userState);
 
   const [openMenu, setOpenMenu] = useState(false);
@@ -126,6 +126,10 @@ const useService = () => {
       },
     });
   }, []);
+
+  function onMoveEditPage(placeIdx: number) {
+    navi(`/place/edit/${placeIdx}`);
+  }
 
   function onDelete(placeBasicInfoIdx: number): void {
     if (confirm('삭제하시겠습니까?')) {
@@ -147,6 +151,7 @@ const useService = () => {
     openMenu,
     setOpenMenu,
     onDelete,
+    onMoveEditPage,
   };
 };
 export default PlaceDetailPage;
