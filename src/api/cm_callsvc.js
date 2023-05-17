@@ -74,7 +74,6 @@ export const reissue = () => {
       setSession(
         'token',
         JSON.stringify({
-          ...tokenMap,
           accessToken: res.data.accessToken,
           refreshToken: res.data.refreshToken,
         })

@@ -7,3 +7,8 @@ export const CommentType = {
   NOTC: 'NOTC',
   PLACE: 'PLAC',
 };
+
+export enum MemberType {
+  MEMBER = 'MEMBER',
+  MASTER = 'MASTER',
+}

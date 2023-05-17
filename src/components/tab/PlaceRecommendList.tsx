@@ -7,6 +7,7 @@ import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import moment from 'moment';
 import ImageError from '../ImageError';
 import { Link } from 'react-router-dom';
+import MessageIcon from '@mui/icons-material/Message';
 
 const PlaceRecommendList: React.FC = () => {
   const placeQuery = usePetGetPlacesQuery();
@@ -52,8 +53,17 @@ const PlaceRecommendList: React.FC = () => {
                       {place.businessHours}
                     </Typography>
                   </Stack>
-                  <ModeCommentIcon />
                 </Stack>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <MessageIcon />
+                  <span>{place.commentCount ?? 0}</span>
+                </div>
               </CardContent>
             </Link>
           </Card>

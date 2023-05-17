@@ -1,3 +1,5 @@
+import { MemberType } from '../enum/enum';
+
 interface TimeInterface {
   regDtm: string;
   updDtm: string;
@@ -23,4 +25,24 @@ export interface CommentInterface {
   title: string;
   content: string;
   useYn: string;
+}
+
+export interface MemberAllergyVoInterface {
+  memberIdx: number;
+  allergyIdx: number;
+  allergyNm: string;
+}
+export interface MemberFoodVoInterface {
+  memberIdx: number;
+  foodIdx: number;
+  foodNm: string;
+}
+export interface TeamMemberVoInterface {
+  teamIdx: number;
+  teamNm: string;
+  memberIdx: number;
+  memberId: string;
+  memberName: string;
+  memberType: MemberType;
+  regDate: string;
 }

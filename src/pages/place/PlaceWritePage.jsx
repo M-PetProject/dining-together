@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, Button, Container, FormLabel, Stack, TextField } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft.js';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { headerState, userState } from '../../atoms/atom.js';
+import { headerState, userState } from '../../atoms/atom.ts';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { getHelperText } from '../../util/validate.js';

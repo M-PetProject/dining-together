@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Card, CardContent, IconButton, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Card, CardContent, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material';
 import moment from 'moment';
 import ImageError from '../../components/ImageError';
 import StarIcon from '@mui/icons-material/Star';
@@ -11,10 +11,12 @@ import CommComment from '../../components/CommComment.js';
 import { CommentType } from '../../enum/enum';
 import { PlaceInterface } from '../../api/interfaces';
 import MessageIcon from '@mui/icons-material/Message';
-import { useSetRecoilState } from 'recoil';
-import { headerState } from '../../atoms/atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { headerState, userState } from '../../atoms/atom';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-
+import LinkIcon from '@mui/icons-material/Link';
+import { axiosModule } from '../../api/axios';
+import { handleError } from '../../api/cm_callsvc';
 const PlaceDetailPage: React.FC = () => {
   const svc = useService();
   const { idx } = useParams();
@@ -36,9 +38,29 @@ const PlaceDetailPage: React.FC = () => {
                 {moment(placeData.regDtm).format('YYYY-MM-DD')}
               </Typography>
             </Stack>
-            <IconButton>
-              <MoreVertIcon />
-            </IconButton>
+            {svc.userRecoilState.memberIdx == placeData.creatorMemberIdx ? (
+              <>
+                <IconButton
+                  onClick={(e) => {
+                    svc.setMenuAnchorEl(e.currentTarget);
+                    svc.setOpenMenu(!svc.openMenu);
+                  }}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={svc.menuAnchorEl}
+                  open={svc.openMenu}
+                  onClose={() => svc.setOpenMenu(false)}
+                >
+                  <MenuItem>수정</MenuItem>
+                  <MenuItem onClick={() => svc.onDelete(placeData.placeBasicInfoIdx)}>삭제</MenuItem>
+                </Menu>
+              </>
+            ) : (
+              ''
+            )}
           </Stack>
 
           <ImageError
@@ -47,7 +69,12 @@ const PlaceDetailPage: React.FC = () => {
             height={200}
             style={{ marginTop: 5, marginBottom: 10 }}
           />
-          <Typography variant={'h5'}>{placeData.name}</Typography>
+          <Typography variant={'h5'}>
+            {placeData.name}
+            <a href={placeData.extUrl} target="_blank">
+              <LinkIcon />
+            </a>
+          </Typography>
           <Typography variant="body1">{placeData.intro}</Typography>
 
           <Stack direction={'row'} justifyContent={'space-between'} sx={{ mt: 2 }}>
@@ -82,6 +109,10 @@ const PlaceDetailPage: React.FC = () => {
 const useService = () => {
   const navi = useNavigate();
   const setHeaderState = useSetRecoilState(headerState);
+  const userRecoilState = useRecoilValue(userState);
+
+  const [openMenu, setOpenMenu] = useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   useEffect(() => {
     setHeaderState({
@@ -95,5 +126,27 @@ const useService = () => {
       },
     });
   }, []);
+
+  function onDelete(placeBasicInfoIdx: number): void {
+    if (confirm('삭제하시겠습니까?')) {
+      axiosModule
+        .delete(`/place/${placeBasicInfoIdx}`)
+        .then((res) => {
+          const { data } = res;
+          alert(data);
+          navi(-1);
+        })
+        .catch(handleError);
+    }
+  }
+
+  return {
+    userRecoilState,
+    menuAnchorEl,
+    setMenuAnchorEl,
+    openMenu,
+    setOpenMenu,
+    onDelete,
+  };
 };
 export default PlaceDetailPage;

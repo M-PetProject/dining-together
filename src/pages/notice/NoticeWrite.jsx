@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { alertDialogOpenState, alertDialogState, headerState, teamMemberState } from '../../atoms/atom.js';
+import { alertDialogOpenState, alertDialogState, headerState, teamMemberState } from '../../atoms/atom.ts';
 import { Box, Button, Container, DialogContentText, FormLabel, Stack, TextField } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft.js';
 import { useNavigate, useParams } from 'react-router-dom';
