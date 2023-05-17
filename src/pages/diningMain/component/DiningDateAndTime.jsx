@@ -6,14 +6,20 @@ class DiningDateAndTime extends Component {
     render() {
         return (
             <>
-                <TextField
+                {this.props.isDate &&
+                    <TextField
                     type='date'
-                    onChange={(endDate) => setValue('endDate', dayjs(endDate).format('YYYYMMDD'))}
-                />
-                <TextField
+                    defaultValue={this.props.date}
+                    onChange={(date) => setValue('date', dayjs(date).format('YYYY-MM-DD'))}
+                    />
+                }
+                {this.props.isTime &&
+                    <TextField
                     type='time'
-                    onChange={(time) => setValue('time', dayjs(time).format('HHmm'))}
+                    defaultValue={this.props.time}
+                    onChange={(time) => setValue('time', dayjs(time).format('HH:mm'))}
                 />
+                }
             </>
         );
     }

@@ -1,18 +1,10 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { TextField, Container, Box, Button, Card, IconButton, Paper, Stack, Typography, FormLabel, FormGroup, colors } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { VerticalAlignCenter } from '@mui/icons-material';
+import {Container,Stack, Typography, FormLabel, FormGroup} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DensityLargeIcon from '@mui/icons-material/DensityLarge';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DesktopTimePicker } from '@mui/x-date-pickers/DesktopTimePicker';
 import {DiningButton, DiningInput, DiningTextField, DiningDate, DiningDateAndTime} from './component/index.d';
-import { padding } from '@mui/system';
 
-const diningDetailsPage = () => {
+const DiningDetailsPage = () => {
     return (
         <Container component="main" maxWidth="xs">
             <Stack spacing={4}>
@@ -35,11 +27,10 @@ const diningDetailsPage = () => {
                 <DiningBox title={'설명'}>
                     <DiningTextField
                         placeholder={'한글 10자 이내'} 
-                        isDisabled={true}
                     />
                 </DiningBox>
                 <DiningBox title={'장소추천 마감일시'} isRequired={true}>
-                    <DiningDateAndTime />
+                    <DiningDateAndTime isDate={true} isTime={true} />
                 </DiningBox>
                 <DiningBox> 
                     <DiningButton btnType={'outlined'} name={'취소'} />
@@ -71,4 +62,4 @@ const DiningBox = ({title, isRequired, guideMsg, children}) => {
     );
 };
 
-export default diningDetailsPage;
+export default DiningDetailsPage;

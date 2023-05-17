@@ -8,8 +8,10 @@ class DiningInput extends Component {
             <TextField
                 id="outlined-multiline-flexible"
                 label={this.props.placeholder}
+                defaultValue={this.props.text}
                 multiline
                 maxRows={1}
+                fullWidth
                 disabled={this.props.isDisabled}
             />
         );

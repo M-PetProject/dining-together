@@ -8,14 +8,16 @@ class DiningDate extends Component {
             <>
                 <TextField
                     type='date'
-                    onChange={(startDate) => setValue('startDateForDiningMain', dayjs(startDate).format('YYYYMMDD'))}
+                    defaultValue={this.props.startDate}
+                    onChange={(startDate) => setValue('startDateForDiningMain', dayjs(startDate).format('YYYY-MM-DD'))}
                 />
                 <Typography>
                     ~
                 </Typography>
                 <TextField
                     type='date'
-                    onChange={(endDate) => setValue('endDateForDiningMain', dayjs(endDate).format('YYYYMMDD'))}
+                    defaultValue={this.props.endDate}
+                    onChange={(endDate) => setValue('endDateForDiningMain', dayjs(endDate).format('YYYY-MM-DD'))}
                 />
             </>
         );
