@@ -76,23 +76,30 @@ export const reissue = () => {
         JSON.stringify({
           ...tokenMap,
           accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
         })
       );
     })
-    .catch(handleError);
+    .catch((err) =>
+      handleError(err, () => {
+        alert('로그인 화면으로 이동합니다.');
+        window.location.href = '/sign-in';
+      })
+    );
 };
 
 /**
  * axios 에러 핸들러
  * @param {*} err
  */
-export const handleError = (err) => {
+export const handleError = (err, errFn) => {
   console.error(err);
   try {
     const res = err.response;
     const { data } = res;
 
     alert(data);
+    errFn && errFn();
   } catch (err) {
     console.error(err);
     throw err;
