@@ -13,7 +13,8 @@ import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
-
+import DiningDetailsPage from './pages/diningMain/DiningDetailsPage.jsx';
+import RcmPalceDetailsPage from './pages/recommand/RcmPalceDetailsPage.jsx'
 const App = () => {
   return (
     <BrowserRouter>
@@ -64,6 +65,42 @@ const App = () => {
                 <PrivateRoute>
                   <NoticeDetail />
                 </PrivateRoute>
+              }
+            />
+          </Route>
+          <Route exact path="/dining-main">
+            <Route
+              path=""
+              element={
+                // <PrivateRoute>
+                  <DiningDetailsPage />
+                // </PrivateRoute>
+              }
+            />
+            <Route
+              path=":idx"
+              element={
+                // <PrivateRoute>
+                  <DiningDetailsPage />
+                // </PrivateRoute>
+              }
+            />
+          </Route>
+          <Route exact path="/recommand">
+            <Route
+              path="place"
+              element={
+                // <PrivateRoute>
+                  <RcmPalceDetailsPage />
+                // </PrivateRoute>
+              }
+            />
+            <Route
+              path=":idx"
+              element={
+                // <PrivateRoute>
+                  <RcmPalceDetailsPage />
+                // </PrivateRoute>
               }
             />
           </Route>
