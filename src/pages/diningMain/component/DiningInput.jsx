@@ -4,22 +4,25 @@ import { TextField } from '@mui/material';
 
 class DiningInput extends Component {
     render() {
+        const {placeholder, name, value, isDisabled, handler} = this.props;
         return (
             <TextField
                 id="outlined-multiline-flexible"
-                label={this.props.placeholder}
-                defaultValue={this.props.text}
+                label={placeholder}
+                defaultValue={value}
                 multiline
                 maxRows={1}
                 fullWidth
-                disabled={this.props.isDisabled}
+                disabled={isDisabled}
+                onChange={(e) => handler(name, e.target.value)}
             />
         );
     }
 }
 
 DiningInput.propTypes = {
-    placeHolder: PropTypes.string
+    placeholder: PropTypes.string,
+    isDisabled: PropTypes.bool
 };
 
 export default DiningInput;

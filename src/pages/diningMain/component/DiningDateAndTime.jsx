@@ -4,20 +4,23 @@ import { TextField } from '@mui/material';
 
 class DiningDateAndTime extends Component {
     render() {
+        const {isDate, date, nameOfDate, isTime, time, nameOfTime, handler} = this.props;
         return (
             <>
-                {this.props.isDate &&
+                {isDate &&
                     <TextField
                     type='date'
-                    defaultValue={this.props.date}
-                    onChange={(date) => setValue('date', dayjs(date).format('YYYY-MM-DD'))}
+                    defaultValue={date}
+                    fullWidth
+                    onChange={(e) => handler(nameOfDate, e.target.value)}
                     />
                 }
-                {this.props.isTime &&
+                {isTime &&
                     <TextField
                     type='time'
-                    defaultValue={this.props.time}
-                    onChange={(time) => setValue('time', dayjs(time).format('HH:mm'))}
+                    defaultValue={time}
+                    fullWidth
+                    onChange={(e) => handler(nameOfTime, e.target.value)}
                 />
                 }
             </>
@@ -26,7 +29,8 @@ class DiningDateAndTime extends Component {
 }
 
 DiningDateAndTime.propTypes = {
-
+    date: PropTypes.string,
+    time: PropTypes.string
 };
 
 export default DiningDateAndTime;

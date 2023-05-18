@@ -12,3 +12,6 @@ export * from './DiningDate';
 
 export { default as DiningDateAndTime } from './DiningDateAndTime';
 export * from './DiningDateAndTime';
+
+export { default as DiningImage } from './DiningImage';
+export * from './DiningImage';
