@@ -70,19 +70,19 @@ const App = () => {
           </Route>
           <Route exact path="/dining-main">
             <Route
-              path=""
+              path="add"
               element={
-                // <PrivateRoute>
+                <PrivateRoute>
                   <DiningDetailsPage />
-                // </PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path=":idx"
               element={
-                // <PrivateRoute>
+                <PrivateRoute>
                   <DiningDetailsPage />
-                // </PrivateRoute>
+                </PrivateRoute>
               }
             />
           </Route>
@@ -90,17 +90,17 @@ const App = () => {
             <Route
               path="place"
               element={
-                // <PrivateRoute>
+                <PrivateRoute>
                   <RcmPalceDetailsPage />
-                // </PrivateRoute>
+                </PrivateRoute>
               }
             />
             <Route
               path=":idx"
               element={
-                // <PrivateRoute>
+                <PrivateRoute>
                   <RcmPalceDetailsPage />
-                // </PrivateRoute>
+                </PrivateRoute>
               }
             />
           </Route>

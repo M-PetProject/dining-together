@@ -189,7 +189,11 @@ const useService = () => {
       content: (
         <Stack gap={2}>
           <Button variant="contained">공지등록</Button>
-          <Button variant="contained" color="info">
+          <Button 
+            variant="contained" 
+            color="info" 
+            onClick={() => navi('/dining-main/add')}
+          >
             회식등록
           </Button>
         </Stack>
