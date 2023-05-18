@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
 import { axiosModule } from './axios';
-import { CommentType } from '../enum/enum';
 
 export const defaultQueryOption = {
   staleTime: 1000 * 60 * 60,

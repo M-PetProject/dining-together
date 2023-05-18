@@ -24,7 +24,7 @@ import {
 } from '@mui/material';
 import { teamMemberState } from '../../atoms/atom';
 import { useNoticeDetailQuery } from '../../api/useQuerys';
-import { CommentType } from '../../enum/enum';
+import { CommCommentType } from '../../enum/enum';
 import CommComment from '../../components/CommComment.tsx';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { dateFormat } from '../../util/cm_util';
@@ -85,7 +85,7 @@ const NoticeDetail = () => {
           <Typography variant="body2" color="text.secondary" align="right"></Typography>
         </CardContent>
       </Card>
-      <CommComment commentType={CommentType.NOTC} teamIdx={svc.teamInfoState.teamIdx} postIdx={noticeIdx} />
+      <CommComment commentType={CommCommentType.NOTC} teamIdx={svc.teamInfoState.teamIdx} postIdx={noticeIdx} />
     </Stack>
   );
 };

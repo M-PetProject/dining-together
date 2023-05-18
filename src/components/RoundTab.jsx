@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
 import PlaceRecommendList from './tab/PlaceRecommendList.tsx';
-import PlaceVote from './tab/PlaceVote';
+import PlaceVoteList from './tab/PlaceVoteList.tsx';
 import TimeVote from './tab/TimeVote';
 import VoteStatus from './tab/VoteStatus';
 
 export default function RoundTab() {
   const tabList = ['장소추천', '장소투표', '시간투표', '참여현황'];
-  const tabPanelList = [<PlaceRecommendList />, <PlaceVote />, <TimeVote />, <VoteStatus />];
+  const tabPanelList = [<PlaceRecommendList />, <PlaceVoteList />, <TimeVote />, <VoteStatus />];
   return <_RoundTab tabList={tabList} tabPanelList={tabPanelList} />;
 }
 

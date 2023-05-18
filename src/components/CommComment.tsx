@@ -19,12 +19,17 @@ import { usePetCreateCommentMutation } from '../api/useMutations';
 import { dateFormat } from '../util/cm_util';
 import { useInfiniteQuery } from 'react-query';
 import { axiosModule } from '../api/axios';
-import { CommentType } from '../enum/enum';
+import { CommCommentType } from '../enum/enum';
 import SendIcon from '@mui/icons-material/Send';
-import PropTypes from 'prop-types';
-import { CommentInterface } from '../api/interfaces';
+import { CommentReqInterface, CommentResInterface } from '../api/interfaces';
 
-const CommComment = ({ commentType, postIdx, teamIdx, setCommentCount }) => {
+interface PropsInterface {
+  commentType: CommCommentType;
+  postIdx?: number;
+  teamIdx?: number;
+}
+
+export default function CommComment({ commentType, postIdx, teamIdx }: PropsInterface): React.ReactElement {
   const {
     register,
     handleSubmit,
@@ -37,13 +42,13 @@ const CommComment = ({ commentType, postIdx, teamIdx, setCommentCount }) => {
   });
   const svc = useService({ commentType, postIdx, teamIdx, setValue });
 
-  if (svc.commentQueryStatus == 'loading') return 'comment loading...';
+  if (svc.commentQueryStatus == 'loading') return <p>comment loading...</p>;
 
   return (
     <>
       <List sx={{ width: '100%' }}>
         {svc.commentQueryData?.pages.map((commentPage) => {
-          return commentPage.data.map((comment) => {
+          return commentPage.data.map((comment: CommentResInterface) => {
             const { commentIdx, title, content, childrenCnt, regDate, memberId = '작성자' } = comment;
             return (
               <ListItem key={commentIdx}>
@@ -100,14 +105,8 @@ const CommComment = ({ commentType, postIdx, teamIdx, setCommentCount }) => {
       </FixedBottom>
     </>
   );
-};
+}
 
-export default CommComment;
-CommComment.propTypes = {
-  commentType: PropTypes.string,
-  postIdx: PropTypes.number,
-  teamIdx: PropTypes.number,
-};
 const useService = (props) => {
   const { commentType, postIdx, teamIdx, setValue } = props;
 
@@ -122,7 +121,7 @@ const useService = (props) => {
   });
 
   const onPostComment = (data) => {
-    const prmMap: CommentInterface = {
+    const prmMap: CommentReqInterface = {
       commentCd: commentType,
       postIdx: postIdx,
       title: 'title',
@@ -143,11 +142,11 @@ const useService = (props) => {
     async ({ queryKey, pageParam = 1 }) => {
       let res;
       switch (commentType) {
-        case CommentType.NOTC: {
+        case CommCommentType.NOTC: {
           res = await axiosModule.get(`/notice/${teamIdx}/${postIdx}/comments?pageNo=${pageParam}`);
           return res.data;
         }
-        case CommentType.PLACE: {
+        case CommCommentType.PLACE: {
           res = await axiosModule.get(`/comm/comment/${commentType}/${postIdx}?pageNo=${pageParam}`);
           return res.data;
         }

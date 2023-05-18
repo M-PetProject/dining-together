@@ -20,14 +20,21 @@ export interface PlaceInterface extends TimeInterface {
   commentCount: number;
 }
 
-export interface CommentInterface {
+export interface CommentReqInterface {
   commentCd: string;
   postIdx: number;
   title: string;
   content: string;
   useYn: string;
 }
-
+export interface CommentResInterface {
+  commentIdx: number;
+  title: string;
+  content: string;
+  childrenCnt: number;
+  regDate: string;
+  memberId: string;
+}
 export interface MemberAllergyVoInterface {
   memberIdx: number;
   allergyIdx: number;

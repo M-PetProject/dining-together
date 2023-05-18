@@ -1,18 +1,18 @@
 import { useMutation } from 'react-query';
 import { axiosModule } from './axios';
-import { CommentType } from '../enum/enum';
+import { CommCommentType } from '../enum/enum';
 import { handleError } from './cm_callsvc';
-import { CommentInterface } from './interfaces';
+import { CommentReqInterface } from './interfaces';
 
 export const usePetCreateCommentMutation = ({ commentType, teamIdx, postIdx, thenFn }) => {
   switch (commentType) {
-    case CommentType.NOTC: {
-      return useMutation((form: CommentInterface) =>
+    case CommCommentType.NOTC: {
+      return useMutation((form: CommentReqInterface) =>
         axiosModule.post(`/notice/${teamIdx}/${postIdx}/comment`, form).then(thenFn).catch(handleError)
       );
     }
-    case CommentType.PLACE: {
-      return useMutation((form: CommentInterface) =>
+    case CommCommentType.PLACE: {
+      return useMutation((form: CommentReqInterface) =>
         axiosModule.post(`/comm/comment`, form).then(thenFn).catch(handleError)
       );
     }

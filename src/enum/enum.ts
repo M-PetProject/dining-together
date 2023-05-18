@@ -8,6 +8,12 @@ export const CommentType = {
   PLACE: 'PLAC',
 };
 
+export enum CommCommentType {
+  NOTC = 'NOTC',
+  PLACE = 'PLAC',
+  VOTE = 'VOTE',
+}
+
 export enum MemberType {
   MEMBER = 'MEMBER',
   MASTER = 'MASTER',

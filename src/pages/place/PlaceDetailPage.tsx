@@ -8,7 +8,7 @@ import { usePetGetPlaceQuery } from '../../api/useQuerys';
 import { useNavigate, useParams } from 'react-router-dom';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CommComment from '../../components/CommComment.js';
-import { CommentType } from '../../enum/enum';
+import { CommCommentType } from '../../enum/enum';
 import { PlaceInterface } from '../../api/interfaces';
 import MessageIcon from '@mui/icons-material/Message';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -17,6 +17,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LinkIcon from '@mui/icons-material/Link';
 import { axiosModule } from '../../api/axios';
 import { handleError } from '../../api/cm_callsvc';
+
 const PlaceDetailPage: React.FC = () => {
   const svc = useService();
   const { idx } = useParams();
@@ -101,7 +102,7 @@ const PlaceDetailPage: React.FC = () => {
           </Stack>
         </CardContent>
       </Card>
-      <CommComment commentType={CommentType.PLACE} postIdx={placeData.placeBasicInfoIdx} />
+      <CommComment commentType={CommCommentType.PLACE} postIdx={placeData.placeBasicInfoIdx} />
     </div>
   );
 };
