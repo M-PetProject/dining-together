@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorImage from '/public/images/no_img.jpg';
+import ErrorImage from '/src/images/no_img.jpg';
 import { string } from 'prop-types';
 import PropTypes from 'prop-types';
 
