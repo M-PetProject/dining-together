@@ -7,7 +7,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Container, TextFiel
 import { BackButton } from '../../components/Buttons.jsx';
 import Gap from '../../components/Gap.jsx';
 import { axiosModule } from '../../api/axios.js';
-import Comment from '../../components/Comment.jsx';
+import CommComment from '../../components/CommComment.tsx';
 
 const SampleDetailPage = (props) => {
   // 0. 서비스 로직 분리 ( use~ 형식 )
@@ -71,7 +71,7 @@ const SampleDetailPage = (props) => {
         </CardActions>
       </Card>
 
-      <Comment idx={1} comment_type="NOTC" />
+      <CommComment idx={1} comment_type="NOTC" />
     </Container>
   );
 };

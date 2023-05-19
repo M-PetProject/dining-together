@@ -13,11 +13,15 @@ const AlertToast = () => {
     autoClose();
   }, [open]);
 
+  useEffect(() => {
+    setOpen(true);
+  }, [msg]);
+
   function autoClose(seconds = 3) {
     if (!open) return;
     setTimeout(() => {
       setOpen(false);
-      console.log('setOpen(false);');
+      // console.log('setOpen(false);');
     }, seconds * 1000);
   }
 

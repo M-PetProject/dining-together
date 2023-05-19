@@ -46,7 +46,7 @@ const MainPage = () => {
       return <Skeleton variant="rectangular" width="100%" height={150} />;
     }
 
-    console.log(svc.getNoticesQuery.data);
+    // console.log(svc.getNoticesQuery.data);
     const { data: noticeData, limit } = svc.getNoticesQuery.data;
     const { data: notices } = noticeData;
 
@@ -57,6 +57,7 @@ const MainPage = () => {
       <Carousel animation={'slide'}>
         {notices.map((notice) => {
           const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
+          // console.log(notice);
           const { memberName } = memberVo;
           return (
             <Link key={noticeIdx} to={'/notice/' + noticeIdx}>
@@ -183,15 +184,17 @@ const useService = () => {
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const onClickPostButton = () => {
-    console.log('onClickPostButton');
+    // console.log('onClickPostButton');
     setAlertDialog({
       title: '등록하기',
       content: (
         <Stack gap={2}>
-          <Button variant="contained">공지등록</Button>
-          <Button 
-            variant="contained" 
-            color="info" 
+          <Button variant="contained" onClick={toNoticeNew}>
+            공지등록
+          </Button>
+          <Button
+            variant="contained"
+            color="info"
             onClick={() => navi('/dining-main/add')}
           >
             회식등록
@@ -200,6 +203,10 @@ const useService = () => {
       ),
     });
     setOpenAlert(true);
+  };
+  const toNoticeNew = (e) => {
+    setOpenAlert(false);
+    navi('/notice/new');
   };
 
   const renderHeader = (data) => {
@@ -225,7 +232,7 @@ const useService = () => {
   useEffect(() => {
     if (getMemberQuery.isSuccess) {
       const { teamMemberVos } = getMemberQuery.data.data;
-      console.log(getMemberQuery.data.data);
+      // console.log(getMemberQuery.data.data);
       if (isEmptyObj(teamMemberVos)) {
         navi('/team/select');
       } else {
