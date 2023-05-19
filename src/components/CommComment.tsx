@@ -40,6 +40,8 @@ export default function CommComment({ commentType, postIdx, teamIdx }: PropsInte
       content: '',
     },
   });
+
+  if (!postIdx) return <p>댓글 목록이 없습니다.</p>;
   const svc = useService({ commentType, postIdx, teamIdx, setValue });
 
   if (svc.commentQueryStatus == 'loading') return <p>comment loading...</p>;
@@ -121,6 +123,7 @@ const useService = (props) => {
   });
 
   const onPostComment = (data) => {
+    if (!postIdx) return;
     const prmMap: CommentReqInterface = {
       commentCd: commentType,
       postIdx: postIdx,
@@ -153,6 +156,7 @@ const useService = (props) => {
       }
     },
     {
+      enabled: !!postIdx,
       getNextPageParam: (lastPage) => {
         if (lastPage.pageNo < lastPage.endPage) {
           return lastPage.pageNo + 1;

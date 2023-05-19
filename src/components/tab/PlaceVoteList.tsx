@@ -41,11 +41,10 @@ export default function PlaceVoteList(): React.ReactElement {
             <Button variant={'outlined'} color={'primary'}>
               투표마감
             </Button>
-
-            <CommComment commentType={CommCommentType.VOTE} />
           </Stack>
         </CardContent>
       </Card>
+      <CommComment commentType={CommCommentType.VOTE} />
     </Stack>
   );
 }
