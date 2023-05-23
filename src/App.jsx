@@ -13,6 +13,8 @@ import AddTeamPage from './pages/team/AddTeamPage.jsx';
 import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
+import MemberPage from './pages/MemberPage.jsx';
+import EditMemberPage from './pages/EditMemberPage.jsx';
 
 const App = () => {
   return (
@@ -76,6 +78,8 @@ const App = () => {
             <Route path="write" element={<SampleWritePage />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/member/:userId" element={<MemberPage />}></Route>
+          <Route path="/member/edit/:userId" element={<EditMemberPage />}></Route>
         </Routes>
       </Layout>
     </BrowserRouter>

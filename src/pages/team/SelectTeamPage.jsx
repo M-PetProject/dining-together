@@ -157,8 +157,10 @@ const useService = () => {
   };
 
   const joinTeamMutation = useMutation((prmMap) => {
+    const { teamNm, teamIdx, teamDesc } = prmMap;
+    console.log('teamIdx', teamIdx)
     return axiosModule
-      .post(`/team/join`, prmMap)
+      .post(`/team/${teamIdx}`, null)
       .then((res) => {
         console.log(res);
         alert('모임에 참가했어요.');

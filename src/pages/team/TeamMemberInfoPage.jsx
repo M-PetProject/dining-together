@@ -10,8 +10,10 @@ import { isEmptyObj } from '../../util/cm_util';
 import { useMemberQuery, useTeamQuery } from '../../api/useQuerys.js';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import FixedBottom from '../../components/FixedBottom';
+
 const TeamMemberInfoPage = () => {
   const svc = useService();
+  const navi = useNavigate();
 
   if (svc.getTeamQuery.isLoading) return;
 
@@ -21,7 +23,7 @@ const TeamMemberInfoPage = () => {
         {svc.getTeamQuery.data?.data.teamMemberVoList.map((teamMember) => {
           const { memberId, memberName, regDate, memberType } = teamMember;
           return (
-            <Card key={memberId}>
+            <Card key={memberId} onClick={() => navi(`/member/${memberId}`)}>
               <CardHeader
                 title={
                   <div>
