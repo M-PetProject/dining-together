@@ -12,7 +12,7 @@ import { axiosModule } from '../api/axios';
 import { handleError } from '../api/cm_callsvc';
 import { useState } from 'react';
 import { useMemberDetailQuery, useTeamQuery } from '../api/useQuerys';
-import { teamMemberState, userState, tokenState} from '../atoms/atom.js';
+import { teamMemberState, userState, tokenState} from '../atoms/atom.ts';
 import {
   useRecoilValue,
   useSetRecoilState,

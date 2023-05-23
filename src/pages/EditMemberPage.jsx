@@ -19,7 +19,7 @@ import {
   import { yupResolver } from '@hookform/resolvers/yup';
   import { signUpYup } from '../util/yup';
   import { useMemberDetailQuery, useTeamQuery } from '../api/useQuerys';
-  import { teamMemberState, userState, tokenState} from '../atoms/atom.js';
+  import { teamMemberState, userState, tokenState} from '../atoms/atom.ts';
   import {
     useRecoilValue,
     useSetRecoilState,
