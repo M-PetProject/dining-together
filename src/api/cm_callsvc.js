@@ -1,3 +1,4 @@
+import { setSession } from '../util/cm_util';
 import { cm_util, getSession, nvl } from '../util/cm_util';
 import { axiosModule } from './axios.js';
 
@@ -64,34 +65,42 @@ export const api = {
 };
 
 export const reissue = () => {
-  cm_callsvc.exec.post(
-    '/usr/auth/reissue',
-    { t: cm_util.getSession('t'), rt: cm_util.getSession('ft') },
-    (res) => {
-      cm_util.setSession('v', res.data.v);
-      cm_util.setSession('t', res.data.access_token);
-      cm_util.setSession('ft', res.data.refresh_token);
-      cm_util.setSession('tokenTm', res.data.token_tm);
-    },
-    (err) => {
-      console.error(err);
-      alert(cm_util.nvl(err.response.data.rslt_msg, '오류가 발생하였습니다'));
-    }
-  );
+  let tokenMap = JSON.parse(sessionStorage.getItem('token'));
+  console.log('토큰 재발급', tokenMap);
+  axiosModule
+    .post('/auth/reissue', tokenMap)
+    .then((res) => {
+      console.log(res);
+      setSession(
+        'token',
+        JSON.stringify({
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
+        })
+      );
+    })
+    .catch((err) =>
+      handleError(err, () => {
+        alert('로그인 화면으로 이동합니다.');
+        window.location.href = '/sign-in';
+      })
+    );
 };
 
 /**
  * axios 에러 핸들러
  * @param {*} err
  */
-export const handleError = (err) => {
+export const handleError = (err, errFn) => {
   console.error(err);
   try {
     const res = err.response;
     const { data } = res;
 
     alert(data);
+    errFn && errFn();
   } catch (err) {
+    console.error(err);
     throw err;
   }
 };

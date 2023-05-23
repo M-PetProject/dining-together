@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import FixedBottom from './FixedBottom';
 import { useForm } from 'react-hook-form';
@@ -6,27 +6,30 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  CardContent,
-  CardHeader,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Stack,
   TextField,
   Typography,
 } from '@mui/material';
 import { getHelperText } from '../util/validate';
-import { postComment } from '../api/useMutations';
+import { usePetCreateCommentMutation } from '../api/useMutations';
 import { dateFormat } from '../util/cm_util';
 import { useInfiniteQuery } from 'react-query';
 import { axiosModule } from '../api/axios';
-import { CommentType } from '../enum/enum';
+import { CommCommentType } from '../enum/enum';
+import SendIcon from '@mui/icons-material/Send';
+import { CommentReqInterface, CommentResInterface } from '../api/interfaces';
 
-export default function Comment({ commentType, postIdx, teamIdx }) {
-  const svc = useService({ commentType, postIdx, teamIdx });
+interface PropsInterface {
+  commentType: CommCommentType;
+  postIdx?: number;
+  teamIdx?: number;
+}
 
+export default function CommComment({ commentType, postIdx, teamIdx }: PropsInterface): React.ReactElement {
   const {
     register,
     handleSubmit,
@@ -38,13 +41,16 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
     },
   });
 
-  if (svc.commentQueryStatus == 'loading') return 'comment loading...';
+  if (!postIdx) return <p>댓글 목록이 없습니다.</p>;
+  const svc = useService({ commentType, postIdx, teamIdx, setValue });
+
+  if (svc.commentQueryStatus == 'loading') return <p>comment loading...</p>;
 
   return (
     <>
       <List sx={{ width: '100%' }}>
-        {svc.commentQueryData.pages.map((commentPage) => {
-          return commentPage.data.map((comment) => {
+        {svc.commentQueryData?.pages.map((commentPage) => {
+          return commentPage.data.map((comment: CommentResInterface) => {
             const { commentIdx, title, content, childrenCnt, regDate, memberId = '작성자' } = comment;
             return (
               <ListItem key={commentIdx}>
@@ -69,7 +75,9 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
 
         {svc.hasNextPage ? (
           <ListItem onClick={svc.fetchNextPage}>
-            <Button variant="contained">더보기</Button>
+            <Button variant="outlined" fullWidth>
+              더보기
+            </Button>
           </ListItem>
         ) : (
           ''
@@ -85,13 +93,13 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
             type="text"
             autoFocus
             {...register('content', { required: true })}
-            error={errors.content ? true : false}
+            error={!!errors.content}
             helperText={getHelperText(errors.content?.type)}
             InputProps={{
               endAdornment: (
-                <Button type="submit" variant="contained">
-                  쓰기
-                </Button>
+                <IconButton type="submit">
+                  <SendIcon color="primary" />
+                </IconButton>
               ),
             }}
           />
@@ -102,19 +110,23 @@ export default function Comment({ commentType, postIdx, teamIdx }) {
 }
 
 const useService = (props) => {
-  const { commentType, postIdx, teamIdx } = props;
+  const { commentType, postIdx, teamIdx, setValue } = props;
 
-  const commentMutation = postComment({
+  const commentMutation = usePetCreateCommentMutation({
     commentType,
     teamIdx,
     postIdx,
     thenFn: (res) => {
       alert(res.data);
+      setValue('content', '');
     },
   });
 
   const onPostComment = (data) => {
-    const prmMap = {
+    if (!postIdx) return;
+    const prmMap: CommentReqInterface = {
+      commentCd: commentType,
+      postIdx: postIdx,
       title: 'title',
       content: data.content,
       useYn: 'Y',
@@ -133,14 +145,18 @@ const useService = (props) => {
     async ({ queryKey, pageParam = 1 }) => {
       let res;
       switch (commentType) {
-        case CommentType.NOTC: {
+        case CommCommentType.NOTC: {
           res = await axiosModule.get(`/notice/${teamIdx}/${postIdx}/comments?pageNo=${pageParam}`);
-          break;
+          return res.data;
+        }
+        case CommCommentType.PLACE: {
+          res = await axiosModule.get(`/comm/comment/${commentType}/${postIdx}?pageNo=${pageParam}`);
+          return res.data;
         }
       }
-      return res.data;
     },
     {
+      enabled: !!postIdx,
       getNextPageParam: (lastPage) => {
         if (lastPage.pageNo < lastPage.endPage) {
           return lastPage.pageNo + 1;
