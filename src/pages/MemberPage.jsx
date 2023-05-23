@@ -27,6 +27,7 @@ const Element = styled.div`
   margin: 0 2.5px;
 `;
 
+
 const MemberPage = () => {
   const svc = useService();
 
