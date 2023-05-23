@@ -9,15 +9,11 @@ export const useMemberQuery = (option = defaultQueryOption) => {
   return useQuery(['member'], () => axiosModule.get(`/member`), option);
 };
 
-<<<<<<< HEAD
 export const useMemberDetailQuery = (member_id,option) => {
   return useQuery(['member'], () => axiosModule.get(`/member/${member_id}`), option);
 };
 
-export const useTeamQuery = (team_idx, option) => {
-=======
 export const useTeamQuery = (team_idx, option = defaultQueryOption) => {
->>>>>>> 7f6b1e208c4fdf4f7893b86769649ebd990a4c91
   let result = useQuery(['team', team_idx], ({ queryKey }) => axiosModule.get(`/team/${queryKey[1]}`), option);
   return result;
 };
