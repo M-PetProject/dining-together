@@ -36,6 +36,7 @@ axios.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.info(error);
     const {
       config,
       response: { status },
@@ -47,6 +48,11 @@ axios.interceptors.response.use(
           // 권한 없음 (토큰 만료)
           console.log('권한 없음 (토큰 만료) > 토큰 재발행');
           reissue();
+        }
+        break;
+      case 500:
+        {
+          alert('서버 처리 중 오류가 발생했습니다.');
         }
         break;
       default: {

@@ -9,7 +9,7 @@ export const useMemberQuery = (option = defaultQueryOption) => {
   return useQuery(['member'], () => axiosModule.get(`/member`), option);
 };
 
-export const useMemberDetailQuery = (member_id,option) => {
+export const useMemberDetailQuery = (member_id, option) => {
   return useQuery(['member'], () => axiosModule.get(`/member/${member_id}`), option);
 };
 
@@ -21,7 +21,7 @@ export const useTeamQuery = (team_idx, option = defaultQueryOption) => {
 export const useNoticesQuery = (team_idx, option = defaultQueryOption) => {
   let result = useQuery(
     ['team_notices', team_idx],
-    ({ queryKey }) => axiosModule.get(`/notices/${queryKey[1]}`),
+    ({ queryKey }) => axiosModule.get(`/notices/${queryKey[1]}`, { timeout: 50000 }),
     option
   );
   return result;

@@ -1,14 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import {
-  alertDialogOpenState,
-  alertDialogState,
-  alertToastOpenState,
-  alertToastState,
-  headerState,
-  tokenState,
-} from '../atoms/atom';
+import { useSetRecoilState } from 'recoil';
+import { alertDialogOpenState, alertDialogState, headerState } from '../atoms/atom';
 import { isEmptyObj } from '../util/cm_util';
 import {
   Button,
@@ -16,76 +9,69 @@ import {
   IconButton,
   Skeleton,
   Stack,
-  Typography,
   Grid,
   Box,
   Card,
   CardHeader,
   Avatar,
   CardContent,
-  List,
-  ListItem,
-  ListItemButton,
-  Container,
+  Typography,
 } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
 import LocalDiningRoundedIcon from '@mui/icons-material/LocalDiningRounded';
 import { useNoticesQuery, useMemberQuery } from '../api/useQuerys.js';
-import Carousel from 'react-material-ui-carousel';
 import { useAuth } from '../util/hooks';
-import { reissue } from '../api/cm_callsvc';
-
+import Carousel from 'react-material-ui-carousel';
+import MoreVertIcon from '@mui/icons-material/MoreVert.js';
 
 const MainPage = () => {
   const svc = useService();
 
   const renderNotices = () => {
-    if (!svc.getNoticesQuery.isSuccess) {
-      return <Skeleton variant="rectangular" width="100%" height={150} />;
-    }
+    // if (!svc.getNoticesQuery.isSuccess) {
+    //   return <Skeleton variant="rectangular" width="100%" height={150} />;
+    // }
 
     // console.log(svc.getNoticesQuery.data);
     const { data: noticeData, limit } = svc.getNoticesQuery.data;
     const { data: notices } = noticeData;
 
-    if (notices.length == 0) {
-      return <div>등록된 공지가 없습니다.</div>;
-    }
     return (
-      <Carousel animation={'slide'}>
-        {notices.map((notice) => {
-          const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
-          // console.log(notice);
-          const { memberName } = memberVo;
-          return (
-            <Link key={noticeIdx} to={'/notice/' + noticeIdx}>
-              <Card>
-                <CardHeader
-                  title={memberName}
-                  subheader={`${noticeDtStart} - ${noticeDtEnd}`}
-                  avatar={<Avatar>{memberName[0]}</Avatar>}
-                  action={
-                    <IconButton>
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                />
-                <CardContent>
-                  <Typography variant="body1" color="text.secondary">
-                    {title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {content}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
-      </Carousel>
+      <Suspense fallback={<Skeleton />}>
+        <Carousel animation={'slide'}>
+          {notices.map((notice) => {
+            const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
+            // console.log(notice);
+            const { memberName } = memberVo;
+            return (
+              <Link key={noticeIdx} to={'/notice/' + noticeIdx}>
+                <Card>
+                  <CardHeader
+                    title={memberName}
+                    subheader={`${noticeDtStart} - ${noticeDtEnd}`}
+                    avatar={<Avatar>{memberName[0]}</Avatar>}
+                    action={
+                      <IconButton>
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                  />
+                  <CardContent>
+                    <Typography variant="body1" color="text.secondary">
+                      {title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {content}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </Carousel>
+      </Suspense>
     );
   };
 
@@ -193,11 +179,7 @@ const useService = () => {
           <Button variant="contained" onClick={toNoticeNew}>
             공지등록
           </Button>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={() => navi('/dining-main/add')}
-          >
+          <Button variant="contained" color="info" onClick={() => navi('/dining-main/add')}>
             회식등록
           </Button>
         </Stack>
@@ -233,7 +215,6 @@ const useService = () => {
   useEffect(() => {
     if (getMemberQuery.isSuccess) {
       const { teamMemberVos } = getMemberQuery.data.data;
-      // console.log(getMemberQuery.data.data);
       if (isEmptyObj(teamMemberVos)) {
         navi('/team/select');
       } else {

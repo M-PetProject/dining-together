@@ -8,7 +8,18 @@ import { RecoilRoot } from 'recoil';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { theme } from './styles/muiTheme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      suspense: true,
+      staleTime: 1000 * 60 * 60,
+      retry: false,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

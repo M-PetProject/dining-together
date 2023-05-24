@@ -14,7 +14,7 @@ import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
 import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
 import NoticeDetail from './pages/notice/NoticeDetail.jsx';
 import DiningDetailsPage from './pages/diningMain/DiningDetailsPage.jsx';
-import RcmPalceDetailsPage from './pages/recommand/RcmPalceDetailsPage.jsx'
+import RcmPalceDetailsPage from './pages/recommand/RcmPalceDetailsPage.jsx';
 import NoticeWrite from './pages/notice/NoticeWrite.jsx';
 import RoundTab from './components/RoundTab.jsx';
 import PlaceWritePage from './pages/place/PlaceWritePage';
@@ -103,42 +103,42 @@ const App = () => {
                   />
                 </Route>
               </Route>
-                <Route exact path="/dining-main">
-                    <Route
-                        path="add"
-                        element={
-                            <PrivateRoute>
-                                <DiningDetailsPage />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path=":idx"
-                        element={
-                            <PrivateRoute>
-                                <DiningDetailsPage />
-                            </PrivateRoute>
-                        }
-                    />
-                </Route>
-                <Route exact path="/recommand">
-                    <Route
-                        path="place"
-                        element={
-                            <PrivateRoute>
-                                <RcmPalceDetailsPage />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        path=":idx"
-                        element={
-                            <PrivateRoute>
-                                <RcmPalceDetailsPage />
-                            </PrivateRoute>
-                        }
-                    />
-                </Route>
+              <Route exact path="/dining-main">
+                <Route
+                  path="add"
+                  element={
+                    <PrivateRoute>
+                      <DiningDetailsPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path=":idx"
+                  element={
+                    <PrivateRoute>
+                      <DiningDetailsPage />
+                    </PrivateRoute>
+                  }
+                />
+              </Route>
+              <Route exact path="/recommand">
+                <Route
+                  path="place"
+                  element={
+                    <PrivateRoute>
+                      <RcmPalceDetailsPage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path=":idx"
+                  element={
+                    <PrivateRoute>
+                      <RcmPalceDetailsPage />
+                    </PrivateRoute>
+                  }
+                />
+              </Route>
               <Route exact path="/place">
                 <Route
                   exact
@@ -192,7 +192,7 @@ function PrivateRoute(props) {
   let { children } = props;
   const { isLogin } = useAuth();
 
-  return isLogin ? <>{children}</> : <Navigate to="/sign-in" />;
+  return isLogin ? <>{children}</> : <Navigate to="/sign-in" replace />;
 }
 
 export default App;
