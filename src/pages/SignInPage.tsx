@@ -23,6 +23,8 @@ import { useForm } from 'react-hook-form';
 import { getHelperText } from '../util/validate.js';
 import { getLocalStorage, getSession, isEmptyObj, setLocalStorage } from '../util/cm_util.js';
 import { nvl } from '../util/cm_util.js';
+import { LocalStorageKey } from '../enum/enum';
+import useAutoSignIn from '../hooks/useAutoSignIn';
 
 const SignInPage = () => {
   const svc = useService();
@@ -142,6 +144,7 @@ const useService = () => {
     memberPassword: '',
   });
   const { user, setUser, token, setToken } = useAuth();
+  const { setAutoSignIn, setAutoSignOut } = useAutoSignIn();
 
   const [rememberIDChecked, setRememberIDChecked] = useState(nvl(JSON.parse(getLocalStorage('is_remember_id')), false));
   const rememberIDCheckHandler = ({ target }) => {
@@ -172,24 +175,18 @@ const useService = () => {
     // 아이디 저장, true
     if (rememberIDChecked) {
       // form = { memberId, memberPassword}
-      setLocalStorage('is_remember_id', rememberIDChecked);
-      setLocalStorage('remember_id', form.memberId);
+      setLocalStorage(LocalStorageKey.IsRememberId, rememberIDChecked);
+      setLocalStorage(LocalStorageKey.RememberId, form.memberId);
     } else {
-      localStorage.removeItem('is_remember_id');
-      localStorage.removeItem('remember_id');
+      localStorage.removeItem(LocalStorageKey.IsRememberId);
+      localStorage.removeItem(LocalStorageKey.RememberId);
     }
+
     // 자동로그인, true
     if (autoLoginChecked) {
-      setLocalStorage('is_auto_login', autoLoginChecked);
-      setLocalStorage(
-        'token',
-        JSON.stringify({
-          accessToken,
-          refreshToken,
-        })
-      );
+      setAutoSignIn({ accessToken, refreshToken });
     } else {
-      localStorage.removeItem('token');
+      setAutoSignOut();
     }
   };
 

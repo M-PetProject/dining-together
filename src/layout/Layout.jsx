@@ -6,8 +6,12 @@ import AlertDialog from '../components/AlertDialog.jsx';
 import AlertToast from '../components/AlertToast.jsx';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '../components/fallback/ErrorFallback';
+import { Fab } from '@mui/material';
+import useSignOut from '../hooks/useSignOut';
+import { useAuth } from '../util/hooks.jsx';
 
 const Layout = ({ children }) => {
+  const { handleSignOut } = useSignOut();
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className={styles.layout}>
@@ -21,13 +25,9 @@ const Layout = ({ children }) => {
 
         {/* 개발용 FAB */}
         <div style={{ position: 'fixed', bottom: 20, right: 20, display: 'flex', flexDirection: 'column' }}>
-          {/* <Fab color="primary" aria-label="add">
-          <AddIcon />
-        </Fab>
-        <Gap height={10} />
-        <Fab color="primary" aria-label="add">
-          <AddIcon />
-        </Fab> */}
+          <Fab color="primary" aria-label="sign-out" onClick={() => handleSignOut()}>
+            로그아웃
+          </Fab>
         </div>
       </div>
     </ErrorBoundary>

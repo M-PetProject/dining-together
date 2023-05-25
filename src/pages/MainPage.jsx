@@ -161,9 +161,8 @@ const useService = () => {
   const { setUser, teamMember, setTeamMember } = useAuth();
 
   const getMemberQuery = useMemberQuery();
-  const { teamIdx } = teamMember;
 
-  const getNoticesQuery = useNoticesQuery(teamIdx, { enabled: !!teamIdx });
+  const getNoticesQuery = useNoticesQuery(teamMember.teamIdx, { enabled: !!teamMember.teamIdx });
 
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);

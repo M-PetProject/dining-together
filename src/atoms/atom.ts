@@ -12,6 +12,7 @@ const sessionStorageEffect =
       setSelf(JSON.parse(savedValue));
     }
     onSet((newValue, _, isReset) => {
+      console.log('newValue', newValue);
       isEmptyObj(newValue) ? sessionStorage.removeItem(key) : sessionStorage.setItem(key, JSON.stringify(newValue));
     });
   };
@@ -39,12 +40,12 @@ export const teamMemberState = atom<TeamMemberVoInterface>({
   effects: [sessionStorageEffect('team_member')],
 });
 
-interface TokenStateInterface {
+export interface TokenStateInterface {
   accessToken: string;
   refreshToken: string;
 }
 // 사용자 토큰 정보 (AT, RT)
-export const tokenState = atom<TokenStateInterface>({
+export const tokenState = atom<TokenStateInterface | null>({
   key: 'token',
   default: {},
   // effects : atom 초기화 or 동기화할때, 사용

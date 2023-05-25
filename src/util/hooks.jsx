@@ -45,11 +45,17 @@ export const useAuth = () => {
   useEffect(() => {
     setIsLogin(!isEmptyObj(token));
     if (!isEmptyObj(token)) {
-      if (location.pathname == '/sign-in') {
+      if (location.pathname === '/sign-in') {
         navi('/');
       }
     }
   }, [token]);
+
+  useEffect(() => {
+    if (isEmptyObj(teamMember) && isLogin) {
+      navi('/team/select');
+    }
+  }, [teamMember]);
 
   return {
     user,

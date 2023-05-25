@@ -1,32 +1,33 @@
 import { Routes, BrowserRouter, Route, Navigate, useNavigate } from 'react-router-dom';
-import MainPage from './pages/MainPage.jsx';
-import SecondPage from './pages/sample/SecondPage.jsx';
+import MainPage from './pages/MainPage';
+import SecondPage from './pages/sample/SecondPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
-import SamplePage from './pages/sample/SamplePage.jsx';
-import Layout from './layout/Layout.jsx';
-import NotFoundPage from './pages/NotFoundPage.jsx';
-import SampleDetailPage from './pages/sample/SampleDetailPage.jsx';
-import SampleWritePage from './pages/sample/SampleWritePage.jsx';
+import SamplePage from './pages/sample/SamplePage';
+import Layout from './layout/Layout';
+import NotFoundPage from './pages/NotFoundPage';
+import SampleDetailPage from './pages/sample/SampleDetailPage';
+import SampleWritePage from './pages/sample/SampleWritePage';
 import { useAuth } from './util/hooks';
-import AddTeamPage from './pages/team/AddTeamPage.jsx';
-import SelectTeamPage from './pages/team/SelectTeamPage.jsx';
-import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage.jsx';
-import NoticeDetail from './pages/notice/NoticeDetail.jsx';
-import DiningDetailsPage from './pages/diningMain/DiningDetailsPage.jsx';
-import RcmPalceDetailsPage from './pages/recommand/RcmPalceDetailsPage.jsx';
-import NoticeWrite from './pages/notice/NoticeWrite.jsx';
-import RoundTab from './components/RoundTab.jsx';
+import AddTeamPage from './pages/team/AddTeamPage';
+import SelectTeamPage from './pages/team/SelectTeamPage';
+import TeamMemberInfoPage from './pages/team/TeamMemberInfoPage';
+import NoticeDetail from './pages/notice/NoticeDetail';
+import DiningDetailsPage from './pages/diningMain/DiningDetailsPage';
+import RcmPalceDetailsPage from './pages/recommand/RcmPalceDetailsPage';
+import NoticeWrite from './pages/notice/NoticeWrite';
+import RoundTab from './components/RoundTab';
 import PlaceWritePage from './pages/place/PlaceWritePage';
 import PlaceDetailPage from './pages/place/PlaceDetailPage';
-import MemberPage from './pages/MemberPage.jsx';
-import EditMemberPage from './pages/EditMemberPage.jsx';
+import MemberPage from './pages/MemberPage';
+import EditMemberPage from './pages/EditMemberPage';
 import {
   experimental_extendTheme as materialExtendTheme,
   Experimental_CssVarsProvider as MaterialCssVarsProvider,
   THEME_ID as MATERIAL_THEME_ID,
 } from '@mui/material/styles';
 import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy/styles';
+import { isEmptyObj } from './util/cm_util';
 const materialTheme = materialExtendTheme();
 
 const App = () => {
@@ -41,9 +42,9 @@ const App = () => {
                 exact
                 path="/"
                 element={
-                  <PrivateRoute>
+                  <TeamRoute>
                     <MainPage />
-                  </PrivateRoute>
+                  </TeamRoute>
                 }
               />
               <Route exact path="/team">
@@ -193,6 +194,15 @@ function PrivateRoute(props) {
   const { isLogin } = useAuth();
 
   return isLogin ? <>{children}</> : <Navigate to="/sign-in" replace />;
+}
+
+function TeamRoute(props) {
+  const { teamMember } = useAuth();
+
+  if (isEmptyObj(teamMember)) {
+    return <Navigate to="/team/select" replace />;
+  }
+  return PrivateRoute(props);
 }
 
 export default App;
