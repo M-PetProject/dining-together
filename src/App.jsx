@@ -1,8 +1,8 @@
 import { Routes, BrowserRouter, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import SecondPage from './pages/sample/SecondPage';
-import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
+import SignInPage from './pages/sign/SignInPage';
+import SignUpPage from './pages/sign/SignUpPage';
 import SamplePage from './pages/sample/SamplePage';
 import Layout from './layout/Layout';
 import NotFoundPage from './pages/NotFoundPage';
@@ -19,8 +19,8 @@ import NoticeWrite from './pages/notice/NoticeWrite';
 import RoundTab from './components/RoundTab';
 import PlaceWritePage from './pages/place/PlaceWritePage';
 import PlaceDetailPage from './pages/place/PlaceDetailPage';
-import MemberPage from './pages/MemberPage';
-import EditMemberPage from './pages/EditMemberPage';
+import MemberPage from './pages/member/MemberPage.jsx';
+import EditMemberPage from './pages/member/EditMemberPage.jsx';
 import {
   experimental_extendTheme as materialExtendTheme,
   Experimental_CssVarsProvider as MaterialCssVarsProvider,

@@ -13,11 +13,11 @@ import {
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
-import { axiosModule } from '../api/axios';
-import { handleError } from '../api/cm_callsvc';
+import { axiosModule } from '../../api/axios.js';
+import { handleError } from '../../api/cm_callsvc.js';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { signUpYup } from '../util/yup';
+import { signUpYup } from '../../util/yup.js';
 
 const SignUpPage = () => {
   const svc = useService();

@@ -12,7 +12,7 @@ import { useAuth } from '../util/hooks.jsx';
 import DevContainer from '../components/DevContainer';
 
 const Layout = ({ children }) => {
-  const { handleSignOut } = useSignOut();
+  const handleSignOut = useSignOut();
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

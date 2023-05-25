@@ -12,7 +12,6 @@ const sessionStorageEffect =
       setSelf(JSON.parse(savedValue));
     }
     onSet((newValue, _, isReset) => {
-      console.log('newValue', newValue);
       isEmptyObj(newValue) ? sessionStorage.removeItem(key) : sessionStorage.setItem(key, JSON.stringify(newValue));
     });
   };

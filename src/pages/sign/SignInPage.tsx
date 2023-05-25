@@ -15,16 +15,16 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth, useInputs } from '../util/hooks.jsx';
+import { useAuth, useInputs } from '../../util/hooks.jsx';
 import { useMutation } from 'react-query';
-import { axiosModule } from '../api/axios.js';
-import { handleError } from '../api/cm_callsvc.js';
+import { axiosModule } from '../../api/axios.js';
+import { handleError } from '../../api/cm_callsvc.js';
 import { useForm } from 'react-hook-form';
-import { getHelperText } from '../util/validate.js';
-import { getLocalStorage, getSession, isEmptyObj, setLocalStorage } from '../util/cm_util.js';
-import { nvl } from '../util/cm_util.js';
-import { LocalStorageKey } from '../enum/enum';
-import useAutoSignIn from '../hooks/useAutoSignIn';
+import { getHelperText } from '../../util/validate.js';
+import { getLocalStorage, getSession, isEmptyObj, setLocalStorage } from '../../util/cm_util.js';
+import { nvl } from '../../util/cm_util.js';
+import { LocalStorageKey } from '../../enum/enum';
+import useAutoSignIn from '../../hooks/useAutoSignIn';
 
 const SignInPage = () => {
   const svc = useService();
