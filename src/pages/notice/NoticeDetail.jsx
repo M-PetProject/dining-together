@@ -40,7 +40,6 @@ const NoticeDetail = () => {
     return 'loading';
   }
 
-  console.log(svc.noticeQuery.data.data);
   const { title, content, memberVo, noticeDtStart, noticeDtEnd, noticeComments } = svc.noticeQuery.data.data;
   const { memberId, memberName, memberIdx: noticeMemberIdx } = memberVo;
   const { totalItems } = noticeComments;

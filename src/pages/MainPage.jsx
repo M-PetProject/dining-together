@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { alertDialogOpenState, alertDialogState, headerState } from '../atoms/atom';
@@ -30,48 +30,45 @@ const MainPage = () => {
   const svc = useService();
 
   const renderNotices = () => {
-    // if (!svc.getNoticesQuery.isSuccess) {
-    //   return <Skeleton variant="rectangular" width="100%" height={150} />;
-    // }
+    if (!svc.getNoticesQuery.isSuccess) {
+      return <Skeleton variant="rectangular" width="100%" height={150} />;
+    }
 
-    // console.log(svc.getNoticesQuery.data);
     const { data: noticeData, limit } = svc.getNoticesQuery.data;
     const { data: notices } = noticeData;
 
     return (
-      <Suspense fallback={<Skeleton />}>
-        <Carousel animation={'slide'}>
-          {notices.map((notice) => {
-            const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
-            // console.log(notice);
-            const { memberName } = memberVo;
-            return (
-              <Link key={noticeIdx} to={'/notice/' + noticeIdx}>
-                <Card>
-                  <CardHeader
-                    title={memberName}
-                    subheader={`${noticeDtStart} - ${noticeDtEnd}`}
-                    avatar={<Avatar>{memberName[0]}</Avatar>}
-                    action={
-                      <IconButton>
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                  />
-                  <CardContent>
-                    <Typography variant="body1" color="text.secondary">
-                      {title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {content}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
-        </Carousel>
-      </Suspense>
+      <Carousel animation={'slide'}>
+        {notices.map((notice) => {
+          const { noticeIdx, title, content, memberIdx, memberVo, noticeDtStart, noticeDtEnd } = notice;
+          // console.log(notice);
+          const { memberName } = memberVo;
+          return (
+            <Link key={noticeIdx} to={'/notice/' + noticeIdx}>
+              <Card>
+                <CardHeader
+                  title={memberName}
+                  subheader={`${noticeDtStart} - ${noticeDtEnd}`}
+                  avatar={<Avatar>{memberName[0]}</Avatar>}
+                  action={
+                    <IconButton>
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                />
+                <CardContent>
+                  <Typography variant="body1" color="text.secondary">
+                    {title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
+          );
+        })}
+      </Carousel>
     );
   };
 
