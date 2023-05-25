@@ -51,12 +51,6 @@ export const useAuth = () => {
     }
   }, [token]);
 
-  useEffect(() => {
-    if (isEmptyObj(teamMember) && isLogin) {
-      navi('/team/select');
-    }
-  }, [teamMember]);
-
   return {
     user,
     setUser,

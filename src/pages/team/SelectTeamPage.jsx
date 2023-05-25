@@ -158,7 +158,7 @@ const useService = () => {
 
   const joinTeamMutation = useMutation((prmMap) => {
     const { teamNm, teamIdx, teamDesc } = prmMap;
-    console.log('teamIdx', teamIdx)
+    console.log('teamIdx', teamIdx);
     return axiosModule
       .post(`/team/${teamIdx}`, null)
       .then((res) => {

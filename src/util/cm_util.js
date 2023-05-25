@@ -138,3 +138,5 @@ export const dateFormat = (str) => {
 
   return `${year}-${month}-${day}`;
 };
+
+export const isDevMode = () => import.meta.env.DEV;

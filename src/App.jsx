@@ -42,9 +42,9 @@ const App = () => {
                 exact
                 path="/"
                 element={
-                  <TeamRoute>
+                  <PrivateRoute>
                     <MainPage />
-                  </TeamRoute>
+                  </PrivateRoute>
                 }
               />
               <Route exact path="/team">
@@ -194,15 +194,6 @@ function PrivateRoute(props) {
   const { isLogin } = useAuth();
 
   return isLogin ? <>{children}</> : <Navigate to="/sign-in" replace />;
-}
-
-function TeamRoute(props) {
-  const { teamMember } = useAuth();
-
-  if (isEmptyObj(teamMember)) {
-    return <Navigate to="/team/select" replace />;
-  }
-  return PrivateRoute(props);
 }
 
 export default App;

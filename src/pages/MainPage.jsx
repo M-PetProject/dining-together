@@ -161,8 +161,7 @@ const useService = () => {
   const { setUser, teamMember, setTeamMember } = useAuth();
 
   const getMemberQuery = useMemberQuery();
-
-  const getNoticesQuery = useNoticesQuery(teamMember.teamIdx, { enabled: !!teamMember.teamIdx });
+  const getNoticesQuery = useNoticesQuery(teamMember?.teamIdx, { enabled: !!teamMember?.teamIdx });
 
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
@@ -211,8 +210,9 @@ const useService = () => {
   useEffect(() => {
     if (getMemberQuery.isSuccess) {
       const { teamMemberVos } = getMemberQuery.data.data;
+      console.log('getMemberQuery.data', getMemberQuery);
       if (isEmptyObj(teamMemberVos)) {
-        navi('/team/select');
+        // navi('/team/select');
       } else {
         renderHeader(teamMemberVos[0]);
         setUser(getMemberQuery.data.data);

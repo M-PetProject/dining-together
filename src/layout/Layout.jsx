@@ -9,9 +9,11 @@ import ErrorFallback from '../components/fallback/ErrorFallback';
 import { Fab } from '@mui/material';
 import useSignOut from '../hooks/useSignOut';
 import { useAuth } from '../util/hooks.jsx';
+import DevContainer from '../components/DevContainer';
 
 const Layout = ({ children }) => {
   const { handleSignOut } = useSignOut();
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <div className={styles.layout}>
@@ -23,12 +25,13 @@ const Layout = ({ children }) => {
         <AlertToast />
         <AlertDialog />
 
-        {/* 개발용 FAB */}
-        <div style={{ position: 'fixed', bottom: 20, right: 20, display: 'flex', flexDirection: 'column' }}>
-          <Fab color="primary" aria-label="sign-out" onClick={() => handleSignOut()}>
-            로그아웃
-          </Fab>
-        </div>
+        <DevContainer>
+          <div style={{ position: 'fixed', bottom: 20, right: 20, display: 'flex', flexDirection: 'column' }}>
+            <Fab color="primary" aria-label="sign-out" onClick={() => handleSignOut()}>
+              로그아웃
+            </Fab>
+          </div>
+        </DevContainer>
       </div>
     </ErrorBoundary>
   );
