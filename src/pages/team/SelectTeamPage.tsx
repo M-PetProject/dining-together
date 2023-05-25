@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { getHelperText } from '../../util/validate';
 import { useMutation } from 'react-query';
@@ -20,7 +20,7 @@ import { handleError } from '../../api/cm_callsvc';
 import { alertDialogOpenState, alertDialogState, headerState } from '../../atoms/atom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-const SelectTeamPage = () => {
+export default function SelectTeamPage(): ReactElement {
   const svc = useService();
 
   // 모임 만들기
@@ -107,7 +107,7 @@ const SelectTeamPage = () => {
       </Box>
     </Container>
   );
-};
+}
 
 const useService = () => {
   const navi = useNavigate();
@@ -174,5 +174,3 @@ const useService = () => {
     _onCheckJoinTeam,
   };
 };
-
-export default SelectTeamPage;

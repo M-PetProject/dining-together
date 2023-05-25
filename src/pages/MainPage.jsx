@@ -21,7 +21,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import EditIcon from '@mui/icons-material/Edit';
 import CampaignRoundedIcon from '@mui/icons-material/CampaignRounded';
 import LocalDiningRoundedIcon from '@mui/icons-material/LocalDiningRounded';
-import { useNoticesQuery, useMemberQuery } from '../api/useQuerys.js';
+import { useNoticesQuery, useMemberQuery } from '../api/useQuerys.ts';
 import { useAuth } from '../util/hooks';
 import Carousel from 'react-material-ui-carousel';
 import MoreVertIcon from '@mui/icons-material/MoreVert.js';
@@ -165,8 +165,8 @@ const useService = () => {
 
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
+
   const onClickPostButton = () => {
-    // console.log('onClickPostButton');
     setAlertDialog({
       title: '등록하기',
       content: (
@@ -210,16 +210,24 @@ const useService = () => {
   useEffect(() => {
     if (getMemberQuery.isSuccess) {
       const { teamMemberVos } = getMemberQuery.data.data;
-      console.log('getMemberQuery.data', getMemberQuery);
       if (isEmptyObj(teamMemberVos)) {
-        // navi('/team/select');
+        setTeamMember();
+        getMemberQuery.remove();
+        navi('/team/select');
       } else {
-        renderHeader(teamMemberVos[0]);
-        setUser(getMemberQuery.data.data);
         setTeamMember(teamMemberVos[0]);
+        renderHeader(teamMemberVos[0]);
       }
+      setUser(getMemberQuery.data.data);
     }
   }, [getMemberQuery]);
+
+  useEffect(() => {
+    // 최초, 팀 생성/참가 후, mainPage로 리다이렉트가 안됨 (캐싱된 데이터로 인해, 다시 /team/select 로 이동됨)
+    return () => {
+      getMemberQuery.remove();
+    };
+  }, []);
 
   return {
     getNoticesQuery,

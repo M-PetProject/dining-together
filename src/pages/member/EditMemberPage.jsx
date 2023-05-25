@@ -18,7 +18,7 @@ import { handleError } from '../../api/cm_callsvc.js';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpYup } from '../../util/yup.js';
-import { useMemberDetailQuery, useTeamQuery } from '../../api/useQuerys.js';
+import { useMemberDetailQuery, useTeamQuery } from '../../api/useQuerys.ts';
 import { teamMemberState, userState, tokenState } from '../../atoms/atom.ts';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 

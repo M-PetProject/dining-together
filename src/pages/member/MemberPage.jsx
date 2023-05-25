@@ -11,7 +11,7 @@ import axios from 'axios';
 import { axiosModule } from '../../api/axios.js';
 import { handleError } from '../../api/cm_callsvc.js';
 import { useState } from 'react';
-import { useMemberDetailQuery, useTeamQuery } from '../../api/useQuerys.js';
+import { useMemberDetailQuery, useTeamQuery } from '../../api/useQuerys.ts';
 import { teamMemberState, userState, tokenState } from '../../atoms/atom.ts';
 import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -56,10 +56,9 @@ const MemberPage = () => {
     return axiosModule
       .delete(`/team/${teamIdx}/member/${memberIdx}`)
       .then((res) => {
-        if (res.status === 200) {
-          alert('선택하신 회원이 모임에서 제외되었습니다.');
-          navigate(`/`);
-        }
+        setTeamMember();
+        alert('선택하신 회원이 모임에서 제외되었습니다.');
+        navigate(`/team/select`);
       })
       .catch(handleError);
   };

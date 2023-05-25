@@ -14,7 +14,7 @@ import FixedBottom from '../../components/FixedBottom.jsx';
 import { axiosModule } from '../../api/axios.js';
 import { handleError } from '../../api/cm_callsvc.js';
 import { isEmptyObj } from '../../util/cm_util.js';
-import { useNoticeDetailQuery } from '../../api/useQuerys.js';
+import { useNoticeDetailQuery } from '../../api/useQuerys.ts';
 
 export default function NoticeWrite() {
   const svc = useService();

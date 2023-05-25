@@ -23,7 +23,7 @@ import {
   Typography,
 } from '@mui/material';
 import { teamMemberState } from '../../atoms/atom';
-import { useNoticeDetailQuery } from '../../api/useQuerys';
+import { useNoticeDetailQuery } from '../../api/useQuerys.ts';
 import { CommCommentType } from '../../enum/enum';
 import CommComment from '../../components/CommComment.tsx';
 import MoreVertIcon from '@mui/icons-material/MoreVert';

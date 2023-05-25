@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Card, CardContent, Stack, Typography } from '@mui/material';
-import { usePetGetPlacesQuery } from '../../api/useQuerys.js';
+import { usePetGetPlacesQuery } from '../../api/useQuerys.ts';
 import { PlaceInterface } from '../../api/interfaces';
 import StarIcon from '@mui/icons-material/Star';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';

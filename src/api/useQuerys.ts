@@ -1,11 +1,22 @@
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 import { axiosModule } from './axios';
+import { AxiosResponse } from 'axios';
+import { MemberAllergyVoInterface, MemberFoodVoInterface, TeamMemberVoInterface } from './interfaces';
 
 export const defaultQueryOption = {
   staleTime: 1000 * 60 * 60,
 };
 
-export const useMemberQuery = (option) => {
+interface MemberInterface {
+  memberIdx: string;
+  memberId: string;
+  memberName: string;
+  memberAllergyVos: MemberAllergyVoInterface[];
+  memberLikeFoodVos: MemberFoodVoInterface[];
+  memberHateFoodVos: MemberFoodVoInterface[];
+  teamMemberVos: TeamMemberVoInterface[];
+}
+export const useMemberQuery = (option: UseQueryOptions): UseQueryResult<AxiosResponse<MemberInterface>> => {
   return useQuery(['member'], () => axiosModule.get(`/member`), option);
 };
 

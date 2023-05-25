@@ -7,7 +7,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { headerState } from '../../atoms/atom';
 import { isEmptyObj } from '../../util/cm_util';
 
-import { useMemberQuery, useTeamQuery } from '../../api/useQuerys.js';
+import { useMemberQuery, useTeamQuery } from '../../api/useQuerys.ts';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import FixedBottom from '../../components/FixedBottom';
 
