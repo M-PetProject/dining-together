@@ -25,6 +25,7 @@ import { useNoticesQuery, useMemberQuery } from '../api/useQuerys.ts';
 import { useAuth } from '../util/hooks';
 import Carousel from 'react-material-ui-carousel';
 import MoreVertIcon from '@mui/icons-material/MoreVert.js';
+import useSetHeader from '../hooks/useSetHeader';
 
 const MainPage = () => {
   const svc = useService();
@@ -157,7 +158,6 @@ const MainPage = () => {
 
 const useService = () => {
   const navi = useNavigate();
-  const setHeaderState = useSetRecoilState(headerState);
   const { setUser, teamMember, setTeamMember } = useAuth();
 
   const getMemberQuery = useMemberQuery();
@@ -165,6 +165,8 @@ const useService = () => {
 
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
+
+  const setHeader = useSetHeader();
 
   const onClickPostButton = () => {
     setAlertDialog({
@@ -190,7 +192,7 @@ const useService = () => {
   const renderHeader = (data) => {
     const { memberType, teamNm } = data;
 
-    setHeaderState({
+    setHeader({
       left: {
         header: (
           <Button onClick={() => navi('/team/info')}>

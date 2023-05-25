@@ -12,6 +12,7 @@ import { defaultQueryOption, usePetGetPlaceQuery } from '../../api/useQuerys';
 import ImageError from '../../components/ImageError';
 import { useState } from 'react/ts5.0';
 import { handleError } from '../../api/cm_callsvc';
+import useSetHeader from '../../hooks/useSetHeader';
 
 const PlaceWritePage: React.FC = (props) => {
   const { idx: placeIdx } = useParams();
@@ -149,23 +150,10 @@ export default PlaceWritePage;
 
 const useService = (placeIdx: string | undefined) => {
   const navi = useNavigate();
-  const setHeaderState = useSetRecoilState(headerState);
+  const setHeader = useSetHeader();
   const userRecoilState = useRecoilValue(userState);
 
   const placeQuery = usePetGetPlaceQuery(placeIdx, { ...defaultQueryOption, enabled: !!placeIdx });
-
-  const renderHeader = () => {
-    setHeaderState({
-      left: {
-        header: (
-          <Button onClick={onCancel}>
-            <ChevronLeftIcon />
-            <p>장소추천등록</p>
-          </Button>
-        ),
-      },
-    });
-  };
 
   function onCancel() {
     if (confirm('이전 페이지로 돌아가시겠습니까?')) {
@@ -194,7 +182,16 @@ const useService = (placeIdx: string | undefined) => {
   }
 
   useEffect(() => {
-    renderHeader();
+    setHeader({
+      left: {
+        header: (
+          <Button onClick={onCancel}>
+            <ChevronLeftIcon />
+            <p>장소추천등록</p>
+          </Button>
+        ),
+      },
+    });
   }, []);
 
   return {

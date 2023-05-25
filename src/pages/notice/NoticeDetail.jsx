@@ -31,6 +31,7 @@ import { dateFormat } from '../../util/cm_util';
 import MessageIcon from '@mui/icons-material/Message';
 import { axiosModule } from '../../api/axios.js';
 import { handleError } from '../../api/cm_callsvc.js';
+import useSetHeader from '../../hooks/useSetHeader';
 
 const NoticeDetail = () => {
   const { idx: noticeIdx } = useParams();
@@ -91,7 +92,7 @@ const NoticeDetail = () => {
 
 const useService = ({ noticeIdx }) => {
   const navi = useNavigate();
-  const setHeaderState = useSetRecoilState(headerState);
+  const setHeader = useSetHeader();
   const teamInfoState = useRecoilValue(teamMemberState);
 
   const [openMenu, setOpenMenu] = useState(false);
@@ -101,19 +102,6 @@ const useService = ({ noticeIdx }) => {
   const setAlert = useSetRecoilState(alertDialogState);
   const setOpenToast = useSetRecoilState(alertToastOpenState);
   const setToast = useSetRecoilState(alertToastState);
-
-  const renderHeader = () => {
-    setHeaderState({
-      left: {
-        header: (
-          <Button onClick={() => navi('/')}>
-            <ChevronLeftIcon />
-            <p>공지상세</p>
-          </Button>
-        ),
-      },
-    });
-  };
 
   const noticeQuery = useNoticeDetailQuery(teamInfoState.teamIdx, noticeIdx);
 
@@ -148,7 +136,16 @@ const useService = ({ noticeIdx }) => {
   }
 
   useEffect(() => {
-    renderHeader();
+    setHeader({
+      left: {
+        header: (
+          <Button onClick={() => navi('/')}>
+            <ChevronLeftIcon />
+            <p>공지상세</p>
+          </Button>
+        ),
+      },
+    });
   }, []);
 
   return {

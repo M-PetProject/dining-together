@@ -15,6 +15,7 @@ import { axiosModule } from '../../api/axios.js';
 import { handleError } from '../../api/cm_callsvc.js';
 import { isEmptyObj } from '../../util/cm_util.js';
 import { useNoticeDetailQuery } from '../../api/useQuerys.ts';
+import useSetHeader from '../../hooks/useSetHeader';
 
 export default function NoticeWrite() {
   const svc = useService();
@@ -137,7 +138,7 @@ export default function NoticeWrite() {
 
 const useService = () => {
   const navi = useNavigate();
-  const setHeaderState = useSetRecoilState(headerState);
+  const setHeader = useSetHeader();
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
   const teamInfoState = useRecoilValue(teamMemberState);
@@ -146,7 +147,7 @@ const useService = () => {
   const [isModifyMode, setIsModifyMode] = useState(!!noticeIdx);
 
   useEffect(() => {
-    setHeaderState({
+    setHeader({
       left: {
         header: (
           <Button onClick={onCancel}>

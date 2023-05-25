@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { handleError } from '../../api/cm_callsvc';
 import { alertDialogOpenState, alertDialogState, headerState } from '../../atoms/atom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
+import useSetHeader from '../../hooks/useSetHeader';
 
 export default function SelectTeamPage(): ReactElement {
   const svc = useService();
@@ -113,6 +114,7 @@ const useService = () => {
   const navi = useNavigate();
   const setOpenAlert = useSetRecoilState(alertDialogOpenState);
   const setAlertDialog = useSetRecoilState(alertDialogState);
+  const setHeader = useSetHeader();
 
   const _onCreateTeam = (data) => {
     console.log(data);
@@ -168,6 +170,10 @@ const useService = () => {
       })
       .catch(handleError);
   });
+
+  useEffect(() => {
+    setHeader(null);
+  }, []);
 
   return {
     _onCreateTeam,

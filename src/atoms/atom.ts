@@ -84,7 +84,7 @@ interface HeaderLeft {
   subHeader: string;
 }
 // 공통 헤더
-export const headerState = atom<HeaderStateInterface>({
+export const headerState = atom<HeaderStateInterface | null>({
   key: 'headerState',
   default: null,
 });
